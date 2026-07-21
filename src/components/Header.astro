@@ -17,8 +17,8 @@ const navItems = [
 
 <header class="site-header">
   <div class="container header-inner">
-    <a href={`/wwfp-website/${lang}`} class="logo">
-      <img src="/wwfp-website/images/wwfp-logo.png" alt="WWFP Logo" class="logo-img" />
+    <a href={`/${lang}`} class="logo">
+      <img src="/images/wwfp-logo.png" alt="WWFP Logo" class="logo-img" />
       <span class="logo-text">WWFP</span>
     </a>
 
@@ -30,7 +30,7 @@ const navItems = [
 
     <nav class="site-nav" id="siteNav">
       {navItems.map(item => (
-        <a href={`/wwfp-website/${item.href}`} class="nav-link">{t.nav[item.key]}</a>
+        <a href={`/${item.href}`} class="nav-link">{t.nav[item.key]}</a>
       ))}
 
       <div class="lang-switcher">
@@ -39,7 +39,7 @@ const navItems = [
         </button>
         <div class="lang-dropdown" id="langDropdown">
           {Object.values(languages).map(l => (
-            <a href={`/wwfp-website/${l.code}`} class={l.code === lang ? 'lang-option active' : 'lang-option'}>
+            <a href={`/${l.code}`} class={l.code === lang ? 'lang-option active' : 'lang-option'}>
               {l.flag} {l.name}
             </a>
           ))}

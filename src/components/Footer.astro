@@ -19,9 +19,9 @@ const year = new Date().getFullYear();
       <div class="footer-col">
         <h4>{t.nav.getInvolved}</h4>
         <ul>
-          <li><a href={`/wwfp-website/${lang}/get-involved`}>{t.getInvolved.passiveTitle.replace('Become a ', '')}</a></li>
-          <li><a href={`/wwfp-website/${lang}/get-involved`}>{t.getInvolved.activeTitle.replace('Become an ', '')}</a></li>
-          <li><a href={`/wwfp-website/${lang}/support`}>{t.nav.support}</a></li>
+          <li><a href={`/${lang}/get-involved`}>{t.getInvolved.passiveTitle.replace('Become a ', '')}</a></li>
+          <li><a href={`/${lang}/get-involved`}>{t.getInvolved.activeTitle.replace('Become an ', '')}</a></li>
+          <li><a href={`/${lang}/support`}>{t.nav.support}</a></li>
         </ul>
       </div>
 
@@ -29,15 +29,15 @@ const year = new Date().getFullYear();
         <h4>{t.nav.contact}</h4>
         <ul>
           <li>{t.contact.address}</li>
-          <li><a href={`/wwfp-website/${lang}/contact`}>{t.contact.title}</a></li>
+          <li><a href={`/${lang}/contact`}>{t.contact.title}</a></li>
         </ul>
       </div>
 
       <div class="footer-col">
         <h4>{t.nav.codeOfConduct}</h4>
         <ul>
-          <li><a href={`/wwfp-website/${lang}/code-of-conduct`}>{t.codeOfConduct.title}</a></li>
-          <li><a href={`/wwfp-website/${lang}/values`}>{t.nav.values}</a></li>
+          <li><a href={`/${lang}/code-of-conduct`}>{t.codeOfConduct.title}</a></li>
+          <li><a href={`/${lang}/values`}>{t.nav.values}</a></li>
         </ul>
       </div>
     </div>
@@ -46,7 +46,7 @@ const year = new Date().getFullYear();
       <p>© {year} {t.footer.rights}</p>
       <div class="footer-langs">
         {Object.values(languages).map(l => (
-          <a href={`/wwfp-website/${l.code}`} class={l.code === lang ? 'footer-lang active' : 'footer-lang'}>
+          <a href={`/${l.code}`} class={l.code === lang ? 'footer-lang active' : 'footer-lang'}>
             {l.flag}
           </a>
         ))}
