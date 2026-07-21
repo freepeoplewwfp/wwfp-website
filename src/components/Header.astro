@@ -1,0 +1,213 @@
+---
+import { languages } from '../i18n/config.js';
+
+const { lang, t } = Astro.props;
+
+const navItems = [
+  { key: 'home', href: `${lang}` },
+  { key: 'whatWeDo', href: `${lang}/what-we-do` },
+  { key: 'values', href: `${lang}/values` },
+  { key: 'getInvolved', href: `${lang}/get-involved` },
+  { key: 'support', href: `${lang}/support` },
+  { key: 'events', href: `${lang}/events` },
+  { key: 'codeOfConduct', href: `${lang}/code-of-conduct` },
+  { key: 'contact', href: `${lang}/contact` },
+];
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href={`/wwfp-website/${lang}`} class="logo">
+      <img src="/wwfp-website/images/wwfp-logo.png" alt="WWFP Logo" class="logo-img" />
+      <span class="logo-text">WWFP</span>
+    </a>
+
+    <button class="nav-toggle" aria-label="Toggle navigation" id="navToggle">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="site-nav" id="siteNav">
+      {navItems.map(item => (
+        <a href={`/wwfp-website/${item.href}`} class="nav-link">{t.nav[item.key]}</a>
+      ))}
+
+      <div class="lang-switcher">
+        <button class="lang-btn" id="langBtn">
+          {languages[lang].flag} {languages[lang].name} ▾
+        </button>
+        <div class="lang-dropdown" id="langDropdown">
+          {Object.values(languages).map(l => (
+            <a href={`/wwfp-website/${l.code}`} class={l.code === lang ? 'lang-option active' : 'lang-option'}>
+              {l.flag} {l.name}
+            </a>
+          ))}
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<style>
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-paper);
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 1px 4px rgba(45, 32, 19, 0.06);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem var(--space-md);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+}
+
+.logo-img {
+  height: 44px;
+  width: auto;
+}
+
+.logo-text {
+  font-family: var(--font-head);
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--color-forest-deep);
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.nav-link {
+  font-size: 0.9rem;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color var(--transition);
+  white-space: nowrap;
+}
+
+.nav-link:hover {
+  color: var(--color-forest);
+}
+
+.lang-switcher {
+  position: relative;
+}
+
+.lang-btn {
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: var(--color-text);
+}
+
+.lang-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  min-width: 160px;
+  padding: 0.5rem 0;
+  margin-top: 0.4rem;
+}
+
+.lang-dropdown.open {
+  display: flex;
+  flex-direction: column;
+}
+
+.lang-option {
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.lang-option:hover {
+  background: var(--color-bg-alt);
+}
+
+.lang-option.active {
+  font-weight: 600;
+  color: var(--color-forest);
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.nav-toggle span {
+  width: 24px;
+  height: 2px;
+  background: var(--color-text);
+  border-radius: 2px;
+}
+
+@media (max-width: 900px) {
+  .nav-toggle { display: flex; }
+  
+  .site-nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-paper);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: var(--shadow);
+  }
+
+  .site-nav.open {
+    display: flex;
+  }
+
+  .site-nav .nav-link {
+    padding: 0.5rem 0;
+    font-size: 1rem;
+  }
+}
+</style>
+
+<script>
+  document.getElementById('navToggle')?.addEventListener('click', () => {
+    document.getElementById('siteNav')?.classList.toggle('open');
+  });
+
+  document.getElementById('langBtn')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.getElementById('langDropdown')?.classList.toggle('open');
+  });
+
+  document.addEventListener('click', () => {
+    document.getElementById('langDropdown')?.classList.remove('open');
+  });
+</script>

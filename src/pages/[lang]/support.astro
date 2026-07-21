@@ -1,0 +1,123 @@
+---
+import Base from '../../layouts/Base.astro';
+import { languages } from '../../i18n/config.js';
+import { getTranslations } from '../../i18n/utils.js';
+
+export async function getStaticPaths() {
+  return Object.keys(languages).map(code => ({
+    params: { lang: code },
+    props: { lang: code },
+  }));
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+---
+
+<Base lang={lang} t={t}>
+  <section class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="container page-hero-content">
+      <h1>{t.support.title}</h1>
+      <p class="page-hero-text">{t.support.intro}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="support-lead">{t.support.introText2}</p>
+
+      <div class="donation-grid">
+        <!-- Bank Transfer -->
+        <div class="card donation-card">
+          <div class="card-icon">🏦</div>
+          <h3>{t.support.bankTitle}</h3>
+          <p>{t.support.bankText}</p>
+          <div class="bank-details">
+            <p><strong>{t.support.bankHolder}</strong></p>
+            <p>{t.support.bankIBAN}</p>
+            <p>{t.support.bankBIC}</p>
+            <p>{t.support.bankAddress}</p>
+          </div>
+          <p class="bank-note">{t.support.bankNote}</p>
+        </div>
+
+        <!-- PayPal -->
+        <div class="card donation-card">
+          <div class="card-icon">💳</div>
+          <h3>{t.support.paypalTitle}</h3>
+          <p>{t.support.paypalText}</p>
+          <a href="#" class="btn btn--primary mt-md" onclick="return false;">
+            {t.support.paypalButton}
+          </a>
+          <p class="paypal-note">PayPal link coming soon</p>
+        </div>
+      </div>
+
+      <!-- Transparency -->
+      <div class="transparency-box mt-lg">
+        <h3>📊 {t.support.transparencyTitle}</h3>
+        <p>{t.support.transparencyText}</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.page-hero { position: relative; padding: var(--space-xl) 0; overflow: hidden; background: transparent; justify-content: center; display: flex; align-items: center; }
+.page-hero-bg { position: absolute; inset: 0; background-image: url('/wwfp-website/images/wwfp-22.jpg'); background-size: cover; background-position: center; }
+.page-hero-content { position: relative; z-index: 1; text-align: center; width: 100%; background: transparent; }
+.page-hero h1 { color: #aaffaa; margin-bottom: var(--space-sm); text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+.page-hero-text { color: #90ee90; font-size: 1.15rem; max-width: 700px; margin: 0 auto; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+
+.support-lead {
+  font-size: 1.15rem;
+  color: var(--color-text-light);
+  max-width: 700px;
+  margin: 0 auto var(--space-md);
+  text-align: center;
+}
+
+.donation-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--space-sm);
+}
+
+.bank-details {
+  background: var(--color-bg-alt);
+  border-radius: var(--radius);
+  padding: var(--space-sm);
+  margin-top: var(--space-sm);
+  font-size: 0.9rem;
+}
+
+.bank-details p { margin: 0.2rem 0; }
+
+.bank-note, .paypal-note {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-top: var(--space-sm);
+  font-style: italic;
+}
+
+.transparency-box {
+  background: var(--color-bg-alt);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .donation-grid { grid-template-columns: 1fr; }
+}
+</style>

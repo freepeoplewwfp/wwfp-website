@@ -1,0 +1,25 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+const { lang, t } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang={lang}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{t.meta.title}</title>
+  <meta name="description" content={t.meta.description} />
+  <link rel="icon" type="image/svg+xml" href="/wwfp-website/favicon.svg" />
+</head>
+<body>
+  <Header lang={lang} t={t} />
+  <main>
+    <slot />
+  </main>
+  <Footer lang={lang} t={t} />
+</body>
+</html>

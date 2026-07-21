@@ -1,0 +1,94 @@
+---
+import Base from '../../layouts/Base.astro';
+import { languages } from '../../i18n/config.js';
+import { getTranslations } from '../../i18n/utils.js';
+
+export async function getStaticPaths() {
+  return Object.keys(languages).map(code => ({
+    params: { lang: code },
+    props: { lang: code },
+  }));
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+
+const values = [
+  { icon: '💫', title: t.values.esteemTitle, text: t.values.esteemText },
+  { icon: '📖', title: t.values.sharingTitle, text: t.values.sharingText },
+  { icon: '🎯', title: t.values.targetedTitle, text: t.values.targetedText },
+  { icon: '⚡', title: t.values.cuttingEdgeTitle, text: t.values.cuttingEdgeText },
+  { icon: '🕊️', title: t.values.nonviolenceTitle, text: t.values.nonviolenceText },
+  { icon: 'Freedom', title: t.values.independenceTitle, text: t.values.independenceText },
+  { icon: '🔍', title: t.values.transparencyTitle, text: t.values.transparencyText },
+];
+---
+
+<Base lang={lang} t={t}>
+  <section class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="container page-hero-content">
+      <h1>{t.values.title}</h1>
+      <p class="page-hero-text">{t.values.intro}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="values-list">
+        {values.map((v, i) => (
+          <div class={i % 2 === 0 ? 'value-row' : 'value-row value-row--alt'}>
+            <div class="value-icon">{v.icon}</div>
+            <div class="value-content">
+              <h3>{v.title}</h3>
+              <p>{v.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.page-hero { position: relative; padding: var(--space-xl) 0; overflow: hidden; background: transparent; justify-content: center; display: flex; align-items: center; }
+.page-hero-bg { position: absolute; inset: 0; background-image: url('/wwfp-website/images/wwfp-20.jpg'); background-size: cover; background-position: center; }
+.page-hero-content { position: relative; z-index: 1; text-align: center; width: 100%; background: transparent; }
+.page-hero h1 { color: #aaffaa; margin-bottom: var(--space-sm); text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+.page-hero-text { color: #90ee90; font-size: 1.15rem; max-width: 700px; margin: 0 auto; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+
+.values-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.value-row {
+  display: flex;
+  gap: var(--space-md);
+  padding: var(--space-md) 0;
+  border-bottom: 1px solid var(--color-border);
+  align-items: flex-start;
+}
+
+.value-row--alt {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+.value-icon {
+  font-size: 2.5rem;
+  min-width: 60px;
+  text-align: center;
+}
+
+.value-content h3 {
+  margin-bottom: 0.3rem;
+}
+
+@media (max-width: 600px) {
+  .value-row, .value-row--alt {
+    flex-direction: column;
+    text-align: left;
+  }
+}
+</style>

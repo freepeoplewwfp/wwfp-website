@@ -1,0 +1,106 @@
+---
+import Base from '../../layouts/Base.astro';
+import { languages } from '../../i18n/config.js';
+import { getTranslations } from '../../i18n/utils.js';
+
+export async function getStaticPaths() {
+  return Object.keys(languages).map(code => ({
+    params: { lang: code },
+    props: { lang: code },
+  }));
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+---
+
+<Base lang={lang} t={t}>
+  <section class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="container page-hero-content">
+      <h1>{t.codeOfConduct.title}</h1>
+      <p class="page-hero-text">{t.codeOfConduct.intro}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="coc-sections">
+        {t.codeOfConduct.sections.map((section, i) => (
+          <details class="coc-section" open={i < 3}>
+            <summary class="coc-summary">
+              <span class="coc-number">{i + 1}</span>
+              <span class="coc-title">{section.title.replace(/^\d+\.\s*/, '')}</span>
+              <span class="coc-chevron">▾</span>
+            </summary>
+            <div class="coc-content">
+              <p>{section.text}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.page-hero { position: relative; padding: var(--space-xl) 0; overflow: hidden; background: transparent; justify-content: center; display: flex; align-items: center; }
+.page-hero-bg { position: absolute; inset: 0; background-image: url('/wwfp-website/images/wwfp-24.jpg'); background-size: cover; background-position: center; }
+.page-hero-content { position: relative; z-index: 1; text-align: center; width: 100%; background: transparent; }
+.page-hero h1 { color: #aaffaa; margin-bottom: var(--space-sm); text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+.page-hero-text { color: #90ee90; font-size: 1.15rem; max-width: 700px; margin: 0 auto; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+
+.coc-sections {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.coc-section {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.coc-summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) 0;
+  cursor: pointer;
+  list-style: none;
+  font-size: 1.1rem;
+  color: var(--color-forest-deep);
+}
+
+.coc-summary::-webkit-details-marker { display: none; }
+
+.coc-number {
+  background: var(--color-forest);
+  color: var(--color-cream);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.coc-title {
+  font-family: var(--font-head);
+  flex: 1;
+}
+
+.coc-chevron {
+  transition: transform var(--transition);
+  color: var(--color-text-muted);
+}
+
+details[open] .coc-chevron {
+  transform: rotate(180deg);
+}
+
+.coc-content {
+  padding: 0 0 var(--space-sm) 48px;
+  color: var(--color-text-light);
+}
+</style>

@@ -1,0 +1,100 @@
+---
+import Base from '../../layouts/Base.astro';
+import { languages } from '../../i18n/config.js';
+import { getTranslations } from '../../i18n/utils.js';
+
+export async function getStaticPaths() {
+  return Object.keys(languages).map(code => ({
+    params: { lang: code },
+    props: { lang: code },
+  }));
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+---
+
+<Base lang={lang} t={t}>
+  <section class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="container page-hero-content">
+      <h1>{t.events.title}</h1>
+      <p class="page-hero-text">{t.events.intro}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <!-- General Assembly -->
+      <div class="event-featured card">
+        <div class="event-date-badge">
+          <span class="event-date-day">21</span>
+          <span class="event-date-month">SEP</span>
+        </div>
+        <div class="event-details">
+          <h3>{t.events.generalAssemblyTitle}</h3>
+          <p class="event-meta">📅 {t.events.generalAssemblyDate}</p>
+          <p>{t.events.generalAssemblyText}</p>
+        </div>
+      </div>
+
+      <!-- Upcoming -->
+      <div class="upcoming-events mt-lg">
+        <h2 class="mb-md">{t.events.upcomingTitle}</h2>
+        <div class="placeholder">
+          <span>📅 {t.events.upcomingText}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.page-hero { position: relative; padding: var(--space-xl) 0; overflow: hidden; background: transparent; justify-content: center; display: flex; align-items: center; }
+.page-hero-bg { position: absolute; inset: 0; background-image: url('/wwfp-website/images/wwfp-23.jpg'); background-size: cover; background-position: center; }
+.page-hero-content { position: relative; z-index: 1; text-align: center; width: 100%; background: transparent; }
+.page-hero h1 { color: #aaffaa; margin-bottom: var(--space-sm); text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+.page-hero-text { color: #90ee90; font-size: 1.15rem; max-width: 700px; margin: 0 auto; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+
+.event-featured {
+  display: flex;
+  gap: var(--space-md);
+  align-items: flex-start;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.event-date-badge {
+  background: var(--color-forest);
+  color: var(--color-cream);
+  border-radius: var(--radius);
+  padding: var(--space-sm);
+  text-align: center;
+  min-width: 80px;
+}
+
+.event-date-day {
+  display: block;
+  font-size: 2rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.event-date-month {
+  display: block;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.event-meta {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.upcoming-events {
+  max-width: 700px;
+  margin: 0 auto;
+}
+</style>

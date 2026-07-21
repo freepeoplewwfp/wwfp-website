@@ -1,0 +1,265 @@
+---
+import Base from '../../layouts/Base.astro';
+import { languages } from '../../i18n/config.js';
+import { getTranslations } from '../../i18n/utils.js';
+
+export async function getStaticPaths() {
+  return Object.keys(languages).map(code => ({
+    params: { lang: code },
+    props: { lang: code },
+  }));
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+---
+
+<Base lang={lang} t={t}>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="container hero-content">
+      <h1 class="hero-title">{t.home.heroTitle}</h1>
+      <p class="hero-subtitle">{t.home.heroSubtitle}</p>
+      <div class="hero-actions">
+        <a href={`/wwfp-website/${lang}/get-involved`} class="btn btn--primary">{t.home.heroCta}</a>
+        <a href={`/wwfp-website/${lang}/support`} class="btn btn--secondary">{t.home.heroCtaSecondary}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Intro -->
+  <section class="section">
+    <div class="container">
+      <div class="intro-grid">
+        <div class="intro-text">
+          <h2>{t.home.introTitle}</h2>
+          <p class="intro-lead">{t.home.introText}</p>
+          <a href={`/wwfp-website/${lang}/what-we-do`} class="btn btn--secondary">{t.home.introCta}</a>
+        </div>
+        <div class="intro-image">
+          <img src="/wwfp-website/images/wwfp-01.jpg" alt="WWFP community" class="rounded-img" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pillars -->
+  <section class="section section--alt">
+    <div class="container">
+      <h2 class="text-center mb-md">{t.home.pillarsTitle}</h2>
+      <div class="card-grid">
+        <div class="card card--with-image">
+          <img src="/wwfp-website/images/wwfp-03.jpg" alt="Habitat" class="card-img" />
+          <div class="card-body">
+            <h3>{t.home.pillar1Title}</h3>
+            <p>{t.home.pillar1Text}</p>
+          </div>
+        </div>
+        <div class="card card--with-image">
+          <img src="/wwfp-website/images/wwfp-05.jpg" alt="Environment" class="card-img" />
+          <div class="card-body">
+            <h3>{t.home.pillar2Title}</h3>
+            <p>{t.home.pillar2Text}</p>
+          </div>
+        </div>
+        <div class="card card--with-image">
+          <img src="/wwfp-website/images/wwfp-08.jpg" alt="Nonviolence" class="card-img" />
+          <div class="card-body">
+            <h3>{t.home.pillar3Title}</h3>
+            <p>{t.home.pillar3Text}</p>
+          </div>
+        </div>
+        <div class="card card--with-image">
+          <img src="/wwfp-website/images/wwfp-10.jpg" alt="Community" class="card-img" />
+          <div class="card-body">
+            <h3>{t.home.pillar4Title}</h3>
+            <p>{t.home.pillar4Text}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Membership -->
+  <section class="section">
+    <div class="container">
+      <h2 class="text-center mb-md">{t.home.membershipTitle}</h2>
+      <div class="membership-grid">
+        <div class="card membership-card">
+          <img src="/wwfp-website/images/wwfp-14.jpg" alt="Passive member" class="card-img" />
+          <div class="card-body">
+            <h3>{t.home.passiveTitle}</h3>
+            <p>{t.home.passiveText}</p>
+            <a href={`/wwfp-website/${lang}/get-involved`} class="btn btn--secondary mt-md">{t.home.passiveCta}</a>
+          </div>
+        </div>
+        <div class="card membership-card membership-card--active">
+          <img src="/wwfp-website/images/wwfp-15.jpg" alt="Active member" class="card-img" />
+          <div class="card-body">
+            <h3>{t.home.activeTitle}</h3>
+            <p>{t.home.activeText}</p>
+            <a href={`/wwfp-website/${lang}/get-involved`} class="btn btn--primary mt-md">{t.home.activeCta}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quote / CTA -->
+  <section class="section section--forest quote-section">
+    <div class="quote-bg"></div>
+    <div class="container text-center quote-content">
+      <blockquote class="big-quote">
+        "{t.footer.tagline}"
+      </blockquote>
+      <a href={`/wwfp-website/${lang}/get-involved`} class="btn btn--clay mt-md">{t.home.heroCta}</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+.hero {
+  position: relative;
+  min-height: 75vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: transparent;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('/wwfp-website/images/wwfp-02.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  padding: var(--space-xl) var(--space-md);
+  text-align: center;
+  width: 100%;
+  background: transparent;
+}
+
+.hero-title {
+  color: #aaffaa;
+  font-size: 3.5rem;
+  line-height: 1.15;
+  max-width: 900px;
+  margin: 0 auto var(--space-sm);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero-subtitle {
+  color: #90ee90;
+  font-size: 1.3rem;
+  font-style: italic;
+  margin-bottom: var(--space-md);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.hero-actions {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.intro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-lg);
+  align-items: center;
+  text-align: center;
+}
+
+.intro-lead {
+  font-size: 1.15rem;
+  color: var(--color-text-light);
+  margin-bottom: var(--space-md);
+}
+
+.rounded-img {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  object-fit: cover;
+}
+
+.card--with-image {
+  padding: 0;
+  overflow: hidden;
+}
+
+.card-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: var(--space-md);
+  text-align: center;
+}
+
+.membership-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.membership-card {
+  padding: 0;
+  overflow: hidden;
+  text-align: center;
+}
+
+.membership-card--active {
+  border: 2px solid var(--color-forest);
+}
+
+.quote-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.quote-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('/wwfp-website/images/wwfp-17.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.25;
+}
+
+.quote-content {
+  position: relative;
+  z-index: 1;
+}
+
+.big-quote {
+  font-family: var(--font-head);
+  font-size: 2rem;
+  color: var(--color-forest-deep);
+  font-style: italic;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .hero-title { font-size: 2.2rem; }
+  .hero-subtitle { font-size: 1.1rem; }
+  .intro-grid { grid-template-columns: 1fr; }
+  .membership-grid { grid-template-columns: 1fr; }
+  .big-quote { font-size: 1.4rem; }
+  .card-img { height: 160px; }
+}
+</style>

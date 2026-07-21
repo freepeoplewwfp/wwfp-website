@@ -1,0 +1,153 @@
+---
+import Base from '../../layouts/Base.astro';
+import { languages } from '../../i18n/config.js';
+import { getTranslations } from '../../i18n/utils.js';
+
+export async function getStaticPaths() {
+  return Object.keys(languages).map(code => ({
+    params: { lang: code },
+    props: { lang: code },
+  }));
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+---
+
+<Base lang={lang} t={t}>
+  <section class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="container page-hero-content">
+      <h1>{t.whatWeDo.title}</h1>
+      <p class="page-hero-text">{t.whatWeDo.intro}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="card-grid">
+        <div class="card card--with-image">
+          <img src="/wwfp-website/images/wwfp-04.jpg" alt="Habitat" class="card-img" />
+          <div class="card-body">
+            <h3>{t.whatWeDo.project1Title}</h3>
+            <p>{t.whatWeDo.project1Text}</p>
+          </div>
+        </div>
+        <div class="card card--with-image">
+          <img src="/wwfp-website/images/wwfp-06.jpg" alt="Environment" class="card-img" />
+          <div class="card-body">
+            <h3>{t.whatWeDo.project2Title}</h3>
+            <p>{t.whatWeDo.project2Text}</p>
+          </div>
+        </div>
+        <div class="card card--with-image">
+          <img src="/wwfp-website/images/wwfp-07.jpg" alt="Knowledge" class="card-img" />
+          <div class="card-body">
+            <h3>{t.whatWeDo.project3Title}</h3>
+            <p>{t.whatWeDo.project3Text}</p>
+          </div>
+        </div>
+        <div class="card card--with-image">
+          <img src="/wwfp-website/images/wwfp-09.jpg" alt="Community" class="card-img" />
+          <div class="card-body">
+            <h3>{t.whatWeDo.project4Title}</h3>
+            <p>{t.whatWeDo.project4Text}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Image gallery strip -->
+  <section class="section section--alt">
+    <div class="container">
+      <div class="gallery-strip">
+        <img src="/wwfp-website/images/wwfp-12.jpg" alt="WWFP in action" />
+        <img src="/wwfp-website/images/wwfp-13.jpg" alt="WWFP in action" />
+        <img src="/wwfp-website/images/wwfp-16.jpg" alt="WWFP in action" />
+        <img src="/wwfp-website/images/wwfp-18.jpg" alt="WWFP in action" />
+        <img src="/wwfp-website/images/wwfp-19.jpg" alt="WWFP in action" />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.page-hero {
+  position: relative;
+  padding: var(--space-xl) 0;
+  overflow: hidden;
+}
+
+.page-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('/wwfp-website/images/wwfp-11.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(26, 58, 36, 0.6) 0%, rgba(26, 58, 36, 0.3) 50%, transparent 100%);
+}
+
+.page-hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.page-hero h1 {
+  color: var(--color-cream);
+  margin-bottom: var(--space-sm);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.page-hero-text {
+  color: var(--color-cream);
+  font-size: 1.15rem;
+  max-width: 700px;
+}
+
+.card--with-image {
+  padding: 0;
+  overflow: hidden;
+}
+
+.card-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-body {
+  text-align: center;
+  padding: var(--space-md);
+}
+
+.gallery-strip {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-sm);
+}
+
+.gallery-strip img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: transform var(--transition);
+}
+
+.gallery-strip img:hover {
+  transform: scale(1.03);
+}
+
+@media (max-width: 768px) {
+  .gallery-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .card-img { height: 160px; }
+}
+</style>

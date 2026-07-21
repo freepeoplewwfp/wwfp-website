@@ -1,0 +1,108 @@
+---
+import Base from '../../layouts/Base.astro';
+import { languages } from '../../i18n/config.js';
+import { getTranslations } from '../../i18n/utils.js';
+
+export async function getStaticPaths() {
+  return Object.keys(languages).map(code => ({
+    params: { lang: code },
+    props: { lang: code },
+  }));
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+---
+
+<Base lang={lang} t={t}>
+  <section class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="container page-hero-content">
+      <h1>{t.getInvolved.title}</h1>
+      <p class="page-hero-text">{t.getInvolved.intro}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="involvement-grid">
+        <!-- Passive -->
+        <div class="card involvement-card">
+          <div class="card-icon">🌱</div>
+          <h2>{t.getInvolved.passiveTitle}</h2>
+          <p class="mb-md">{t.getInvolved.passiveText}</p>
+          <ul class="check-list">
+            <li>{t.getInvolved.passivePoint1}</li>
+            <li>{t.getInvolved.passivePoint2}</li>
+            <li>{t.getInvolved.passivePoint3}</li>
+          </ul>
+        </div>
+
+        <!-- Active -->
+        <div class="card involvement-card involvement-card--active">
+          <div class="card-icon">🤝</div>
+          <h2>{t.getInvolved.activeTitle}</h2>
+          <p class="mb-md">{t.getInvolved.activeText}</p>
+          <ul class="check-list">
+            <li>{t.getInvolved.activePoint1}</li>
+            <li>{t.getInvolved.activePoint2}</li>
+            <li>{t.getInvolved.activePoint3}</li>
+            <li>{t.getInvolved.activePoint4}</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="text-center mt-lg">
+        <a href={`/wwfp-website/${lang}/contact`} class="btn btn--primary">{t.getInvolved.cta}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.page-hero { position: relative; padding: var(--space-xl) 0; overflow: hidden; background: transparent; justify-content: center; display: flex; align-items: center; }
+.page-hero-bg { position: absolute; inset: 0; background-image: url('/wwfp-website/images/wwfp-21.jpg'); background-size: cover; background-position: center; }
+.page-hero-content { position: relative; z-index: 1; text-align: center; width: 100%; background: transparent; }
+.page-hero h1 { color: #aaffaa; margin-bottom: var(--space-sm); text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+.page-hero-text { color: #90ee90; font-size: 1.15rem; max-width: 700px; margin: 0 auto; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+
+.involvement-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.involvement-card--active {
+  border: 2px solid var(--color-forest);
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--space-sm);
+}
+
+.check-list {
+  list-style: none;
+  padding: 0;
+}
+
+.check-list li {
+  padding: 0.4rem 0;
+  padding-left: 1.8rem;
+  position: relative;
+}
+
+.check-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--color-leaf);
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .involvement-grid { grid-template-columns: 1fr; }
+}
+</style>
