@@ -5,14 +5,24 @@ const { lang, t } = Astro.props;
 
 const navItems = [
   { key: 'home', href: `${lang}` },
-  { key: 'whatWeDo', href: `${lang}/what-we-do` },
-  { key: 'values', href: `${lang}/values` },
-  { key: 'getInvolved', href: `${lang}/get-involved` },
+  { key: 'whatWeDo', href: `${lang}#what-we-do` },
+  { key: 'values', href: `${lang}#values` },
+  { key: 'getInvolved', href: `${lang}#get-involved` },
+  { key: 'hostel', href: `${lang}#hostel` },
+  { key: 'shop', href: `${lang}#shop` },
   { key: 'support', href: `${lang}/support` },
   { key: 'events', href: `${lang}/events` },
   { key: 'codeOfConduct', href: `${lang}/code-of-conduct` },
   { key: 'contact', href: `${lang}/contact` },
 ];
+
+const navLabels = {
+  whatWeDo: t.home.whatWeDoTitle || 'What We Do',
+  values: t.home.valuesTitle || 'Our Values',
+  getInvolved: t.home.getInvolvedTitle || 'Get Involved',
+  hostel: t.nav.hostel,
+  shop: t.nav.shop,
+};
 ---
 
 <header class="site-header">
@@ -30,7 +40,7 @@ const navItems = [
 
     <nav class="site-nav" id="siteNav">
       {navItems.map(item => (
-        <a href={`/${item.href}`} class="nav-link">{t.nav[item.key]}</a>
+        <a href={`/${item.href}`} class="nav-link">{t.nav[item.key] || navLabels[item.key]}</a>
       ))}
 
       <div class="lang-switcher">

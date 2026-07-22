@@ -12,18 +12,35 @@ export async function getStaticPaths() {
 
 const { lang } = Astro.props;
 const t = getTranslations(lang);
+
+const values = [
+  { icon: '💫', title: t.values.esteemTitle, text: t.values.esteemText },
+  { icon: '📖', title: t.values.sharingTitle, text: t.values.sharingText },
+  { icon: '🎯', title: t.values.targetedTitle, text: t.values.targetedText },
+  { icon: '⚡', title: t.values.cuttingEdgeTitle, text: t.values.cuttingEdgeText },
+  { icon: '🕊️', title: t.values.nonviolenceTitle, text: t.values.nonviolenceText },
+  { icon: 'Freedom', title: t.values.independenceTitle, text: t.values.independenceText },
+  { icon: '🔍', title: t.values.transparencyTitle, text: t.values.transparencyText },
+];
+
+const projects = [
+  { img: '/images/wwfp-04.jpg', title: t.whatWeDo.project1Title, text: t.whatWeDo.project1Text },
+  { img: '/images/wwfp-06.jpg', title: t.whatWeDo.project2Title, text: t.whatWeDo.project2Text },
+  { img: '/images/wwfp-07.jpg', title: t.whatWeDo.project3Title, text: t.whatWeDo.project3Text },
+  { img: '/images/wwfp-09.jpg', title: t.whatWeDo.project4Title, text: t.whatWeDo.project4Text },
+];
 ---
 
 <Base lang={lang} t={t}>
   <!-- Hero -->
-  <section class="hero">
+  <section id="top" class="hero">
     <div class="hero-bg"></div>
     <div class="container hero-content">
       <h1 class="hero-title">{t.home.heroTitle}</h1>
       <p class="hero-subtitle">{t.home.heroSubtitle}</p>
       <div class="hero-actions">
-        <a href={`/${lang}/get-involved`} class="btn btn--primary">{t.home.heroCta}</a>
-        <a href={`/${lang}/support`} class="btn btn--secondary">{t.home.heroCtaSecondary}</a>
+        <a href={`/${lang}/support`} class="btn btn--primary">{t.home.heroCtaSecondary}</a>
+        <a href="#get-involved" class="btn btn--secondary">{t.home.heroCta}</a>
       </div>
     </div>
   </section>
@@ -35,7 +52,6 @@ const t = getTranslations(lang);
         <div class="intro-text">
           <h2>{t.home.introTitle}</h2>
           <p class="intro-lead">{t.home.introText}</p>
-          <a href={`/${lang}/what-we-do`} class="btn btn--secondary">{t.home.introCta}</a>
         </div>
         <div class="intro-image">
           <img src="/images/wwfp-01.jpg" alt="WWFP community" class="rounded-img" />
@@ -44,54 +60,68 @@ const t = getTranslations(lang);
     </div>
   </section>
 
-  <!-- Pillars -->
-  <section class="section section--alt">
+  <!-- What We Do (merged) -->
+  <section id="what-we-do" class="section section--alt">
     <div class="container">
-      <h2 class="text-center mb-md">{t.home.pillarsTitle}</h2>
+      <h2 class="text-center mb-md">{t.home.whatWeDoTitle}</h2>
+      <p class="section-intro">{t.home.whatWeDoIntro}</p>
       <div class="card-grid">
-        <div class="card card--with-image">
-          <img src="/images/wwfp-03.jpg" alt="Habitat" class="card-img" />
-          <div class="card-body">
-            <h3>{t.home.pillar1Title}</h3>
-            <p>{t.home.pillar1Text}</p>
+        {projects.map(p => (
+          <div class="card card--with-image">
+            <img src={p.img} alt={p.title} class="card-img" />
+            <div class="card-body">
+              <h3>{p.title}</h3>
+              <p>{p.text}</p>
+            </div>
           </div>
-        </div>
-        <div class="card card--with-image">
-          <img src="/images/wwfp-05.jpg" alt="Environment" class="card-img" />
-          <div class="card-body">
-            <h3>{t.home.pillar2Title}</h3>
-            <p>{t.home.pillar2Text}</p>
-          </div>
-        </div>
-        <div class="card card--with-image">
-          <img src="/images/wwfp-08.jpg" alt="Nonviolence" class="card-img" />
-          <div class="card-body">
-            <h3>{t.home.pillar3Title}</h3>
-            <p>{t.home.pillar3Text}</p>
-          </div>
-        </div>
-        <div class="card card--with-image">
-          <img src="/images/wwfp-10.jpg" alt="Community" class="card-img" />
-          <div class="card-body">
-            <h3>{t.home.pillar4Title}</h3>
-            <p>{t.home.pillar4Text}</p>
-          </div>
-        </div>
+        ))}
+      </div>
+      <!-- Gallery strip -->
+      <div class="gallery-strip">
+        <img src="/images/wwfp-12.jpg" alt="WWFP in action" />
+        <img src="/images/wwfp-13.jpg" alt="WWFP in action" />
+        <img src="/images/wwfp-16.jpg" alt="WWFP in action" />
+        <img src="/images/wwfp-18.jpg" alt="WWFP in action" />
+        <img src="/images/wwfp-19.jpg" alt="WWFP in action" />
       </div>
     </div>
   </section>
 
-  <!-- Membership -->
-  <section class="section">
+  <!-- Values (merged) -->
+  <section id="values" class="section">
     <div class="container">
-      <h2 class="text-center mb-md">{t.home.membershipTitle}</h2>
+      <h2 class="text-center mb-md">{t.home.valuesTitle}</h2>
+      <p class="section-intro">{t.home.valuesIntro}</p>
+      <div class="values-list">
+        {values.map((v, i) => (
+          <div class={i % 2 === 0 ? 'value-row' : 'value-row value-row--alt'}>
+            <div class="value-icon">{v.icon}</div>
+            <div class="value-content">
+              <h3>{v.title}</h3>
+              <p>{v.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Get Involved (merged) -->
+  <section id="get-involved" class="section section--alt">
+    <div class="container">
+      <h2 class="text-center mb-md">{t.home.getInvolvedTitle}</h2>
+      <p class="section-intro">{t.home.getInvolvedIntro}</p>
       <div class="membership-grid">
         <div class="card membership-card">
           <img src="/images/wwfp-14.jpg" alt="Passive member" class="card-img" />
           <div class="card-body">
             <h3>{t.home.passiveTitle}</h3>
             <p>{t.home.passiveText}</p>
-            <a href={`/${lang}/get-involved`} class="btn btn--secondary mt-md">{t.home.passiveCta}</a>
+            <ul class="check-list">
+              <li>{t.getInvolved.passivePoint1}</li>
+              <li>{t.getInvolved.passivePoint2}</li>
+              <li>{t.getInvolved.passivePoint3}</li>
+            </ul>
           </div>
         </div>
         <div class="card membership-card membership-card--active">
@@ -99,8 +129,62 @@ const t = getTranslations(lang);
           <div class="card-body">
             <h3>{t.home.activeTitle}</h3>
             <p>{t.home.activeText}</p>
-            <a href={`/${lang}/get-involved`} class="btn btn--primary mt-md">{t.home.activeCta}</a>
+            <ul class="check-list">
+              <li>{t.getInvolved.activePoint1}</li>
+              <li>{t.getInvolved.activePoint2}</li>
+              <li>{t.getInvolved.activePoint3}</li>
+              <li>{t.getInvolved.activePoint4}</li>
+            </ul>
           </div>
+        </div>
+      </div>
+      <div class="text-center mt-lg">
+        <a href={`/${lang}/contact`} class="btn btn--primary">{t.getInvolved.cta}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hostel -->
+  <section id="hostel" class="section">
+    <div class="container">
+      <h2 class="text-center mb-md">{t.hostel.title}</h2>
+      <p class="section-intro">{t.hostel.intro}</p>
+      <div class="hostel-steps">
+        <div class="hostel-step">
+          <div class="step-number">1</div>
+          <p>{t.hostel.step1}</p>
+        </div>
+        <div class="hostel-step">
+          <div class="step-number">2</div>
+          <p>{t.hostel.step2}</p>
+        </div>
+        <div class="hostel-step">
+          <div class="step-number">3</div>
+          <p>{t.hostel.step3}</p>
+        </div>
+        <div class="hostel-step">
+          <div class="step-number">4</div>
+          <p>{t.hostel.step4}</p>
+        </div>
+      </div>
+      <div class="hostel-coming-soon card">
+        <h3>📍 {t.hostel.comingSoon}</h3>
+        <p>{t.hostel.comingSoonText}</p>
+        <a href={`/${lang}/contact`} class="btn btn--secondary mt-md">{t.nav.contact}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shop -->
+  <section id="shop" class="section section--alt">
+    <div class="container">
+      <h2 class="text-center mb-md">{t.shop.title}</h2>
+      <p class="section-intro">{t.shop.intro}</p>
+      <div class="shop-coming-soon card">
+        <h3>🛍️ {t.shop.comingSoon}</h3>
+        <p>{t.shop.comingSoonText}</p>
+        <div class="shop-actions">
+          <a href={`/${lang}/contact`} class="btn btn--primary">{t.shop.registerCta}</a>
         </div>
       </div>
     </div>
@@ -113,7 +197,7 @@ const t = getTranslations(lang);
       <blockquote class="big-quote">
         "{t.footer.tagline}"
       </blockquote>
-      <a href={`/${lang}/get-involved`} class="btn btn--clay mt-md">{t.home.heroCta}</a>
+      <a href="#get-involved" class="btn btn--clay mt-md">{t.home.heroCta}</a>
     </div>
   </section>
 </Base>
@@ -144,7 +228,6 @@ const t = getTranslations(lang);
   padding: var(--space-xl) var(--space-md);
   text-align: center;
   width: 100%;
-  background: transparent;
 }
 
 .hero-title {
@@ -171,6 +254,14 @@ const t = getTranslations(lang);
   justify-content: center;
 }
 
+.section-intro {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto var(--space-lg);
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+}
+
 .intro-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -192,6 +283,12 @@ const t = getTranslations(lang);
   object-fit: cover;
 }
 
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+}
+
 .card--with-image {
   padding: 0;
   overflow: hidden;
@@ -208,6 +305,56 @@ const t = getTranslations(lang);
   text-align: center;
 }
 
+.gallery-strip {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+}
+
+.gallery-strip img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: transform var(--transition);
+}
+
+.gallery-strip img:hover {
+  transform: scale(1.03);
+}
+
+/* Values */
+.values-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.value-row {
+  display: flex;
+  gap: var(--space-md);
+  padding: var(--space-md) 0;
+  border-bottom: 1px solid var(--color-border);
+  align-items: flex-start;
+}
+
+.value-row--alt {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+.value-icon {
+  font-size: 2.5rem;
+  min-width: 60px;
+  text-align: center;
+}
+
+.value-content h3 {
+  margin-bottom: 0.3rem;
+}
+
+/* Membership */
 .membership-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -226,6 +373,83 @@ const t = getTranslations(lang);
   border: 2px solid var(--color-forest);
 }
 
+.check-list {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+  max-width: 300px;
+  margin: var(--space-sm) auto 0;
+}
+
+.check-list li {
+  padding: 0.4rem 0;
+  padding-left: 1.8rem;
+  position: relative;
+}
+
+.check-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--color-leaf);
+  font-weight: bold;
+}
+
+/* Hostel */
+.hostel-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+  max-width: 900px;
+  margin: 0 auto var(--space-lg);
+}
+
+.hostel-step {
+  text-align: center;
+}
+
+.step-number {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--color-forest);
+  color: var(--color-cream);
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-sm);
+}
+
+.hostel-coming-soon {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  padding: var(--space-md);
+}
+
+.hostel-coming-soon h3 {
+  margin-bottom: var(--space-sm);
+}
+
+/* Shop */
+.shop-coming-soon {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  padding: var(--space-md);
+}
+
+.shop-coming-soon h3 {
+  margin-bottom: var(--space-sm);
+}
+
+.shop-actions {
+  margin-top: var(--space-md);
+}
+
+/* Quote */
 .quote-section {
   position: relative;
   overflow: hidden;
@@ -254,12 +478,24 @@ const t = getTranslations(lang);
   margin: 0 auto;
 }
 
+/* Smooth scroll for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
 @media (max-width: 768px) {
   .hero-title { font-size: 2.2rem; }
   .hero-subtitle { font-size: 1.1rem; }
   .intro-grid { grid-template-columns: 1fr; }
+  .card-grid { grid-template-columns: 1fr 1fr; }
   .membership-grid { grid-template-columns: 1fr; }
+  .gallery-strip { grid-template-columns: repeat(2, 1fr); }
+  .hostel-steps { grid-template-columns: 1fr 1fr; }
   .big-quote { font-size: 1.4rem; }
   .card-img { height: 160px; }
+  .value-row, .value-row--alt {
+    flex-direction: column;
+    text-align: left;
+  }
 }
 </style>
