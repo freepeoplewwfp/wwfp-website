@@ -132,6 +132,15 @@ export const de = {
     comingSoonText: 'Wir bauen eine Plattform, auf der Menschen mit Behinderung und andere Kunsthandwerker ihre handgefertigten Produkte verkaufen können. Nach Registrierung und Genehmigung behalten die Kunsthandwerker den Großteil der Einnahmen — eine kleine Gebühr unterstützt die Organisation.',
     registerCta: 'Als Kunsthandwerker registrieren',
     browseCta: 'Produkte durchsuchen',
+    enterShop: 'Shop betreten →',
+  },
+  shopPage: {
+    backToShops: 'Zurück zu den Shops',
+    itemsTitle: 'Produkte',
+    itemsComingSoon: 'Produkte werden in Kürze hier verfügbar sein. Wir nehmen derzeit Kunsthandwerker auf und stellen handgefertigte Produkte für diesen Shop bereit.',
+    itemPlaceholder: 'In Kürze verfügbar',
+    registerTitle: 'Bist du Kunsthandwerker?',
+    registerText: 'Wenn du handgefertigte Produkte herstellst und über diesen Shop verkaufen möchtest, registriere dich bei WWFP. Nach Genehmigung behältst du den Großteil der Einnahmen — eine kleine Gebühr unterstützt die Organisation.',
   },
   hostel: {
     title: 'Hostel & Tourismus',

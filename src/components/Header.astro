@@ -5,10 +5,7 @@ const { lang, t } = Astro.props;
 
 const navItems = [
   { key: 'home', href: `${lang}` },
-  { key: 'whatWeDo', href: `${lang}#what-we-do` },
-  { key: 'values', href: `${lang}#values` },
-  { key: 'getInvolved', href: `${lang}#get-involved` },
-  { key: 'hostel', href: `${lang}#hostel` },
+  { key: 'hostel', href: `${lang}#hostel`, toggle: true },
   { key: 'shop', href: `${lang}#shop` },
   { key: 'support', href: `${lang}/support` },
   { key: 'events', href: `${lang}/events` },
@@ -40,7 +37,9 @@ const navLabels = {
 
     <nav class="site-nav" id="siteNav">
       {navItems.map(item => (
-        <a href={`/${item.href}`} class="nav-link">{t.nav[item.key] || navLabels[item.key]}</a>
+        item.toggle
+          ? <a href={`/${item.href}`} class="nav-link" data-toggle={item.key}>{t.nav[item.key] || navLabels[item.key]}</a>
+          : <a href={`/${item.href}`} class="nav-link">{t.nav[item.key] || navLabels[item.key]}</a>
       ))}
 
       <div class="lang-switcher">
@@ -72,8 +71,9 @@ const navLabels = {
 .header-inner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 0.6rem var(--space-md);
+  position: relative;
 }
 
 .logo {
@@ -81,6 +81,8 @@ const navLabels = {
   align-items: center;
   gap: 0.6rem;
   text-decoration: none;
+  position: absolute;
+  left: var(--space-md);
 }
 
 .logo-img {
@@ -98,6 +100,7 @@ const navLabels = {
 .site-nav {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 1.2rem;
 }
 
@@ -115,6 +118,8 @@ const navLabels = {
 
 .lang-switcher {
   position: relative;
+  position: absolute;
+  right: var(--space-md);
 }
 
 .lang-btn {
@@ -180,7 +185,11 @@ const navLabels = {
 }
 
 @media (max-width: 900px) {
-  .nav-toggle { display: flex; }
+  .nav-toggle {
+    display: flex;
+    position: absolute;
+    left: var(--space-md);
+  }
   
   .site-nav {
     display: none;
@@ -219,5 +228,23 @@ const navLabels = {
 
   document.addEventListener('click', () => {
     document.getElementById('langDropdown')?.classList.remove('open');
+  });
+
+  // Toggle hidden sections (Hostel & Shop)
+  document.querySelectorAll('[data-toggle]').forEach(el => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault();
+      const key = el.getAttribute('data-toggle');
+      const section = document.getElementById(key);
+      if (section) {
+        const isHidden = !section.classList.contains('section--visible');
+        // Hide all toggle sections first
+        document.querySelectorAll('.section--hidden').forEach(s => s.classList.remove('section--visible'));
+        if (isHidden) {
+          section.classList.add('section--visible');
+          section.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    });
   });
 </script>

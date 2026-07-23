@@ -139,6 +139,15 @@ export const en = {
     comingSoonText: 'We are building a platform where handicapped and other artisans can sell their handcrafted goods. After registration and approval, artisans keep most of the proceeds — a small fee supports the organization.',
     registerCta: 'Register as an artisan',
     browseCta: 'Browse products',
+    enterShop: 'Enter shop →',
+  },
+  shopPage: {
+    backToShops: 'Back to shops',
+    itemsTitle: 'Products',
+    itemsComingSoon: 'Items will be available here soon. We are currently onboarding artisans and preparing handcrafted goods for this shop.',
+    itemPlaceholder: 'Coming soon',
+    registerTitle: 'Are you an artisan?',
+    registerText: 'If you create handcrafted goods and would like to sell through this shop, register with WWFP. After approval, you keep most of the proceeds — a small fee supports the organization.',
   },
   hostel: {
     title: 'Hostel & Tourism',

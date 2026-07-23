@@ -132,6 +132,15 @@ export const pl = {
     comingSoonText: 'Budujemy platformę, na której osoby z niepełnosprawnością i inni rzemieślnicy mogą sprzedawać swoje rękodzieła. Po rejestracji i zatwierdzeniu rzemieślnicy zachowują większość dochodów — niewielka opłata wspiera organizację.',
     registerCta: 'Zarejestruj się jako rzemieślnik',
     browseCta: 'Przeglądaj produkty',
+    enterShop: 'Wejdź do sklepu →',
+  },
+  shopPage: {
+    backToShops: 'Wróć do sklepów',
+    itemsTitle: 'Produkty',
+    itemsComingSoon: 'Produkty będą wkrótce dostępne. Obecnie rekrutujemy rzemieślników i przygotowujemy ręcznie wytwarzane produkty dla tego sklepu.',
+    itemPlaceholder: 'Wkrótce',
+    registerTitle: 'Jesteś rzemieślnikiem?',
+    registerText: 'Jeśli tworzysz produkty rękodzieła i chcesz sprzedawać je w tym sklepie, zarejestruj się w WWFP. Po zatwierdzeniu zatrzymujesz większość przychodu — niewielka opłata wspiera organizację.',
   },
   hostel: {
     title: 'Hostel & Turystyka',

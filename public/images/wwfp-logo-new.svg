@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <defs>
+    <!-- Planet gradient -->
+    <radialGradient id="planet" cx="35%" cy="35%">
+      <stop offset="0%" stop-color="#48cae4"/>
+      <stop offset="30%" stop-color="#00b4d8"/>
+      <stop offset="60%" stop-color="#0077b6"/>
+      <stop offset="100%" stop-color="#03045e"/>
+    </radialGradient>
+    <!-- Atmosphere glow -->
+    <radialGradient id="atmo" cx="50%" cy="50%">
+      <stop offset="60%" stop-color="#00b4d8" stop-opacity="0"/>
+      <stop offset="75%" stop-color="#48cae4" stop-opacity="0.3"/>
+      <stop offset="90%" stop-color="#00e5cc" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#00e5cc" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Continent shapes -->
+    <clipPath id="planetClip">
+      <circle cx="200" cy="200" r="140"/>
+    </clipPath>
+  </defs>
+
+  <!-- Atmosphere glow ring -->
+  <circle cx="200" cy="200" r="180" fill="url(#atmo)"/>
+
+  <!-- Planet body -->
+  <circle cx="200" cy="200" r="140" fill="url(#planet)"/>
+
+  <!-- Fantasy continents -->
+  <g clip-path="url(#planetClip)" opacity="0.7">
+    <!-- Continent 1 - top left -->
+    <path d="M 100 120 Q 130 100 160 110 Q 175 130 155 150 Q 140 165 115 155 Q 95 140 100 120" fill="#2d5940"/>
+    <!-- Continent 2 - center right -->
+    <path d="M 220 170 Q 260 160 285 185 Q 290 210 270 225 Q 240 230 225 210 Q 215 190 220 170" fill="#2d5940"/>
+    <!-- Continent 3 - bottom left -->
+    <path d="M 110 240 Q 145 235 165 255 Q 170 275 145 285 Q 120 280 105 265 Q 100 250 110 240" fill="#2d5940"/>
+    <!-- Island - bottom right -->
+    <path d="M 240 260 Q 265 255 275 270 Q 270 285 250 280 Q 238 272 240 260" fill="#2d5940"/>
+  </g>
+
+  <!-- Cloud wisps -->
+  <g clip-path="url(#planetClip)" opacity="0.2">
+    <ellipse cx="170" cy="180" rx="40" ry="8" fill="#f5efe0"/>
+    <ellipse cx="250" cy="145" rx="30" ry="6" fill="#f5efe0"/>
+    <ellipse cx="130" cy="225" rx="35" ry="7" fill="#f5efe0"/>
+  </g>
+
+  <!-- Highlight on planet edge -->
+  <circle cx="200" cy="200" r="140" fill="none" stroke="#48cae4" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- Flag on top of planet -->
+  <line x1="200" y1="60" x2="200" y2="25" stroke="#f5efe0" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M 200 25 L 240 38 L 200 51 Z" fill="#00b4d8" stroke="#f5efe0" stroke-width="1" stroke-linejoin="round"/>
+
+  <!-- Stars around planet -->
+  <g fill="#f5efe0" opacity="0.8">
+    <circle cx="70" cy="80" r="1.5"/>
+    <circle cx="320" cy="70" r="2"/>
+    <circle cx="350" cy="160" r="1.5"/>
+    <circle cx="50" cy="200" r="1"/>
+    <circle cx="360" cy="240" r="1.5"/>
+    <circle cx="60" cy="300" r="2"/>
+    <circle cx="330" cy="310" r="1"/>
+    <circle cx="160" cy="30" r="1"/>
+    <circle cx="280" cy="25" r="1.5"/>
+    <circle cx="40" cy="140" r="1"/>
+    <circle cx="365" cy="120" r="1"/>
+    <circle cx="30" cy="260" r="1.5"/>
+    <circle cx="370" cy="200" r="1"/>
+  </g>
+
+  <!-- WWFP text across the planet -->
+  <text x="200" y="210" text-anchor="middle" font-family="Georgia, serif" font-size="46" font-weight="bold" fill="#f5efe0" opacity="0.95">WWFP</text>
+  
+  <!-- Free People below -->
+  <text x="200" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#90e0ef" opacity="0.85">Free People</text>
+</svg>

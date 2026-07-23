@@ -1,0 +1,194 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { languages } from '../../../i18n/config.js';
+import { getTranslations } from '../../../i18n/utils.js';
+import { shops, getShopBySlug } from '../../../data/shops.js';
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const langCode of Object.keys(languages)) {
+    for (const shop of shops) {
+      paths.push({
+        params: { lang: langCode, shop: shop.slug },
+        props: { lang: langCode, shop },
+      });
+    }
+  }
+  return paths;
+}
+
+const { lang, shop } = Astro.props;
+const t = getTranslations(lang);
+const shopT = t.shopPage || {};
+---
+
+<Base lang={lang} t={t}>
+  <section class="shop-hero">
+    <div class="shop-hero-bg" style={`background-image: url('${shop.image}')`}></div>
+    <div class="shop-hero-overlay"></div>
+    <div class="container shop-hero-content">
+      <a href={`/${lang}#shop`} class="shop-back">← {shopT.backToShops || 'Back to shops'}</a>
+      <h1 class="shop-name">{shop.name}</h1>
+      <p class="shop-location">📍 {shop.city}, {shop.country}</p>
+      <p class="shop-description">{shop.description}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="text-center mb-md">{shopT.itemsTitle || 'Products'}</h2>
+      <p class="section-intro">{shopT.itemsComingSoon || 'Items will be available here soon. We are currently onboarding artisans and preparing handcrafted goods for this shop.'}</p>
+
+      <!-- Placeholder item grid — will be replaced with real products -->
+      <div class="shop-items-grid">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div class="shop-item-placeholder">
+            <div class="placeholder-icon">🛍️</div>
+            <p>{shopT.itemPlaceholder || 'Coming soon'}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="shop-cta card">
+        <h3>🤝 {shopT.registerTitle || 'Are you an artisan?'}</h3>
+        <p>{shopT.registerText || 'If you create handcrafted goods and would like to sell through this shop, register with WWFP. After approval, you keep most of the proceeds — a small fee supports the organization.'}</p>
+        <a href={`/${lang}/contact`} class="btn btn--primary mt-sm">{t.shop.registerCta || 'Register as an artisan'}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.shop-hero {
+  position: relative;
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.shop-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+.shop-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(26, 58, 36, 0.6) 0%, rgba(45, 90, 61, 0.4) 50%, rgba(250, 247, 240, 0.9) 100%);
+  z-index: 1;
+}
+
+.shop-hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: var(--space-xl) var(--space-md);
+}
+
+.shop-back {
+  display: inline-block;
+  color: var(--color-cream);
+  font-size: 0.95rem;
+  margin-bottom: var(--space-sm);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  transition: color var(--transition);
+}
+
+.shop-back:hover {
+  color: var(--color-sand);
+}
+
+.shop-name {
+  font-size: 3rem;
+  color: var(--color-cream);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  margin-bottom: 0.3rem;
+}
+
+.shop-location {
+  font-size: 1.2rem;
+  color: var(--color-sand);
+  font-style: italic;
+  margin-bottom: var(--space-sm);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.shop-description {
+  font-size: 1.05rem;
+  color: var(--color-cream);
+  max-width: 500px;
+  margin: 0 auto;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.section-intro {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto var(--space-lg);
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+}
+
+.shop-items-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.shop-item-placeholder {
+  background: linear-gradient(135deg, rgba(138, 168, 136, 0.1), rgba(201, 184, 150, 0.1));
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-lg);
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--color-text-muted);
+  transition: transform var(--transition), border-color var(--transition);
+}
+
+.shop-item-placeholder:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-sage);
+}
+
+.placeholder-icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--space-sm);
+  opacity: 0.5;
+}
+
+.shop-item-placeholder p {
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.shop-cta {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  padding: var(--space-md);
+}
+
+.shop-cta h3 {
+  margin-bottom: var(--space-sm);
+}
+
+@media (max-width: 768px) {
+  .shop-name { font-size: 2rem; }
+  .shop-items-grid { grid-template-columns: repeat(2, 1fr); }
+  .shop-hero { min-height: 40vh; }
+}
+
+@media (max-width: 480px) {
+  .shop-items-grid { grid-template-columns: 1fr; }
+}
+</style>

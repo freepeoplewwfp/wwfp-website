@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { languages } from '../../i18n/config.js';
 import { getTranslations } from '../../i18n/utils.js';
+import { shops as shopData } from '../../data/shops.js';
 
 export async function getStaticPaths() {
   return Object.keys(languages).map(code => ({
@@ -39,8 +40,8 @@ const projects = [
       <h1 class="hero-title">{t.home.heroTitle}</h1>
       <p class="hero-subtitle">{t.home.heroSubtitle}</p>
       <div class="hero-actions">
-        <a href={`/${lang}/support`} class="btn btn--primary">{t.home.heroCtaSecondary}</a>
-        <a href="#get-involved" class="btn btn--secondary">{t.home.heroCta}</a>
+        <a href={`/${lang}/support`} class="btn btn--primary hero-btn-primary">{t.home.heroCtaSecondary}</a>
+        <a href="#get-involved" class="btn btn--primary hero-btn-toggle">{t.home.heroCta}</a>
       </div>
     </div>
   </section>
@@ -145,7 +146,7 @@ const projects = [
   </section>
 
   <!-- Hostel -->
-  <section id="hostel" class="section">
+  <section id="hostel" class="section section--hidden">
     <div class="container">
       <h2 class="text-center mb-md">{t.hostel.title}</h2>
       <p class="section-intro">{t.hostel.intro}</p>
@@ -180,7 +181,25 @@ const projects = [
     <div class="container">
       <h2 class="text-center mb-md">{t.shop.title}</h2>
       <p class="section-intro">{t.shop.intro}</p>
-      <div class="shop-coming-soon card">
+
+      <div class="shop-grid">
+        {shopData.map(shop => (
+          <a href={`/${lang}/shop/${shop.slug}`} class="shop-card">
+            <div class="shop-card-img-wrap">
+              <img src={shop.image} alt={`${shop.name} — ${shop.city}`} class="shop-card-img" />
+              <div class="shop-card-overlay">
+                <span class="shop-card-enter">{t.shop.enterShop || 'Enter shop →'}</span>
+              </div>
+            </div>
+            <div class="shop-card-body">
+              <h3>{shop.name}</h3>
+              <p class="shop-card-location">📍 {shop.city}, {shop.country}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <div class="shop-note card">
         <h3>🛍️ {t.shop.comingSoon}</h3>
         <p>{t.shop.comingSoonText}</p>
         <div class="shop-actions">
@@ -207,10 +226,11 @@ const projects = [
   position: relative;
   min-height: 75vh;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
   overflow: hidden;
   background: transparent;
+  padding-bottom: var(--space-xl);
 }
 
 .hero-bg {
@@ -228,30 +248,63 @@ const projects = [
   padding: var(--space-xl) var(--space-md);
   text-align: center;
   width: 100%;
+  max-width: 1200px;
 }
 
 .hero-title {
-  color: #aaffaa;
   font-size: 3.5rem;
   line-height: 1.15;
   max-width: 900px;
   margin: 0 auto var(--space-sm);
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  background: linear-gradient(135deg, #00e5cc 0%, #00b4d8 40%, #48cae4 70%, #00e5cc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.7));
 }
 
 .hero-subtitle {
-  color: #90ee90;
   font-size: 1.3rem;
   font-style: italic;
-  margin-bottom: var(--space-md);
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  margin-bottom: var(--space-lg);
+  background: linear-gradient(135deg, #90e0ef 0%, #48cae4 50%, #00b4d8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.7));
 }
 
 .hero-actions {
   display: flex;
-  gap: var(--space-sm);
+  gap: var(--space-xl);
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 0 4rem;
+  margin-top: var(--space-lg);
+}
+
+.hero-actions .btn--primary {
+  background: linear-gradient(135deg, #00b4d8 0%, #00e5cc 100%);
+  color: #fff;
+  border: 2px solid transparent;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.hero-actions .btn--primary:hover {
+  background: linear-gradient(135deg, #0096c7 0%, #00b4d8 100%);
+  box-shadow: 0 4px 12px rgba(0, 180, 216, 0.4);
+}
+
+.hero-btn-toggle {
+  background: linear-gradient(135deg, #00b4d8 0%, #00e5cc 100%);
+  color: #fff;
+  border: 2px solid #00b4d8;
+}
+
+.hero-btn-toggle:hover {
+  background: transparent;
+  color: #48cae4;
+  border-color: #48cae4;
 }
 
 .section-intro {
@@ -434,14 +487,95 @@ const projects = [
 }
 
 /* Shop */
-.shop-coming-soon {
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-sm);
+  max-width: 1200px;
+  margin: 0 auto var(--space-lg);
+}
+
+.shop-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 2px 8px rgba(45, 32, 19, 0.06);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.shop-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.shop-card-img-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+}
+
+.shop-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.shop-card:hover .shop-card-img {
+  transform: scale(1.08);
+}
+
+.shop-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(26, 58, 36, 0.7) 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: var(--space-sm);
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.shop-card:hover .shop-card-overlay {
+  opacity: 1;
+}
+
+.shop-card-enter {
+  color: var(--color-cream);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.shop-card-body {
+  padding: var(--space-sm);
+  text-align: center;
+}
+
+.shop-card-body h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.2rem;
+}
+
+.shop-card-location {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  margin: 0;
+}
+
+.shop-note {
   max-width: 600px;
   margin: 0 auto;
   text-align: center;
   padding: var(--space-md);
 }
 
-.shop-coming-soon h3 {
+.shop-note h3 {
   margin-bottom: var(--space-sm);
 }
 
@@ -483,7 +617,17 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Hidden sections (Hostel & Shop) */
+.section--hidden {
+  display: none;
+}
+
+.section--hidden.section--visible {
+  display: block;
+}
+
 @media (max-width: 768px) {
+  .hero-actions { flex-wrap: nowrap; padding: 0 1rem; }
   .hero-title { font-size: 2.2rem; }
   .hero-subtitle { font-size: 1.1rem; }
   .intro-grid { grid-template-columns: 1fr; }
@@ -491,6 +635,7 @@ html {
   .membership-grid { grid-template-columns: 1fr; }
   .gallery-strip { grid-template-columns: repeat(2, 1fr); }
   .hostel-steps { grid-template-columns: 1fr 1fr; }
+  .shop-grid { grid-template-columns: repeat(2, 1fr); }
   .big-quote { font-size: 1.4rem; }
   .card-img { height: 160px; }
   .value-row, .value-row--alt {

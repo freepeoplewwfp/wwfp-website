@@ -132,6 +132,15 @@ export const nl = {
     comingSoonText: 'We bouwen een platform waar mensen met een handicap en andere ambachtslieden hun handgemaakte producten kunnen verkopen. Na registratie en goedkeuring behouden ambachtslieden het grootste deel van de opbrengst — een kleine vergoeding ondersteunt de organisatie.',
     registerCta: 'Registreer als ambachtsman',
     browseCta: 'Blader door producten',
+    enterShop: 'Winkel binnen →',
+  },
+  shopPage: {
+    backToShops: 'Terug naar winkels',
+    itemsTitle: 'Producten',
+    itemsComingSoon: 'Producten worden hier binnenkort beschikbaar. We zijn momenteel ambachtslieden aan het werven en bereiden handgemaakte goederen voor deze winkel.',
+    itemPlaceholder: 'Binnenkort',
+    registerTitle: 'Ben je een ambachtsman?',
+    registerText: 'Als je handgemaakte producten maakt en deze via deze winkel wilt verkopen, registreer je bij WWFP. Na goedkeuring houd je het grootste deel van de opbrengst — een kleine vergoeding steunt de organisatie.',
   },
   hostel: {
     title: 'Hostel & Toerisme',

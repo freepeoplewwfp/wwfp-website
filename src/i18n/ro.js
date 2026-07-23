@@ -132,6 +132,15 @@ export const ro = {
     comingSoonText: 'Construim o platformă unde persoane cu dizabilități și alți artizani își pot vinde produsele făcute manual. După înregistrare și aprobare, artizanii păstrează majoritatea veniturilor — o mică taxă susține organizația.',
     registerCta: 'Înscrie-te ca artizan',
     browseCta: 'Răsfoiește produsele',
+    enterShop: 'Intră în magazin →',
+  },
+  shopPage: {
+    backToShops: 'Înapoi la magazine',
+    itemsTitle: 'Produse',
+    itemsComingSoon: 'Produsele vor fi disponibile curând aici. Integrăm artizani și pregătim produse făcute manual pentru acest magazin.',
+    itemPlaceholder: 'Curând',
+    registerTitle: 'Ești artizan?',
+    registerText: 'Dacă creezi produse făcute manual și vrei să le vinzi în acest magazin, înscrie-te la WWFP. După aprobare, păstrezi cea mai mare parte a veniturilor — o mică taxă sprijină organizația.',
   },
   hostel: {
     title: 'Hostel & Turism',

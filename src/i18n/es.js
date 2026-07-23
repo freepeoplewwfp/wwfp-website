@@ -132,6 +132,15 @@ export const es = {
     comingSoonText: 'Estamos construyendo una plataforma donde personas con discapacidad y otros artesanos pueden vender sus productos hechos a mano. Tras el registro y la aprobación, los artesanos conservan la mayor parte de los ingresos — una pequeña tarifa apoya a la organización.',
     registerCta: 'Registrarse como artesano',
     browseCta: 'Explorar productos',
+    enterShop: 'Entrar en la tienda →',
+  },
+  shopPage: {
+    backToShops: 'Volver a las tiendas',
+    itemsTitle: 'Productos',
+    itemsComingSoon: 'Los productos estarán disponibles aquí pronto. Estamos incorporando artesanos y preparando productos artesanales para esta tienda.',
+    itemPlaceholder: 'Próximamente',
+    registerTitle: '¿Eres artesano?',
+    registerText: 'Si creas productos artesanales y te gustaría venderlos en esta tienda, regístrate con WWFP. Tras la aprobación, te quedas con la mayor parte de los ingresos — una pequeña comisión apoya a la organización.',
   },
   hostel: {
     title: 'Albergue & Turismo',

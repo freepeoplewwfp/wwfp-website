@@ -132,6 +132,15 @@ export const it = {
     comingSoonText: "Stiamo costruendo una piattaforma dove persone con disabilità e altri artigiani possono vendere i loro prodotti fatti a mano. Dopo la registrazione e l'approvazione, gli artigiani mantengono la maggior parte dei ricavi — una piccola commissione supporta l'organizzazione.",
     registerCta: "Registrati come artigiano",
     browseCta: "Sfoglia i prodotti",
+    enterShop: "Entra nel negozio →",
+  },
+  shopPage: {
+    backToShops: "Torna ai negozi",
+    itemsTitle: "Prodotti",
+    itemsComingSoon: "I prodotti saranno presto disponibili qui. Stiamo attualmente integrando artigiani e preparando prodotti fatti a mano per questo negozio.",
+    itemPlaceholder: "Prossimamente",
+    registerTitle: "Sei un artigiano?",
+    registerText: "Se crei prodotti fatti a mano e vuoi venderli in questo negozio, registrati con WWFP. Dopo l'approvazione, tieni la maggior parte dei ricavi — una piccola commissione sostiene l'organizzazione.",
   },
   hostel: {
     title: "Ostello & Turismo",
