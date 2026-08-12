@@ -26,7 +26,7 @@ const shopT = t.shopPage || {};
   <section class="shop-hero">
     {shop.video ? (
       <div class="shop-hero-video-wrap">
-        <video class="shop-hero-video" autoplay muted loop playsinline preload="auto">
+        <video class="shop-hero-video" autoplay muted loop playsinline preload="auto" poster={shop.image}>
           <source src={shop.video} type="video/mp4" />
         </video>
         <div class="shop-hero-overlay"></div>

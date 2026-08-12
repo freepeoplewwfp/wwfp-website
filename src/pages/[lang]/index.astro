@@ -193,7 +193,7 @@ const projects = [
           <a href={`/${lang}/shop/${shop.slug}`} class="shop-card">
             <div class="shop-card-img-wrap">
               {shop.video ? (
-                <video class="shop-card-img" autoplay muted loop playsinline preload="auto" aria-label={`${shop.name} — ${shop.city}`}>
+                <video class="shop-card-img" autoplay muted loop playsinline preload="auto" poster={shop.image} aria-label={`${shop.name} — ${shop.city}`}>
                   <source src={shop.video} type="video/mp4" />
                 </video>
               ) : (
