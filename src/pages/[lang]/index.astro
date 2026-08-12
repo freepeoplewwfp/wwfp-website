@@ -192,7 +192,13 @@ const projects = [
         {shopData.map(shop => (
           <a href={`/${lang}/shop/${shop.slug}`} class="shop-card">
             <div class="shop-card-img-wrap">
-              <img src={shop.image} alt={`${shop.name} — ${shop.city}`} class="shop-card-img" />
+              {shop.video ? (
+                <video class="shop-card-img" autoplay muted loop playsinline preload="auto" aria-label={`${shop.name} — ${shop.city}`}>
+                  <source src={shop.video} type="video/mp4" />
+                </video>
+              ) : (
+                <img src={shop.image} alt={`${shop.name} — ${shop.city}`} class="shop-card-img" />
+              )}
               <div class="shop-card-overlay">
                 <span class="shop-card-enter">{t.shop.enterShop || 'Enter shop →'}</span>
               </div>
@@ -522,8 +528,8 @@ const projects = [
 /* Shop */
 .shop-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: var(--space-sm);
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
   max-width: 1200px;
   margin: 0 auto var(--space-lg);
 }
@@ -548,7 +554,7 @@ const projects = [
 .shop-card-img-wrap {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 4/3;
+  aspect-ratio: 3/4;
 }
 
 .shop-card-img {
@@ -558,8 +564,16 @@ const projects = [
   transition: transform 0.4s ease;
 }
 
+video.shop-card-img {
+  transition: none;
+}
+
 .shop-card:hover .shop-card-img {
   transform: scale(1.08);
+}
+
+.shop-card:hover video.shop-card-img {
+  transform: none;
 }
 
 .shop-card-overlay {
