@@ -16,9 +16,10 @@ export const shops = [
     slug: 'dar-al-atlas',
     name: 'Dar Al-Atlas',
     nameTranslationKey: 'darAlAtlas',
-    city: 'Fes',
+    city: 'Chefchaouen',
     country: 'Morocco',
     image: '/images/chaouen/chaouen-2.jpg',
+    video: '/videos/artisanat-du-moroc.mp4',
     description: 'House of Atlas — rooted in the ancient medina, where leather and metalwork traditions span centuries.',
   },
   {
