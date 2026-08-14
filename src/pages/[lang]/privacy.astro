@@ -1,0 +1,501 @@
+---
+import Base from '../../layouts/Base.astro';
+import { languages } from '../../i18n/config.js';
+import { getTranslations } from '../../i18n/utils.js';
+
+export async function getStaticPaths() {
+  return Object.keys(languages).map(code => ({
+    params: { lang: code },
+    props: { lang: code },
+  }));
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+const p = t.privacy || {};
+---
+
+<Base lang={lang} t={t}>
+  <!-- Hero -->
+  <section class="privacy-hero">
+    <div class="container">
+      <h1>{p.heroTitle || 'Your Privacy Matters'}</h1>
+      <p class="privacy-hero-subtitle">{p.heroSubtitle || 'Digital rights are human rights. We defend them.'}</p>
+    </div>
+  </section>
+
+  <!-- Chat Control Warning -->
+  <section class="privacy-section">
+    <div class="container">
+      <h2>{p.chatControlTitle || 'What is the EU Chat Control?'}</h2>
+      <p>{p.chatControlIntro || 'Since August 2, 2026, the EU has introduced Chat Control Stage 1. Providers are required to monitor and report suspicious communications. End-to-end encryption still protects your message contents — for now.'}</p>
+
+      <div class="privacy-timeline">
+        <div class="timeline-item">
+          <div class="timeline-badge timeline-badge--active">1</div>
+          <div class="timeline-content">
+            <h3>{p.stage1Title || 'Stage 1 — Active since August 2026'}</h3>
+            <p>{p.stage1Text || 'Providers must scan and report suspicious communications. Metadata (who, when, how often) is captured. End-to-end encryption still protects message contents.'}</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-badge timeline-badge--soon">2</div>
+          <div class="timeline-content">
+            <h3>{p.stage2Title || 'Stage 2 — Coming end of 2027'}</h3>
+            <p>{p.stage2Text || 'Client-Side Scanning: Your own device will scan messages before they are encrypted. End-to-end encryption is effectively bypassed. What you see on your screen is read before it is encrypted. This affects everyone — not just suspects.'}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="privacy-alert">
+        <p>{p.alertText || 'This is mass surveillance on a scale never seen in Europe. Packaged as "child protection," it monitors every citizen\'s private communication.'}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- What WWFP Does -->
+  <section class="privacy-section privacy-section--alt">
+    <div class="container">
+      <h2>{p.whatWeDoTitle || 'What WWFP Does'}</h2>
+      <div class="privacy-cards">
+        <div class="privacy-card">
+          <div class="privacy-card-icon">📢</div>
+          <h3>{p.educationTitle || 'Education'}</h3>
+          <p>{p.educationText || 'We raise awareness about digital surveillance and teach people how to protect their communication.'}</p>
+        </div>
+        <div class="privacy-card">
+          <div class="privacy-card-icon">📱</div>
+          <h3>{p.phonesTitle || 'Privacy Phones'}</h3>
+          <p>{p.phonesText || 'We offer GrapheneOS smartphones — ready to use, no Google tracking, no bloatware. For people who want their data to stay theirs.'}</p>
+        </div>
+        <div class="privacy-card">
+          <div class="privacy-card-icon">🛡️</div>
+          <h3>{p.toolsTitle || 'Tools & Guides'}</h3>
+          <p>{p.toolsText || 'Free guides for switching to encrypted messaging, de-googling your phone, and taking back control of your digital life.'}</p>
+        </div>
+        <div class="privacy-card">
+          <div class="privacy-card-icon">⚖️</div>
+          <h3>{p.advocacyTitle || 'Advocacy'}</h3>
+          <p>{p.advocacyText || 'We oppose mass surveillance and fight for the fundamental right to private communication. Privacy is a human right.'}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GrapheneOS Phones -->
+  <section class="privacy-section">
+    <div class="container">
+      <h2>{p.phonesSectionTitle || 'GrapheneOS Privacy Phones'}</h2>
+      <p>{p.phonesSectionIntro || 'GrapheneOS is an open-source, privacy-focused operating system that replaces Google\'s Android on Pixel devices. No Google tracking. No bloatware. No hidden surveillance. Just a phone that respects you.'}</p>
+
+      <div class="privacy-phones-grid">
+        <div class="phone-card">
+          <div class="phone-card-badge">{p.phoneBadge || 'Available'}</div>
+          <h3>{p.phone1Title || 'Pixel 8a + GrapheneOS'}</h3>
+          <p class="phone-card-desc">{p.phone1Desc || 'Compact, affordable, privacy-first. Includes GrapheneOS pre-installed and configured.'}</p>
+          <ul class="phone-features">
+            <li>{p.phone1Feature1 || 'GrapheneOS pre-installed'}</li>
+            <li>{p.phone1Feature2 || 'No Google account required'}</li>
+            <li>{p.phone1Feature3 || 'Open-source apps pre-loaded'}</li>
+            <li>{p.phone1Feature4 || 'Setup guide included'}</li>
+          </ul>
+          <p class="phone-price">{p.phone1Price || 'Price: Coming soon'}</p>
+          <a href={`/${lang}/contact`} class="phone-cta">{p.phoneCta || 'Inquire →'}</a>
+        </div>
+      </div>
+
+      <div class="privacy-note">
+        <p>{p.phonesNote || 'Each phone is flashed and configured by WWFP volunteers. A small fee supports the organization. Phones are carrier-unlocked. Bring your own SIM or use VoIP.'}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How to Protect Yourself -->
+  <section class="privacy-section privacy-section--alt">
+    <div class="container">
+      <h2>{p.protectTitle || 'How to Protect Yourself'}</h2>
+      <div class="protect-steps">
+        <div class="protect-step">
+          <span class="step-number">1</span>
+          <div>
+            <h3>{p.step1Title || 'Use Encrypted Messaging'}</h3>
+            <p>{p.step1Text || 'Switch from WhatsApp and Telegram to Signal for truly private conversations. Signal uses real end-to-end encryption and is open source.'}</p>
+          </div>
+        </div>
+        <div class="protect-step">
+          <span class="step-number">2</span>
+          <div>
+            <h3>{p.step2Title || 'De-Google Your Phone'}</h3>
+            <p>{p.step2Text || 'Replace Google services with open-source alternatives. Use F-Droid and Aurora Store instead of Google Play. Install MicroG for minimal compatibility.'}</p>
+          </div>
+        </div>
+        <div class="protect-step">
+          <span class="step-number">3</span>
+          <div>
+            <h3>{p.step3Title || 'Self-Host Your Data'}</h3>
+            <p>{p.step3Text || 'Don\'t store your photos, files, and passwords on Google or Apple servers. Use self-hosted alternatives like Nextcloud and Vaultwarden — WWFP can help you set this up.'}</p>
+          </div>
+        </div>
+        <div class="protect-step">
+          <span class="step-number">4</span>
+          <div>
+            <h3>{p.step4Title || 'Get a Privacy Phone'}</h3>
+            <p>{p.step4Text || 'The most effective step: run GrapheneOS on a dedicated Pixel device. No Google services, no tracking, no client-side scanning.'}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="privacy-cta-section">
+    <div class="container">
+      <h2>{p.ctaTitle || 'Take Back Control'}</h2>
+      <p>{p.ctaText || 'Your data belongs to you. Your communication is private. We help you reclaim both.'}</p>
+      <div class="privacy-cta-buttons">
+        <a href={`/${lang}/contact`} class="btn btn--primary">{p.ctaContact || 'Contact WWFP'}</a>
+        <a href={`/${lang}/support`} class="btn btn--secondary">{p.ctaSupport || 'Support our work'}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.privacy-hero {
+  background: linear-gradient(135deg, var(--color-forest-deep), var(--color-forest));
+  color: white;
+  padding: 4rem var(--space-md);
+  text-align: center;
+}
+
+.privacy-hero h1 {
+  font-family: var(--font-head);
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.privacy-hero-subtitle {
+  font-size: 1.15rem;
+  opacity: 0.9;
+}
+
+.privacy-section {
+  padding: 3.5rem var(--space-md);
+}
+
+.privacy-section--alt {
+  background: var(--color-bg-alt);
+}
+
+.privacy-section h2 {
+  font-family: var(--font-head);
+  font-size: 1.8rem;
+  color: var(--color-forest-deep);
+  margin-bottom: 1.5rem;
+}
+
+.privacy-section p {
+  font-size: 1rem;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+  color: var(--color-text);
+}
+
+/* Timeline */
+.privacy-timeline {
+  margin: 2rem 0;
+}
+
+.timeline-item {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.timeline-badge {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: white;
+}
+
+.timeline-badge--active {
+  background: var(--color-danger, #c0392b);
+}
+
+.timeline-badge--soon {
+  background: var(--color-warning, #e67e22);
+}
+
+.timeline-content h3 {
+  font-family: var(--font-head);
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-forest-deep);
+}
+
+/* Alert box */
+.privacy-alert {
+  background: rgba(192, 57, 43, 0.08);
+  border-left: 4px solid #c0392b;
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius);
+  margin: 2rem 0;
+}
+
+.privacy-alert p {
+  margin: 0;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+/* Cards */
+.privacy-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.privacy-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  text-align: center;
+  transition: box-shadow var(--transition);
+}
+
+.privacy-card:hover {
+  box-shadow: var(--shadow);
+}
+
+.privacy-card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.privacy-card h3 {
+  font-family: var(--font-head);
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-forest-deep);
+}
+
+.privacy-card p {
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Phone cards */
+.privacy-phones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.phone-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  position: relative;
+}
+
+.phone-card-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--color-forest);
+  color: white;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.phone-card h3 {
+  font-family: var(--font-head);
+  font-size: 1.2rem;
+  color: var(--color-forest-deep);
+  margin-bottom: 0.5rem;
+}
+
+.phone-card-desc {
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.phone-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+}
+
+.phone-features li {
+  padding: 0.3rem 0;
+  font-size: 0.9rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.phone-features li:last-child {
+  border-bottom: none;
+}
+
+.phone-price {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--color-forest-deep);
+  margin-bottom: 0.75rem;
+}
+
+.phone-cta {
+  display: inline-block;
+  padding: 0.5rem 1.2rem;
+  background: var(--color-forest);
+  color: white;
+  border-radius: var(--radius);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background var(--transition);
+}
+
+.phone-cta:hover {
+  background: var(--color-forest-deep);
+}
+
+.privacy-note {
+  background: var(--color-bg-alt);
+  border-radius: var(--radius);
+  padding: 1rem 1.5rem;
+  font-size: 0.9rem;
+  color: var(--color-text-muted, #666);
+}
+
+/* Protect steps */
+.protect-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.protect-step {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.step-number {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-forest);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.protect-step h3 {
+  font-family: var(--font-head);
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+  color: var(--color-forest-deep);
+}
+
+.protect-step p {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* CTA section */
+.privacy-cta-section {
+  background: linear-gradient(135deg, var(--color-forest-deep), var(--color-forest));
+  color: white;
+  padding: 3.5rem var(--space-md);
+  text-align: center;
+}
+
+.privacy-cta-section h2 {
+  font-family: var(--font-head);
+  font-size: 1.8rem;
+  color: white;
+  margin-bottom: 0.75rem;
+}
+
+.privacy-cta-section p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin-bottom: 1.5rem;
+}
+
+.privacy-cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.5rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all var(--transition);
+}
+
+.btn--primary {
+  background: white;
+  color: var(--color-forest-deep);
+}
+
+.btn--primary:hover {
+  background: var(--color-paper);
+}
+
+.btn--secondary {
+  background: transparent;
+  color: white;
+  border: 1px solid white;
+}
+
+.btn--secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 700px) {
+  .privacy-hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .privacy-section {
+    padding: 2.5rem var(--space-md);
+  }
+
+  .timeline-item {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .privacy-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .protect-step {
+    flex-direction: column;
+  }
+}
+</style>
