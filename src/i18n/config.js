@@ -10,4 +10,4 @@ export const languages = {
   pt: { code: 'pt', name: 'Português', flag: '🇵🇹', dir: '/wwfp-website/pt' },
 };
 
-export const defaultLang = 'en';
+export const defaultLang = 'de';
