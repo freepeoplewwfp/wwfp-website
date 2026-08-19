@@ -1,6 +1,6 @@
 export const languages = {
-  en: { code: 'en', name: 'English', flag: '🇬🇧', dir: '/wwfp-website/en' },
   de: { code: 'de', name: 'Deutsch', flag: '🇩🇪', dir: '/wwfp-website/de' },
+  en: { code: 'en', name: 'English', flag: '🇬🇧', dir: '/wwfp-website/en' },
   fr: { code: 'fr', name: 'Français', flag: '🇫🇷', dir: '/wwfp-website/fr' },
   es: { code: 'es', name: 'Español', flag: '🇪🇸', dir: '/wwfp-website/es' },
   it: { code: 'it', name: 'Italiano', flag: '🇮🇹', dir: '/wwfp-website/it' },
