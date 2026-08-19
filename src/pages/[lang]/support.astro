@@ -17,9 +17,16 @@ const t = getTranslations(lang);
 <Base lang={lang} t={t}>
   <section class="page-hero">
     <div class="page-hero-bg"></div>
+    <div class="page-hero-overlay"></div>
     <div class="container page-hero-content">
-      <h1>{t.support.title}</h1>
-      <p class="page-hero-text">{t.support.intro}</p>
+      <div class="page-hero-left">
+        <span class="page-hero-support">Support</span>
+        <span class="page-hero-ourwork">Our Work</span>
+      </div>
+      <div class="page-hero-right">
+        <span class="page-hero-wwfp">WWFP</span>
+        <p class="page-hero-resttext">is financed exclusively through private donations. We do not accept money from governments, corporations, or political parties. This is how we stay independent.</p>
+      </div>
     </div>
   </section>
 
@@ -64,11 +71,16 @@ const t = getTranslations(lang);
 </Base>
 
 <style>
-.page-hero { position: relative; padding: var(--space-xl) 0; overflow: hidden; background: transparent; justify-content: center; display: flex; align-items: center; }
-.page-hero-bg { position: absolute; inset: 0; background-image: url('/images/wwfp-22.jpg'); background-size: cover; background-position: center; }
-.page-hero-content { position: relative; z-index: 1; text-align: center; width: 100%; background: transparent; }
-.page-hero h1 { color: #aaffaa; margin-bottom: var(--space-sm); text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-.page-hero-text { color: #90ee90; font-size: 1.15rem; max-width: 700px; margin: 0 auto; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+.page-hero { position: relative; padding: var(--space-xl) 0; overflow: hidden; background: transparent; display: flex; align-items: center; min-height: 400px; }
+.page-hero-bg { position: absolute; inset: 0; background-image: url('/images/wwfp-22.jpg'); background-size: cover; background-position: center 15%; }
+.page-hero-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 30%, rgba(0,0,0,0.1) 70%, rgba(0,0,0,0.55) 100%); z-index: 1; }
+.page-hero-content { position: relative; z-index: 2; width: 100%; background: transparent; display: flex; justify-content: space-between; align-items: center; }
+.page-hero-left { text-align: left; max-width: 35%; display: flex; flex-direction: column; position: relative; }
+.page-hero-right { text-align: left; max-width: 38%; margin-left: auto; }
+.page-hero-support { color: #aaffaa; font-size: 4.5rem; font-weight: 700; line-height: 1; text-shadow: 0 2px 6px rgba(0,0,0,0.6); display: block; position: relative; top: -45px; left: -90px; margin-bottom: 0.3rem; }
+.page-hero-ourwork { color: #aaffaa; font-size: 2.25rem; font-weight: 600; line-height: 1.2; text-shadow: 0 2px 4px rgba(0,0,0,0.5); display: block; }
+.page-hero-wwfp { color: #90ee90; font-size: 3.6rem; font-weight: 800; line-height: 1; text-shadow: 0 2px 6px rgba(0,0,0,0.6); display: block; margin-bottom: 1.2rem; letter-spacing: 0.02em; }
+.page-hero-resttext { color: #90ee90; font-size: 1.05rem; line-height: 1.5; text-shadow: 0 2px 4px rgba(0,0,0,0.5); margin: 0; padding-left: 0.8rem; max-width: 340px; }
 
 .support-lead {
   font-size: 1.15rem;
@@ -119,5 +131,11 @@ const t = getTranslations(lang);
 
 @media (max-width: 768px) {
   .donation-grid { grid-template-columns: 1fr; }
+  .page-hero-content { flex-direction: column; gap: var(--space-md); }
+  .page-hero-left, .page-hero-right { text-align: center; max-width: 100%; }
+  .page-hero-support { font-size: 3rem; }
+  .page-hero-ourwork { font-size: 1.8rem; }
+  .page-hero-wwfp { font-size: 2.5rem; }
+  .page-hero-resttext { padding-left: 0; margin: 0 auto; }
 }
 </style>
