@@ -1,0 +1,212 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { languages } from '../../../i18n/config.js';
+import { getTranslations } from '../../../i18n/utils.js';
+import { woaschtProducts } from '../../../data/woaschtwohl.js';
+
+export async function getStaticPaths() {
+  return Object.keys(languages).map(code => ({
+    params: { lang: code },
+    props: { lang: code },
+  }));
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+const wT = t.woaschtWohl || {};
+---
+
+<Base lang={lang} t={t}>
+  <section class="shop-hero shop-hero--warm">
+    <div class="shop-hero-overlay--warm"></div>
+    <div class="container shop-hero-content">
+      <a href={`/${lang}#woascht-wohl`} class="shop-back">← {t.shopPage?.backToShops || 'Back to shops'}</a>
+      <h1 class="shop-name">{wT.title || 'Woascht Wohl — Handcrafted Spirits'}</h1>
+      <p class="shop-location">📍 Dornbirn, Österreich</p>
+      <p class="shop-description">{wT.subtitle || 'Traditionelle Schnapsbrennerei aus Dornbirn, Österreich'}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="text-center mb-md">{wT.productsTitle || 'Our Spirits'}</h2>
+      <p class="section-intro">{wT.productsIntro || 'Handcrafted spirits from our traditional Schnapsbrennerei. Photos coming soon.'}</p>
+
+      <div class="product-grid">
+        {woaschtProducts.map(product => (
+          <div class="product-card">
+            <div class="product-img-wrap">
+              <img src={product.image} alt={t[product.nameKey] || product.key} class="product-img" />
+              <span class="badge badge--coming-soon">{wT.comingSoon || 'Coming Soon'}</span>
+            </div>
+            <div class="product-body">
+              <h3>{t[product.nameKey] || product.key}</h3>
+              <p>{t[product.descKey] || ''}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="shop-cta card">
+        <h3>🥃 {wT.inquireTitle || 'Interested in our spirits?'}</h3>
+        <p>{wT.inquireText || 'Contact us for tastings, orders, or visits to our Brennerei.'}</p>
+        <a href={`/${lang}/contact`} class="btn btn--primary mt-sm">{t.nav?.contact || 'Contact'}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.shop-hero--warm {
+  position: relative;
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, #2a1810, #4a2818, #6b3820);
+}
+
+.shop-hero-overlay--warm {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(42, 24, 16, 0.6) 0%, rgba(74, 40, 24, 0.3) 40%, rgba(250, 247, 240, 0.85) 100%);
+  z-index: 1;
+}
+
+.shop-hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: var(--space-xl) var(--space-md);
+}
+
+.shop-back {
+  display: inline-block;
+  color: var(--color-cream);
+  font-size: 0.95rem;
+  margin-bottom: var(--space-sm);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  transition: color var(--transition);
+}
+
+.shop-back:hover {
+  color: var(--color-sand);
+}
+
+.shop-name {
+  font-size: 3rem;
+  color: var(--color-cream);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  margin-bottom: 0.3rem;
+}
+
+.shop-location {
+  font-size: 1.2rem;
+  color: var(--color-sand);
+  font-style: italic;
+  margin-bottom: var(--space-sm);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.shop-description {
+  font-size: 1.05rem;
+  color: var(--color-cream);
+  max-width: 500px;
+  margin: 0 auto;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.section-intro {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto var(--space-lg);
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.product-card {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(45, 32, 19, 0.06);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.product-img-wrap {
+  position: relative;
+  aspect-ratio: 3/4;
+  background: linear-gradient(135deg, #f5e6d3, #e8d5b8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: var(--space-md);
+}
+
+.badge--coming-soon {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: var(--color-clay);
+  color: var(--color-cream);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius);
+}
+
+.product-body {
+  padding: var(--space-sm);
+  text-align: center;
+}
+
+.product-body h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.3rem;
+  color: var(--color-forest-deep);
+}
+
+.product-body p {
+  font-size: 0.9rem;
+  color: var(--color-text-light);
+}
+
+.shop-cta {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  padding: var(--space-md);
+}
+
+.shop-cta h3 {
+  margin-bottom: var(--space-sm);
+}
+
+@media (max-width: 768px) {
+  .shop-name { font-size: 2rem; }
+  .product-grid { grid-template-columns: repeat(2, 1fr); }
+  .shop-hero--warm { min-height: 40vh; }
+}
+
+@media (max-width: 480px) {
+  .product-grid { grid-template-columns: 1fr; }
+}
+</style>

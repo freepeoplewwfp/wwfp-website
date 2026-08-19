@@ -1,8 +1,28 @@
 // Shop data — easily replaceable when real shops are onboarded
-// Each shop: slug (URL), name (fantasy), city, country, image, description
+// Each shop: slug (URL), name, city, country, image, description
 // When real data arrives from Marrakesh trip, just update this file.
 
 export const shops = [
+  {
+    slug: 'woascht-wohl',
+    name: 'Woascht Wohl',
+    nameTranslationKey: 'woaschtWohl',
+    city: 'Dornbirn',
+    country: 'Österreich',
+    image: '/images/placeholder-schnaps.svg',
+    description: 'Woascht Wohl — Handcrafted Spirits. Traditionelle Schnapsbrennerei aus Dornbirn, Österreich.',
+    customLayout: 'woascht-wohl',
+  },
+  {
+    slug: 'grapheneos-phones',
+    name: 'GrapheneOS Phones',
+    nameTranslationKey: 'grapheneShop',
+    city: 'Dornbirn',
+    country: 'Österreich',
+    image: '/images/placeholder-phone.svg',
+    description: 'Privacy Phones — GrapheneOS. Sichere Telefone mit GrapheneOS. Freiheit in deiner Tasche.',
+    customLayout: 'grapheneos-phones',
+  },
   {
     slug: 'souk-al-anouar',
     name: 'Souk Al-Anouar',

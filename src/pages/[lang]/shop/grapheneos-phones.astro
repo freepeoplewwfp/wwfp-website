@@ -1,0 +1,234 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { languages } from '../../../i18n/config.js';
+import { getTranslations } from '../../../i18n/utils.js';
+import { phones } from '../../../data/phones.js';
+
+export async function getStaticPaths() {
+  return Object.keys(languages).map(code => ({
+    params: { lang: code },
+    props: { lang: code },
+  }));
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+const gT = t.grapheneShop || {};
+---
+
+<Base lang={lang} t={t}>
+  <section class="shop-hero shop-hero--tech">
+    <div class="shop-hero-overlay--tech"></div>
+    <div class="container shop-hero-content">
+      <a href={`/${lang}#graphene-shop`} class="shop-back">← {t.shopPage?.backToShops || 'Back to shops'}</a>
+      <h1 class="shop-name">{gT.title || 'Privacy Phones — GrapheneOS'}</h1>
+      <p class="shop-location">🔒 GrapheneOS</p>
+      <p class="shop-description">{gT.subtitle || 'Sichere Telefone mit GrapheneOS. Freiheit in deiner Tasche.'}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <h2 class="text-center mb-md">{gT.productsTitle || 'Available Phones'}</h2>
+      <p class="section-intro">{gT.productsIntro || 'Each phone comes with GrapheneOS pre-installed and configured. Ready to use with Telegram and WhatsApp.'}</p>
+
+      <div class="phone-grid">
+        {phones.map(phone => (
+          <div class="phone-card">
+            <div class="phone-img-wrap">
+              <img src={phone.image} alt={t[phone.nameKey] || phone.key} class="phone-img" />
+              <span class="badge badge--graphene">{gT.installBadge || 'GrapheneOS installiert'}</span>
+            </div>
+            <div class="phone-body">
+              <h3>{t[phone.nameKey] || phone.key}</h3>
+              <p class="phone-desc">{t[phone.descKey] || ''}</p>
+              <ul class="phone-specs">
+                {phone.specs.map(spec => (
+                  <li>✓ {spec}</li>
+                ))}
+              </ul>
+              <p class="phone-price">{gT.priceLabel || 'Price'}: {gT.inquire || 'auf Anfrage'}</p>
+              <a href={`/${lang}/contact`} class="btn btn--primary mt-sm">{gT.inquireBtn || 'Anfragen'}</a>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="shop-cta card">
+        <h3>📱 {gT.ctaTitle || 'Want a privacy phone?'}</h3>
+        <p>{gT.ctaText || 'Contact us to order your GrapheneOS phone. We install everything and ship it ready to use.'}</p>
+        <a href={`/${lang}/contact`} class="btn btn--primary mt-sm">{t.nav?.contact || 'Contact'}</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+.shop-hero--tech {
+  position: relative;
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0d1b0d, #1a3a24, #0d2818);
+}
+
+.shop-hero-overlay--tech {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(13, 27, 13, 0.7) 0%, rgba(26, 58, 36, 0.3) 40%, rgba(250, 247, 240, 0.85) 100%);
+  z-index: 1;
+}
+
+.shop-hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: var(--space-xl) var(--space-md);
+}
+
+.shop-back {
+  display: inline-block;
+  color: var(--color-cream);
+  font-size: 0.95rem;
+  margin-bottom: var(--space-sm);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  transition: color var(--transition);
+}
+
+.shop-back:hover {
+  color: var(--color-sand);
+}
+
+.shop-name {
+  font-size: 3rem;
+  color: var(--color-cream);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  margin-bottom: 0.3rem;
+}
+
+.shop-location {
+  font-size: 1.2rem;
+  color: #4ade80;
+  font-style: italic;
+  margin-bottom: var(--space-sm);
+}
+
+.shop-description {
+  font-size: 1.05rem;
+  color: var(--color-cream);
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.section-intro {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto var(--space-lg);
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+}
+
+.phone-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-lg);
+  max-width: 800px;
+  margin: 0 auto var(--space-lg);
+}
+
+.phone-card {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(45, 32, 19, 0.08);
+  transition: transform var(--transition), box-shadow var(--transition);
+  border: 1px solid rgba(26, 58, 36, 0.1);
+}
+
+.phone-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.phone-img-wrap {
+  position: relative;
+  aspect-ratio: 4/3;
+  background: linear-gradient(135deg, #1a3a24, #0d2818);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.phone-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: var(--space-md);
+}
+
+.badge--graphene {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  background: #4ade80;
+  color: #0d1b0d;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius);
+}
+
+.phone-body {
+  padding: var(--space-md);
+}
+
+.phone-body h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-forest-deep);
+}
+
+.phone-desc {
+  font-size: 0.95rem;
+  color: var(--color-text-light);
+  margin-bottom: var(--space-sm);
+}
+
+.phone-specs {
+  list-style: none;
+  padding: 0;
+  margin-bottom: var(--space-sm);
+}
+
+.phone-specs li {
+  font-size: 0.9rem;
+  padding: 0.2rem 0;
+  color: var(--color-text);
+}
+
+.phone-price {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-forest-deep);
+  margin-bottom: var(--space-sm);
+}
+
+.shop-cta {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  padding: var(--space-md);
+}
+
+.shop-cta h3 {
+  margin-bottom: var(--space-sm);
+}
+
+@media (max-width: 768px) {
+  .shop-name { font-size: 2rem; }
+  .phone-grid { grid-template-columns: 1fr; }
+  .shop-hero--tech { min-height: 40vh; }
+}
+</style>

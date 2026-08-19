@@ -3,6 +3,8 @@ import Base from '../../layouts/Base.astro';
 import { languages } from '../../i18n/config.js';
 import { getTranslations } from '../../i18n/utils.js';
 import { shops as shopData } from '../../data/shops.js';
+import { woaschtProducts } from '../../data/woaschtwohl.js';
+import { phones as phoneData } from '../../data/phones.js';
 
 export async function getStaticPaths() {
   return Object.keys(languages).map(code => ({
@@ -33,24 +35,60 @@ const projects = [
 ---
 
 <Base lang={lang} t={t}>
-  <!-- Hero -->
-  <section id="top" class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-tagline">
-      <p class="hero-tagline-text">
-        <strong>Land and clean water for every person born on this planet.</strong>
-        We are all free people. There are no problems, only solutions.
-      </p>
-    </div>
-    <div class="container hero-content">
-      <h1 class="hero-title">{t.home.heroTitle}</h1>
-      <p class="hero-subtitle">{t.home.heroSubtitle}</p>
-      <div class="hero-actions">
-        <a href={`/${lang}/support`} class="btn btn--primary hero-btn-primary">{t.home.heroCtaSecondary}</a>
-        <a href="#get-involved" class="btn btn--primary hero-btn-toggle">{t.home.heroCta}</a>
-      </div>
+  <!-- Fullscreen Video Hero -->
+  <section id="top" class="video-hero">
+    <video class="video-hero-bg" id="heroVideo" playsinline preload="metadata" crossorigin="anonymous" poster="/videos/about-us-frame.jpg">
+    </video>
+    <div class="video-hero-poster" id="heroPoster" style="background-image: url('/videos/about-us-frame.jpg')"></div>
+    <div class="video-hero-overlay"></div>
+    <div class="video-hero-content">
+      <button class="video-play-btn" id="playBtn">▶ Play with Sound</button>
+      <button class="video-replay-btn" id="replayBtn" style="display:none">▶ Replay</button>
     </div>
   </section>
+  <script is:inline>
+    var vid = document.getElementById('heroVideo');
+    var btn = document.getElementById('playBtn');
+    var replayBtn = document.getElementById('replayBtn');
+    if (btn) {
+      btn.addEventListener('click', function() {
+        if (vid) {
+          if (vid.canPlayType('application/vnd.apple.mpegurl')) {
+            vid.src = '/videos/about-us-hls/index.m3u8';
+          } else {
+            var hs = document.createElement('script');
+            hs.src = 'https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js';
+            hs.onload = function() {
+              if (Hls.isSupported()) {
+                var hls = new Hls();
+                hls.loadSource('/videos/about-us-hls/index.m3u8');
+                hls.attachMedia(vid);
+              }
+            };
+            document.head.appendChild(hs);
+          }
+          vid.muted = false;
+          vid.loop = false;
+          vid.play();
+          vid.addEventListener('ended', function() {
+            vid.style.display = 'none';
+            document.getElementById('heroPoster').style.display = 'block';
+            if (replayBtn) replayBtn.style.display = 'inline-block';
+          });
+        }
+        btn.style.display = 'none';
+      });
+    }
+    if (replayBtn) {
+      replayBtn.addEventListener('click', function() {
+        if (vid) {
+          vid.currentTime = 0;
+          vid.play();
+          replayBtn.style.display = 'none';
+        }
+      });
+    }
+  </script>
 
   <!-- Intro -->
   <section class="section">
@@ -182,6 +220,58 @@ const projects = [
     </div>
   </section>
 
+  <!-- Woascht Wohl Shop -->
+  <section id="woascht-wohl" class="section">
+    <div class="container">
+      <h2 class="text-center mb-md">{t.woaschtWohl.title}</h2>
+      <p class="section-intro">{t.woaschtWohl.subtitle}</p>
+      <div class="woascht-grid">
+        {woaschtProducts.map(product => (
+          <div class="card woascht-card">
+            <div class="woascht-card-img-wrap">
+              <img src={product.image} alt={t.woaschtWohl.products[product.key]} class="woascht-card-img" />
+              <span class="badge badge--coming-soon">{t.woaschtWohl.comingSoon}</span>
+            </div>
+            <div class="card-body">
+              <h3>{t.woaschtWohl.products[product.key]}</h3>
+              <p>{t.woaschtWohl.products[product.key + 'Desc']}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div class="text-center mt-lg">
+        <a href={`/${lang}/contact`} class="btn btn--primary">{t.woaschtWohl.inquire}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- GrapheneOS Phone Shop -->
+  <section id="graphene-shop" class="section section--alt">
+    <div class="container">
+      <h2 class="text-center mb-md">{t.grapheneShop.title}</h2>
+      <p class="section-intro">{t.grapheneShop.subtitle}</p>
+      <div class="phone-grid">
+        {phoneData.map(phone => (
+          <div class="card phone-card">
+            <div class="phone-card-img-wrap">
+              <img src={phone.image} alt={t.grapheneShop[phone.key].name} class="phone-card-img" />
+              <span class="badge badge--graphene">{t.grapheneShop.installBadge}</span>
+            </div>
+            <div class="card-body">
+              <h3>{t.grapheneShop[phone.key].name}</h3>
+              <p class="phone-desc">{t.grapheneShop[phone.key].desc}</p>
+              <ul class="phone-specs">
+                {phone.specs.map(spec => <li>{spec}</li>)}
+              </ul>
+              <p class="phone-price"><strong>{t.grapheneShop.priceLabel}:</strong> {t.grapheneShop.inquire}</p>
+              <a href={`/${lang}/contact`} class="btn btn--secondary mt-sm">{t.grapheneShop.inquire}</a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
   <!-- Shop -->
   <section id="shop" class="section section--alt">
     <div class="container">
@@ -190,7 +280,7 @@ const projects = [
 
       <div class="shop-grid">
         {shopData.map(shop => (
-          <a href={`/${lang}/shop/${shop.slug}`} class="shop-card">
+          <a href={shop.customLayout ? `/${lang}/shop/${shop.customLayout}` : `/${lang}/shop/${shop.slug}`} class="shop-card">
             <div class="shop-card-img-wrap">
               {shop.video ? (
                 <video class="shop-card-img" autoplay muted loop playsinline preload="auto" poster={shop.image} aria-label={`${shop.name} — ${shop.city}`}>
@@ -221,6 +311,52 @@ const projects = [
     </div>
   </section>
 
+  <!-- Freedom & Privacy -->
+  <section id="freedom" class="section section--freedom">
+    <div class="container">
+      <h2 class="text-center mb-md freedom-title">{t.freedom.title}</h2>
+      <p class="freedom-eyecatcher">{t.freedom.eyecatcher}</p>
+      <p class="freedom-subtitle">{t.freedom.subtitle}</p>
+
+      <div class="freedom-video-section">
+        <div class="freedom-video-wrap">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/PLACEHOLDER" frameborder="0" allowfullscreen title="Chatkontrolle video"></iframe>
+        </div>
+        <div class="freedom-youtube-cta">
+          <a href="https://www.youtube.com/@wwfp_people_org" target="_blank" rel="noopener" class="btn btn--youtube">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; margin-right: 8px;">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+            {t.freedom.subscribeBtn}
+          </a>
+        </div>
+      </div>
+
+      <div class="freedom-cards">
+        <div class="card freedom-card">
+          <div class="freedom-card-icon">📋</div>
+          <h3>{t.freedom.chatControlTitle}</h3>
+          <p>{t.freedom.chatControlText}</p>
+        </div>
+        <div class="card freedom-card">
+          <div class="freedom-card-icon">📱</div>
+          <h3>{t.freedom.grapheneOSTitle}</h3>
+          <p>{t.freedom.grapheneOSText}</p>
+        </div>
+        <div class="card freedom-card">
+          <div class="freedom-card-icon">🔓</div>
+          <h3>{t.freedom.whyPrivacyTitle}</h3>
+          <p>{t.freedom.whyPrivacyText}</p>
+        </div>
+      </div>
+
+      <div class="text-center mt-lg">
+        <a href="https://www.youtube.com/@wwfp_people_org" target="_blank" rel="noopener" class="btn btn--clay">{t.freedom.youtubeCta}
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- Quote / CTA -->
   <section class="section section--forest quote-section">
     <div class="quote-bg"></div>
@@ -234,116 +370,91 @@ const projects = [
 </Base>
 
 <style>
-.hero {
+/* Fullscreen Video Hero */
+.video-hero {
   position: relative;
-  min-height: 75vh;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
+  height: 100vh;
+  width: 100%;
   overflow: hidden;
-  background: transparent;
-  padding-bottom: calc(var(--space-xl) + 3cm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.hero-bg {
+.video-hero-bg {
   position: absolute;
   inset: 0;
-  background-image: url('/images/wwfp-02.jpg');
-  background-size: cover;
-  background-position: center;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   z-index: 0;
 }
 
-.hero-content {
-  position: relative;
-  z-index: 1;
-  padding: var(--space-xl) var(--space-md);
-  text-align: center;
-  width: 100%;
-  max-width: 1200px;
-}
-
-.hero-tagline {
+.video-hero-poster {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  text-align: center;
-  max-width: 700px;
+  inset: 0;
   width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+  display: none;
+}
+
+.video-hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0.2) 50%,
+    rgba(26, 58, 36, 0.6) 100%
+  );
+}
+
+.video-hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
   padding: 0 var(--space-md);
-  pointer-events: none;
+  max-width: 800px;
 }
 
-.hero-tagline-text {
-  font-size: 1.5rem;
-  line-height: 1.8;
-  font-style: italic;
+.video-play-btn {
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50px;
   color: var(--color-cream);
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.5);
-  letter-spacing: 0.02em;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 16px 32px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+  backdrop-filter: blur(8px);
 }
 
-.hero-tagline-text strong {
-  display: block;
-  margin-bottom: 0.5rem;
+.video-play-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+  transform: scale(1.05);
 }
 
-.hero-title {
-  font-size: 3.5rem;
-  line-height: 1.15;
-  max-width: 900px;
-  margin: 0 auto var(--space-sm);
-  background: linear-gradient(135deg, #00e5cc 0%, #00b4d8 40%, #48cae4 70%, #00e5cc 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.7));
+.video-replay-btn {
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50px;
+  color: var(--color-cream);
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 12px 28px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+  backdrop-filter: blur(8px);
 }
 
-.hero-subtitle {
-  font-size: 1.3rem;
-  font-style: italic;
-  margin-bottom: var(--space-lg);
-  background: linear-gradient(135deg, #90e0ef 0%, #48cae4 50%, #00b4d8 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.7));
-}
-
-.hero-actions {
-  display: flex;
-  gap: var(--space-xl);
-  flex-wrap: wrap;
-  justify-content: space-between;
-  padding: 0 4rem;
-  margin-top: var(--space-lg);
-}
-
-.hero-actions .btn--primary {
-  background: linear-gradient(135deg, #00b4d8 0%, #00e5cc 100%);
-  color: #fff;
-  border: 2px solid transparent;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-}
-
-.hero-actions .btn--primary:hover {
-  background: linear-gradient(135deg, #0096c7 0%, #00b4d8 100%);
-  box-shadow: 0 4px 12px rgba(0, 180, 216, 0.4);
-}
-
-.hero-btn-toggle {
-  background: linear-gradient(135deg, #00b4d8 0%, #00e5cc 100%);
-  color: #fff;
-  border: 2px solid #00b4d8;
-}
-
-.hero-btn-toggle:hover {
-  background: transparent;
-  color: #48cae4;
-  border-color: #48cae4;
+.video-replay-btn:hover {
+  background: rgba(0, 0, 0, 0.7);
+  transform: scale(1.05);
 }
 
 .section-intro {
@@ -673,11 +784,238 @@ html {
   display: block;
 }
 
+/* Woascht Wohl Shop */
+.woascht-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+  max-width: 1200px;
+  margin: 0 auto var(--space-lg);
+}
+
+.woascht-card {
+  padding: 0;
+  overflow: hidden;
+  text-align: center;
+  position: relative;
+}
+
+.woascht-card-img-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+}
+
+.woascht-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* GrapheneOS Phone Shop */
+.phone-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+  max-width: 800px;
+  margin: 0 auto var(--space-lg);
+}
+
+.phone-card {
+  padding: 0;
+  overflow: hidden;
+  text-align: center;
+  border: 2px solid var(--color-forest);
+}
+
+.phone-card-img-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  background: linear-gradient(135deg, rgba(26, 58, 36, 0.1), rgba(45, 90, 61, 0.05));
+}
+
+.phone-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.phone-desc {
+  font-size: 0.95rem;
+  color: var(--color-text-light);
+  margin: var(--space-sm) 0;
+}
+
+.phone-specs {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+  max-width: 280px;
+  margin: var(--space-sm) auto;
+}
+
+.phone-specs li {
+  padding: 0.3rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  font-size: 0.9rem;
+}
+
+.phone-specs li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--color-leaf);
+  font-weight: bold;
+}
+
+.phone-price {
+  margin: var(--space-sm) 0;
+  font-size: 1rem;
+}
+
+/* Badges */
+.badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 0.3rem 0.8rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  z-index: 2;
+}
+
+.badge--coming-soon {
+  background: var(--color-sunset);
+  color: var(--color-white);
+}
+
+.badge--graphene {
+  background: var(--color-forest);
+  color: var(--color-cream);
+}
+
+/* Freedom & Privacy Section */
+.section--freedom {
+  background: linear-gradient(180deg, #1a1a1a 0%, #0d1a12 50%, #1a1a1a 100%);
+  color: var(--color-cream);
+  padding: var(--space-xl) 0;
+}
+
+.section--freedom h2,
+.section--freedom h3 {
+  color: var(--color-cream);
+}
+
+.freedom-title {
+  font-size: 2.5rem;
+}
+
+.freedom-eyecatcher {
+  text-align: center;
+  font-family: var(--font-head);
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--color-cream);
+  max-width: 700px;
+  margin: 0 auto var(--space-sm);
+  line-height: 1.4;
+}
+
+.freedom-subtitle {
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--color-sage);
+  max-width: 600px;
+  margin: 0 auto var(--space-lg);
+  font-style: italic;
+}
+
+.freedom-video-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.freedom-video-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  aspect-ratio: 16/9;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.freedom-video-wrap iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.freedom-youtube-cta {
+  text-align: center;
+}
+
+.btn--youtube {
+  background: #ff0000;
+  color: var(--color-white);
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn--youtube:hover {
+  background: #cc0000;
+  color: var(--color-white);
+}
+
+.freedom-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+  max-width: 1000px;
+  margin: 0 auto var(--space-lg);
+}
+
+.freedom-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(245, 239, 224, 0.15);
+  backdrop-filter: blur(8px);
+  padding: var(--space-md);
+  text-align: center;
+  border-radius: var(--radius-lg);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.freedom-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.freedom-card-icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--space-sm);
+}
+
+.freedom-card h3 {
+  margin-bottom: var(--space-sm);
+  color: var(--color-cream);
+}
+
+.freedom-card p {
+  color: var(--color-sage);
+  font-size: 0.95rem;
+}
+
 @media (max-width: 768px) {
-  .hero-actions { flex-wrap: nowrap; padding: 0 1rem; }
-  .hero-title { font-size: 2.2rem; }
-  .hero-subtitle { font-size: 1.1rem; }
-  .hero-tagline-text { font-size: 1.1rem; }
+  .video-hero-title { font-size: 3rem; }
+  .video-hero-tagline { font-size: 1.1rem; }
   .intro-grid { grid-template-columns: 1fr; }
   .card-grid { grid-template-columns: 1fr 1fr; }
   .membership-grid { grid-template-columns: 1fr; }
@@ -690,5 +1028,11 @@ html {
     flex-direction: column;
     text-align: left;
   }
+  .woascht-grid { grid-template-columns: 1fr 1fr; }
+  .phone-grid { grid-template-columns: 1fr; }
+  .freedom-cards { grid-template-columns: 1fr; }
+  .freedom-eyecatcher { font-size: 1.3rem; }
+  .freedom-title { font-size: 1.8rem; }
+  .freedom-video-wrap { max-width: 100%; }
 }
 </style>

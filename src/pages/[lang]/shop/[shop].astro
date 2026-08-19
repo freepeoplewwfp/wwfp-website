@@ -8,6 +8,8 @@ export async function getStaticPaths() {
   const paths = [];
   for (const langCode of Object.keys(languages)) {
     for (const shop of shops) {
+      // Skip shops with custom static pages
+      if (shop.customLayout) continue;
       paths.push({
         params: { lang: langCode, shop: shop.slug },
         props: { lang: langCode, shop },
