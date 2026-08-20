@@ -39,7 +39,7 @@ const projects = [
   <section id="top" class="video-hero">
     <video class="video-hero-bg" id="heroVideo" playsinline preload="metadata" crossorigin="anonymous" poster="/videos/about-us-frame.jpg">
     </video>
-    <div class="video-hero-poster" id="heroPoster" style="background-image: url('/videos/about-us-frame.jpg')"></div>
+    <div class="video-hero-poster" id="heroPoster" style="background-image: url('/videos/about-us-frame.jpg'); display: block;"></div>
     <div class="video-hero-overlay"></div>
     <div class="video-hero-content">
       <button class="video-play-btn" id="playBtn">▶ Play with Sound</button>
@@ -50,33 +50,42 @@ const projects = [
     var vid = document.getElementById('heroVideo');
     var btn = document.getElementById('playBtn');
     var replayBtn = document.getElementById('replayBtn');
+    var poster = document.getElementById('heroPoster');
+    var hlsLoaded = false;
+
+    function loadHeroVideo(callback) {
+      if (hlsLoaded) { callback(); return; }
+      if (vid.canPlayType('application/vnd.apple.mpegurl')) {
+        vid.src = '/videos/about-us-hls/index.m3u8';
+        hlsLoaded = true;
+        callback();
+      } else {
+        var hs = document.createElement('script');
+        hs.src = 'https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js';
+        hs.onload = function() {
+          if (Hls.isSupported()) {
+            var hls = new Hls();
+            hls.loadSource('/videos/about-us-hls/index.m3u8');
+            hls.attachMedia(vid);
+            hlsLoaded = true;
+            callback();
+          }
+        };
+        document.head.appendChild(hs);
+      }
+    }
+
     if (btn) {
       btn.addEventListener('click', function() {
-        if (vid) {
-          if (vid.canPlayType('application/vnd.apple.mpegurl')) {
-            vid.src = '/videos/about-us-hls/index.m3u8';
-          } else {
-            var hs = document.createElement('script');
-            hs.src = 'https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js';
-            hs.onload = function() {
-              if (Hls.isSupported()) {
-                var hls = new Hls();
-                hls.loadSource('/videos/about-us-hls/index.m3u8');
-                hls.attachMedia(vid);
-              }
-            };
-            document.head.appendChild(hs);
-          }
+        if (!vid) return;
+        loadHeroVideo(function() {
           vid.muted = false;
           vid.loop = false;
           vid.play();
-          vid.addEventListener('ended', function() {
-            vid.style.display = 'none';
-            document.getElementById('heroPoster').style.display = 'block';
-            if (replayBtn) replayBtn.style.display = 'inline-block';
-          });
-        }
-        btn.style.display = 'none';
+          // Hide poster so video is visible
+          if (poster) poster.style.display = 'none';
+          btn.style.display = 'none';
+        });
       });
     }
     if (replayBtn) {
@@ -84,8 +93,16 @@ const projects = [
         if (vid) {
           vid.currentTime = 0;
           vid.play();
+          if (poster) poster.style.display = 'none';
           replayBtn.style.display = 'none';
         }
+      });
+    }
+    if (vid) {
+      vid.addEventListener('ended', function() {
+        vid.style.display = 'none';
+        if (poster) poster.style.display = 'block';
+        if (replayBtn) replayBtn.style.display = 'inline-block';
       });
     }
   </script>
@@ -226,21 +243,30 @@ const projects = [
       <h2 class="text-center mb-md">{t.woaschtWohl.title}</h2>
       <p class="section-intro">{t.woaschtWohl.subtitle}</p>
       <div class="woascht-grid">
-        {woaschtProducts.map(product => (
-          <div class="card woascht-card">
-            <div class="woascht-card-img-wrap">
-              <img src={product.image} alt={t.woaschtWohl.products[product.key]} class="woascht-card-img" />
-              <span class="badge badge--coming-soon">{t.woaschtWohl.comingSoon}</span>
-            </div>
-            <div class="card-body">
-              <h3>{t.woaschtWohl.products[product.key]}</h3>
-              <p>{t.woaschtWohl.products[product.key + 'Desc']}</p>
-            </div>
+        <div class="card woascht-card">
+          <div class="woascht-card-img-wrap">
+            <img src="/images/woascht-wohl/IMG_20260810_170308.jpg" alt="Woascht Wohl Handwerk" class="woascht-card-img" />
           </div>
-        ))}
+        </div>
+        <div class="card woascht-card">
+          <div class="woascht-card-img-wrap">
+            <img src="/images/woascht-wohl/IMG_20260810_171152.jpg" alt="Woascht Wohl Handwerk" class="woascht-card-img" />
+          </div>
+        </div>
+        <div class="card woascht-card">
+          <div class="woascht-card-img-wrap">
+            <img src="/images/woascht-wohl/IMG_20260810_171403.jpg" alt="Woascht Wohl Handwerk" class="woascht-card-img" />
+          </div>
+        </div>
+        <div class="card woascht-card">
+          <div class="woascht-card-img-wrap">
+            <img src="/images/woascht-wohl/IMG_20260810_170854.jpg" alt="Woascht Wohl Handwerk" class="woascht-card-img" />
+          </div>
+        </div>
       </div>
+      <p class="text-center mt-md" style="color: var(--color-text-light); font-style: italic;">Bilder vom Handwerk folgen in Kürze.</p>
       <div class="text-center mt-lg">
-        <a href={`/${lang}/contact`} class="btn btn--primary">{t.woaschtWohl.inquire}</a>
+        <a href={`/${lang}/shop/woascht-wohl`} class="btn btn--primary">Zum Shop</a>
       </div>
     </div>
   </section>
@@ -282,7 +308,9 @@ const projects = [
         {shopData.map(shop => (
           <a href={shop.customLayout ? `/${lang}/shop/${shop.customLayout}` : `/${lang}/shop/${shop.slug}`} class="shop-card">
             <div class="shop-card-img-wrap">
-              {shop.video ? (
+              {shop.youtubeShort ? (
+                <iframe class="shop-card-img shop-card-youtube" src={`https://www.youtube.com/embed/${shop.youtubeShort}?autoplay=1&mute=1&loop=1&playlist=${shop.youtubeShort}&controls=0`} frameborder="0" allow="autoplay; encrypted-media" allowfullscreen aria-label={`${shop.name} — ${shop.city}`}></iframe>
+              ) : shop.video ? (
                 <video class="shop-card-img" autoplay muted loop playsinline preload="auto" poster={shop.image} aria-label={`${shop.name} — ${shop.city}`}>
                   <source src={shop.video} type="video/mp4" />
                 </video>
@@ -290,7 +318,7 @@ const projects = [
                 <img src={shop.image} alt={`${shop.name} — ${shop.city}`} class="shop-card-img" />
               )}
               <div class="shop-card-overlay">
-                <span class="shop-card-enter">{t.shop.enterShop || 'Enter shop →'}</span>
+                <span class="shop-card-enter">{shop.placeholder ? (t.shop.yourShopHere || 'Dein Shop hier') : (t.shop.enterShop || 'Enter shop →')}</span>
               </div>
             </div>
             <div class="shop-card-body">
@@ -367,6 +395,12 @@ const projects = [
       <a href="#get-involved" class="btn btn--clay mt-md">{t.home.heroCta}</a>
     </div>
   </section>
+
+  <!-- Black bar between quote and footer -->
+  <div class="black-bar">
+    <p>„Wenn Recht zu Unrecht wird, wird Widerstand zur Pflicht!“</p>
+  </div>
+
 </Base>
 
 <style>
@@ -387,6 +421,7 @@ const projects = [
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 90%;
   z-index: 0;
 }
 
@@ -395,10 +430,19 @@ const projects = [
   inset: 0;
   width: 100%;
   height: 100%;
-  background-size: cover;
-  background-position: center;
+  background-size: 115%;
+  background-position: center 90%;
   z-index: 0;
   display: none;
+}
+
+/* When video is playing, ensure it's above poster */
+.video-hero-bg {
+  z-index: 1;
+}
+
+.video-hero-bg:not([src]) {
+  z-index: 0;
 }
 
 .video-hero-overlay {
@@ -494,6 +538,10 @@ const projects = [
 
 .card--with-image {
   padding: 0;
+  overflow: visible;
+}
+
+.card--with-image .card-img {
   overflow: hidden;
 }
 
@@ -506,6 +554,8 @@ const projects = [
 .card-body {
   padding: var(--space-md);
   text-align: center;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .gallery-strip {
@@ -679,6 +729,14 @@ video.shop-card-img {
   transition: none;
 }
 
+iframe.shop-card-youtube {
+  width: 100%;
+  height: 100%;
+  border: none;
+  object-fit: cover;
+  pointer-events: none;
+}
+
 .shop-card:hover .shop-card-img {
   transform: scale(1.08);
 }
@@ -745,6 +803,13 @@ video.shop-card-img {
 .quote-section {
   position: relative;
   overflow: hidden;
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1a3c28;
+  padding: var(--space-xxl) 0;
+  margin-bottom: 0;
 }
 
 .quote-bg {
@@ -753,7 +818,7 @@ video.shop-card-img {
   background-image: url('/images/wwfp-17.jpg');
   background-size: cover;
   background-position: center;
-  opacity: 0.25;
+  opacity: 0.35;
 }
 
 .quote-content {
@@ -764,10 +829,42 @@ video.shop-card-img {
 .big-quote {
   font-family: var(--font-head);
   font-size: 2rem;
-  color: var(--color-forest-deep);
+  color: #2c7500 !important;
   font-style: italic;
-  max-width: 700px;
+  max-width: 100%;
   margin: 0 auto;
+  white-space: nowrap;
+  text-shadow: 0.5px 0 0 #fff, -0.5px 0 0 #fff, 0 0.5px 0 #fff, 0 -0.5px 0 #fff;
+  -webkit-text-stroke: 0.3px #fff;
+  z-index: 10;
+  position: relative;
+}
+
+.black-bar {
+  background: #000;
+  text-align: center;
+  padding: var(--space-lg) var(--space-md);
+  margin: 0;
+  border: none;
+}
+
+main {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+body {
+  margin-bottom: 0;
+}
+
+.black-bar p {
+  color: #2c7500 !important;
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.05em;
+  text-shadow: 0.5px 0 0 #fff, -0.5px 0 0 #fff, 0 0.5px 0 #fff, 0 -0.5px 0 #fff;
+  -webkit-text-stroke: 0.3px #fff;
 }
 
 /* Smooth scroll for anchor links */
@@ -930,9 +1027,10 @@ html {
   text-align: center;
   font-size: 1.1rem;
   color: var(--color-sage);
-  max-width: 600px;
+  max-width: 100%;
   margin: 0 auto var(--space-lg);
   font-style: italic;
+  white-space: nowrap;
 }
 
 .freedom-video-section {

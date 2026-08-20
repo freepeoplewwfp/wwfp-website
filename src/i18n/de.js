@@ -41,13 +41,13 @@ export const de = {
   whatWeDo: {
     title: 'Was wir tun',
     intro: 'WWFP schafft weltweit Lebensräume. Wir stellen in vielen Ländern Unterkünfte und Nahrung bereit. Wir nutzen alle Möglichkeiten, Ressourcen und Wissen, um eine gemeinnützige Gesellschaft aufzubauen, die sich selbst finanziert.',
-    project1Title: 'Schaffung von Lebensräumen',
+    project1Title: 'Lebensräume',
     project1Text: 'Aufbau und Erhalt von Lebensräumen, in denen Menschen gedeihen können. Unterkünfte und Nahrung durch gemeinschaftliche Arbeit.',
-    project2Title: 'Umweltreparatur',
-    project2Text: 'Statt Zerstörung zu protestieren, reparieren wir sie. Wir bringen Musik, pflanzen Bäume, reinigen Gewässer und stellen Ökosysteme wieder her.',
-    project3Title: 'Wissensweitergabe',
+    project2Title: 'Umwelt',
+    project2Text: 'Statt gegen die Umweltzerstörung zu protestieren, reparieren wir sie. Wir bringen Musik, pflanzen Bäume, reinigen Gewässer und stellen Ökosysteme wieder her.',
+    project3Title: 'Wissen teilen',
     project3Text: 'Wir fördern den Austausch von Wissen, Kunst, kollaboratives Lernen und freien Zugang zu Informationen. Jeder hat etwas zu lehren.',
-    project4Title: 'Gemeinschaftsaufbau',
+    project4Title: 'Gemeinschaft',
     project4Text: 'Zusammen wachsen wir zu einer Gesellschaft, in der wir uns selbst finanzieren und uns frei auf der Erde bewegen können, um direkt an Lösungen zu arbeiten.',
   },
   values: {
@@ -90,7 +90,7 @@ export const de = {
     introText2: 'Unsere Sponsoren stellen sicher, dass WWFP weltweit eingesetzt werden kann. Wir ehren diese Unterstützung, indem wir Spenden sparsam und verantwortungsvoll einsetzen.',
     bankTitle: 'Banküberweisung',
     bankText: 'Überweise deine Spende direkt auf unser Bankkonto. Jeder Betrag hilft, Lebensräume zu schaffen und unseren Heimatplaneten zu schützen.',
-    bankHolder: 'Account Holder: Christian Karg & Scheikl Dieter',
+    bankHolder: 'Account Holder: Christian Karg',
     bankIBAN: 'IBAN: BE94905882962614',
     bankBIC: 'SWIFT/BIC: TRWIBEB1XXX',
     bankAddress: 'Wise, Rue du Trone 100, 3rd floor, Brussels, 1050, Belgium',
@@ -134,6 +134,7 @@ export const de = {
     registerCta: 'Als Kunsthandwerker registrieren',
     browseCta: 'Produkte durchsuchen',
     enterShop: 'Shop betreten →',
+    yourShopHere: 'Dein Shop hier',
   },
   shopPage: {
     backToShops: 'Zurück zu den Shops',
@@ -157,7 +158,7 @@ export const de = {
   contact: {
     title: 'Kontakt',
     intro: 'Erreiche uns. Ob du mitmachen, unterstützen oder einfach mehr erfahren willst — wir sind da.',
-    address: 'Watzenegg 10, 6850 Dornbirn, Österreich',
+    address: '6850 Dornbirn, Österreich',
     email: 'E-Mail',
     phone: 'Telefon',
     phoneChris: 'Christian Karg',
@@ -172,7 +173,7 @@ export const de = {
   footer: {
     tagline: 'Wir sind alle freie Menschen. Es gibt keine Probleme, nur Lösungen.',
     rights: 'WWFP — Woascht Wohl & Free People Organization. Alle Rechte vorbehalten.',
-    address: 'Watzenegg 10, 6850 Dornbirn, Österreich',
+    address: '6850 Dornbirn, Österreich',
   },
   privacy: {
     heroTitle: 'Deine Privatsphäre zählt',
@@ -252,7 +253,7 @@ export const de = {
   },
   freedom: {
     title: 'Freiheit & Privatsphäre ⚡',
-    eyecatcher: 'Dein Handy spürt dich. Wir zeigen dir, wie du aufhörst.',
+    eyecatcher: 'Dein Handy spürt dich. Wir zeigen dir, wie du dich schützt.',
     subtitle: 'Privacy ist kein Kleingedrucktes am Ende der Seite. Es ist unsere Mission.',
     chatControlTitle: 'Was ist Chatkontrolle?',
     chatControlText: 'Die EU plant alle deine Nachrichten zu scannen. Wir erklären warum das gefährlich ist.',

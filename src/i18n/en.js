@@ -142,6 +142,7 @@ export const en = {
     registerCta: 'Register as an artisan',
     browseCta: 'Browse products',
     enterShop: 'Enter shop →',
+    yourShopHere: 'Your shop here',
   },
   shopPage: {
     backToShops: 'Back to shops',
@@ -165,7 +166,7 @@ export const en = {
   contact: {
     title: 'Contact',
     intro: 'Reach out to us. Whether you want to join, support, or just learn more — we are here.',
-    address: 'Watzenegg 10, 6850 Dornbirn, Austria',
+    address: '6850 Dornbirn, Austria',
     email: 'Email',
     phone: 'Phone',
     phoneChris: 'Christian Karg',
@@ -180,7 +181,7 @@ export const en = {
   footer: {
     tagline: 'We are all free people. There are no problems, only solutions.',
     rights: 'WWFP — Woascht Wohl & Free People Organization. All rights reserved.',
-    address: 'Watzenegg 10, 6850 Dornbirn, Austria',
+    address: '6850 Dornbirn, Austria',
   },
   privacy: {
     heroTitle: 'Your Privacy Matters',

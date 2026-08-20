@@ -32,7 +32,7 @@ const t = getTranslations(lang);
 
   <section class="section">
     <div class="container">
-      <p class="support-lead">{t.support.introText2}</p>
+      <p class="support-lead">Unsere Sponsoren stellen sicher, dass WWFP weltweit eingesetzt werden kann. Wir ehren diese Unterstützung, indem wir Spenden sparsam und verantwortungsvoll einsetzen.</p>
 
       <div class="donation-grid">
         <!-- Bank Transfer -->
@@ -47,6 +47,7 @@ const t = getTranslations(lang);
             <p>{t.support.bankAddress}</p>
           </div>
           <p class="bank-note">{t.support.bankNote}</p>
+          <p class="bank-note" style="font-weight: 700; color: var(--color-primary);">⚠️ Wichtig! Verwendungszweck: Spende an WWFP</p>
         </div>
 
         <!-- PayPal -->
@@ -59,13 +60,29 @@ const t = getTranslations(lang);
           </a>
           <p class="paypal-note">PayPal link coming soon</p>
         </div>
+
+        <!-- Bank Transfer 2 - Raiffeisenbank -->
+        <div class="card donation-card">
+          <div class="card-icon">🏦</div>
+          <h3>Banküberweisung</h3>
+          <p>Überweise deine Spende direkt auf unser Bankkonto. Jeder Betrag hilft, Lebensräume zu schaffen und unseren Heimatplaneten zu schützen.</p>
+          <div class="bank-details">
+            <p><strong>Account Holder: Dieter Scheikl</strong></p>
+            <p>IBAN: AT13 3742 0000 0030 4295</p>
+            <p>SWIFT/BIC: RVVGAT2B420</p>
+            <p>Raiffeisenbank im Rheintal</p>
+          </div>
+          <p class="bank-note">Private account — NPO business account coming soon.</p>
+          <p class="bank-note" style="font-weight: 700; color: var(--color-primary);">⚠️ Wichtig! Verwendungszweck: Spende an WWFP</p>
+        </div>
       </div>
 
       <!-- Transparency -->
       <div class="transparency-box mt-lg">
         <h3>📊 {t.support.transparencyTitle}</h3>
-        <p>{t.support.transparencyText}</p>
+        <p>Wir verwenden alle Spenden sparsam und verantwortungsvoll. Geld ist ein Mittel zum Zweck — wir bündeln unsere Energie und schaffen weltweit Lebensräume.</p>
       </div>
+
     </div>
   </section>
 </Base>
@@ -85,16 +102,16 @@ const t = getTranslations(lang);
 .support-lead {
   font-size: 1.15rem;
   color: var(--color-text-light);
-  max-width: 700px;
+  max-width: 100%;
   margin: 0 auto var(--space-md);
   text-align: center;
 }
 
 .donation-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: var(--space-md);
-  max-width: 800px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 
@@ -124,9 +141,10 @@ const t = getTranslations(lang);
   background: var(--color-bg-alt);
   border-radius: var(--radius-lg);
   padding: var(--space-md);
-  max-width: 800px;
+  max-width: 100%;
   margin: 0 auto;
   text-align: center;
+  font-size: 0.95rem;
 }
 
 @media (max-width: 768px) {

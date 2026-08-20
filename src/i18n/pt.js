@@ -202,7 +202,7 @@ export const pt = {
   contact: {
     title: 'Contato',
     intro: 'Entre em contato connosco. Quer você queira juntar-se, apoiar ou simplesmente saber mais — estamos aqui.',
-    address: 'Watzenegg 10, 6850 Dornbirn, Áustria',
+    address: '6850 Dornbirn, Áustria',
     email: 'E-mail',
     phone: 'Telefone',
     phoneChris: 'Christian Karg',
@@ -217,6 +217,6 @@ export const pt = {
   footer: {
     tagline: 'Somos todos pessoas livres. Não há problemas, apenas soluções.',
     rights: 'WWFP — Woascht Wohl & Free People Organization. Todos os direitos reservados.',
-    address: 'Watzenegg 10, 6850 Dornbirn, Áustria',
+    address: '6850 Dornbirn, Áustria',
   },
 };

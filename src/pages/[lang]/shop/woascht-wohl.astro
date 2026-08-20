@@ -20,7 +20,7 @@ const wT = t.woaschtWohl || {};
   <section class="shop-hero shop-hero--warm">
     <div class="shop-hero-overlay--warm"></div>
     <div class="container shop-hero-content">
-      <a href={`/${lang}#woascht-wohl`} class="shop-back">← {t.shopPage?.backToShops || 'Back to shops'}</a>
+      <a href={`/${lang}#shop`} class="shop-back">← {t.shopPage?.backToShops || 'Back to shops'}</a>
       <h1 class="shop-name">{wT.title || 'Woascht Wohl — Handcrafted Spirits'}</h1>
       <p class="shop-location">📍 Dornbirn, Österreich</p>
       <p class="shop-description">{wT.subtitle || 'Traditionelle Schnapsbrennerei aus Dornbirn, Österreich'}</p>
@@ -30,18 +30,21 @@ const wT = t.woaschtWohl || {};
   <section class="section">
     <div class="container">
       <h2 class="text-center mb-md">{wT.productsTitle || 'Our Spirits'}</h2>
-      <p class="section-intro">{wT.productsIntro || 'Handcrafted spirits from our traditional Schnapsbrennerei. Photos coming soon.'}</p>
+      <p class="section-intro">{wT.productsIntro || 'Handcrafted spirits from our traditional Schnapsbrennerei in Dornbirn.'}</p>
 
       <div class="product-grid">
         {woaschtProducts.map(product => (
           <div class="product-card">
             <div class="product-img-wrap">
-              <img src={product.image} alt={t[product.nameKey] || product.key} class="product-img" />
-              <span class="badge badge--coming-soon">{wT.comingSoon || 'Coming Soon'}</span>
+              <img src={product.image} alt={product.name} class="product-img" loading="lazy" />
             </div>
             <div class="product-body">
-              <h3>{t[product.nameKey] || product.key}</h3>
-              <p>{t[product.descKey] || ''}</p>
+              <h3>{product.name}</h3>
+              <p class="product-type">{product.type}</p>
+              <div class="product-meta">
+                <span class="product-vol">{product.vol}</span>
+                {product.size !== '—' && <span class="product-size">· {product.size}</span>}
+              </div>
             </div>
           </div>
         ))}
@@ -161,31 +164,35 @@ const wT = t.woaschtWohl || {};
   padding: var(--space-md);
 }
 
-.badge--coming-soon {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background: var(--color-clay);
-  color: var(--color-cream);
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.25rem 0.6rem;
-  border-radius: var(--radius);
-}
-
 .product-body {
   padding: var(--space-sm);
   text-align: center;
 }
 
 .product-body h3 {
-  font-size: 1.1rem;
-  margin-bottom: 0.3rem;
+  font-size: 1.05rem;
+  margin-bottom: 0.2rem;
   color: var(--color-forest-deep);
 }
 
-.product-body p {
-  font-size: 0.9rem;
+.product-type {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  margin-bottom: 0.3rem;
+  font-style: italic;
+}
+
+.product-meta {
+  font-size: 0.85rem;
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.product-vol {
+  color: var(--color-clay);
+}
+
+.product-size {
   color: var(--color-text-light);
 }
 
