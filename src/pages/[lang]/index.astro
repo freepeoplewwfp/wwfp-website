@@ -793,12 +793,12 @@ iframe.shop-card-youtube {
 .quote-section {
   position: relative;
   overflow: hidden;
-  min-height: 500px;
+  min-height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #1a3c28;
-  padding: var(--space-xxl) 0;
+  padding: var(--space-xl) 0;
   margin-bottom: 0;
 }
 
@@ -828,6 +828,7 @@ iframe.shop-card-youtube {
   -webkit-text-stroke: 0.3px #fff;
   z-index: 10;
   position: relative;
+  padding: 0 var(--space-sm);
 }
 
 .black-bar {
@@ -855,6 +856,7 @@ body {
   letter-spacing: 0.05em;
   text-shadow: 0.5px 0 0 #fff, -0.5px 0 0 #fff, 0 0.5px 0 #fff, 0 -0.5px 0 #fff;
   -webkit-text-stroke: 0.3px #fff;
+  padding: 0 var(--space-sm);
 }
 
 /* Smooth scroll for anchor links */
@@ -1050,6 +1052,8 @@ html {
   margin: 0 auto var(--space-lg);
   font-style: italic;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .freedom-video-section {
@@ -1144,18 +1148,23 @@ html {
   .membership-grid { grid-template-columns: 1fr; }
   .gallery-strip { grid-template-columns: repeat(2, 1fr); }
   .hostel-steps { grid-template-columns: 1fr 1fr; }
-  .shop-grid { grid-template-columns: repeat(2, 1fr); }
-  .big-quote { font-size: 1.4rem; }
+  .shop-grid { grid-template-columns: 1fr; }
+  .woascht-grid { grid-template-columns: 1fr 1fr; }
+  .shop-card-img-wrap { aspect-ratio: 4/3; }
+  .shop-card-overlay { opacity: 1; background: linear-gradient(180deg, transparent 60%, rgba(26, 58, 36, 0.8) 100%); }
+  .big-quote { font-size: 1.1rem; white-space: normal; }
+  .black-bar p { font-size: 1.2rem; white-space: normal; }
+  .quote-section { min-height: 250px; padding: var(--space-lg) 0; }
   .card-img { height: 160px; }
   .value-row, .value-row--alt {
     flex-direction: column;
     text-align: left;
   }
-  .woascht-grid { grid-template-columns: 1fr 1fr; }
   .phone-grid { grid-template-columns: 1fr; }
   .freedom-cards { grid-template-columns: 1fr; }
   .freedom-eyecatcher { font-size: 1.3rem; }
   .freedom-title { font-size: 1.8rem; }
+  .freedom-subtitle { white-space: normal; }
   .freedom-video-wrap { max-width: 100%; }
 }
 </style>
