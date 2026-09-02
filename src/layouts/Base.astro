@@ -3,11 +3,16 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
 
+import { languages } from '../i18n/config.js';
+
 const { lang, t } = Astro.props;
+
+const isRtl = languages[lang]?.rtl;
+const textDir = isRtl ? 'rtl' : 'ltr';
 ---
 
 <!DOCTYPE html>
-<html lang={lang}>
+<html lang={lang} dir={textDir}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />

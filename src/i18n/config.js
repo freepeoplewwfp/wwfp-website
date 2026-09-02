@@ -8,6 +8,7 @@ export const languages = {
   ro: { code: 'ro', name: 'Română', flag: '🇷🇴', dir: '/wwfp-website/ro' },
   nl: { code: 'nl', name: 'Nederlands', flag: '🇳🇱', dir: '/wwfp-website/nl' },
   pt: { code: 'pt', name: 'Português', flag: '🇵🇹', dir: '/wwfp-website/pt' },
+  ar: { code: 'ar', name: 'العربية', flag: '🇲🇦', dir: '/wwfp-website/ar', rtl: true },
 };
 
 export const defaultLang = 'de';

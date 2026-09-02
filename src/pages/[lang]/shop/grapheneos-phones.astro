@@ -18,40 +18,166 @@ const gT = t.grapheneShop || {};
 
 <Base lang={lang} t={t}>
   <section class="shop-hero shop-hero--tech">
-    <div class="shop-hero-overlay--tech"></div>
     <div class="container shop-hero-content">
       <a href={`/${lang}#graphene-shop`} class="shop-back">← {t.shopPage?.backToShops || 'Back to shops'}</a>
-      <h1 class="shop-name">{gT.title || 'Privacy Phones — GrapheneOS'}</h1>
-      <p class="shop-location">🔒 GrapheneOS</p>
-      <p class="shop-description">{gT.subtitle || 'Sichere Telefone mit GrapheneOS. Freiheit in deiner Tasche.'}</p>
+      <h1 class="shop-name shop-name--left">Privacy Phones</h1>
+      <p class="shop-description shop-description--bottom">{gT.subtitle || 'Sichere Telefone mit GrapheneOS. Freiheit in deiner Tasche.'}</p>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
-      <h2 class="text-center mb-md">{gT.productsTitle || 'Available Phones'}</h2>
-      <p class="section-intro">{gT.productsIntro || 'Each phone comes with GrapheneOS pre-installed and configured. Ready to use with Telegram and WhatsApp.'}</p>
-
-      <div class="phone-grid">
-        {phones.map(phone => (
-          <div class="phone-card">
-            <div class="phone-img-wrap">
-              <img src={phone.image} alt={t[phone.nameKey] || phone.key} class="phone-img" />
-              <span class="badge badge--graphene">{gT.installBadge || 'GrapheneOS installiert'}</span>
+      <div class="phone-layout">
+        <div class="phone-display-card">
+          <img src="/images/grapheneos-phone-shaped.png" alt="GrapheneOS Phone" class="phone-display-img" />
+        </div>
+        <div class="phone-info">
+          <h2>GrapheneOS Privacy Phones</h2>
+          <p class="phone-info-text">Wir flashen Google Pixel Smartphones ab der Version 8 mit GrapheneOS — einem quelloffenen, datenschutzorientierten Betriebssystem ohne Google-Tracking, ohne Bloatware, ohne Überwachung.</p>
+          <div class="phone-pricing">
+            <div class="pricing-row">
+              <span class="pricing-label">📱 Pixel 8a</span>
+              <span class="pricing-value">ca. €450 + €200 Flash</span>
             </div>
-            <div class="phone-body">
-              <h3>{t[phone.nameKey] || phone.key}</h3>
-              <p class="phone-desc">{t[phone.descKey] || ''}</p>
-              <ul class="phone-specs">
-                {phone.specs.map(spec => (
-                  <li>✓ {spec}</li>
-                ))}
-              </ul>
-              <p class="phone-price">{gT.priceLabel || 'Price'}: {gT.inquire || 'auf Anfrage'}</p>
-              <a href={`/${lang}/contact`} class="btn btn--primary mt-sm">{gT.inquireBtn || 'Anfragen'}</a>
+            <div class="pricing-row">
+              <span class="pricing-label">📱 Pixel 8 Pro</span>
+              <span class="pricing-value">ca. €700 + €200 Flash</span>
+            </div>
+            <div class="pricing-row">
+              <span class="pricing-label">📱 Pixel 9 Pro</span>
+              <span class="pricing-value">ca. €900 + €200 Flash</span>
             </div>
           </div>
-        ))}
+          <div class="phone-options">
+            <h3>Zwei Wege zu deinem Privacy Phone</h3>
+            <div class="option-card">
+              <span class="option-icon">📦</span>
+              <span><strong>Du kaufst das Handy</strong> — wir flashen es. Sende uns dein Pixel 8+ zu und wir installieren GrapheneOS, konfigurieren alles und schicken es zurück.</span>
+            </div>
+            <div class="option-card">
+              <span class="option-icon">🛒</span>
+              <span><strong>Wir kaufen das Handy</strong> — für dich. Wir bestellen ein Pixel, flashen es, richten es ein und senden es dir zu.</span>
+            </div>
+          </div>
+          <p class="phone-note">💡 Der Flash-Service kostet €200 zzgl. des Handypreises. Jedes Telefon wird von WWFP-Freiwilligen geflasht und konfiguriert. Eine kleine Gebühr unterstützt die Organisation.</p>
+        </div>
+      </div>
+
+      <!-- Order Form -->
+      <div class="order-form-wrapper">
+        <h2 class="text-center mb-md">Bestellformular</h2>
+        <form class="order-form" id="graphene-order-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="order-name">Name *</label>
+              <input type="text" id="order-name" name="name" required />
+            </div>
+            <div class="form-group">
+              <label for="order-email">E-Mail *</label>
+              <input type="email" id="order-email" name="email" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="order-phone">Telefon</label>
+              <input type="tel" id="order-phone" name="phone" />
+            </div>
+            <div class="form-group">
+              <label for="order-model">Pixel Modell *</label>
+              <select id="order-model" name="model" required>
+                <option value="">Bitte wählen</option>
+                <option value="pixel-8a">Pixel 8a (ca. €450)</option>
+                <option value="pixel-8-pro">Pixel 8 Pro (ca. €700)</option>
+                <option value="pixel-9-pro">Pixel 9 Pro (ca. €900)</option>
+                <option value="other">Anderes Pixel 8+ Modell</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="order-option">Option *</label>
+              <select id="order-option" name="option" required>
+                <option value="">Bitte wählen</option>
+                <option value="self">Ich kaufe das Handy selbst und sende es zu (+€200 Flash)</option>
+                <option value="we-buy">WWFP soll das Handy kaufen und flashen (Handypreis + €200 Flash)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="order-message">Anmerkungen</label>
+            <textarea id="order-message" name="message" rows="3" placeholder="z.B. gewünschte Farbe, Lieferadresse, Fragen..."></textarea>
+          </div>
+          <button type="submit" class="btn btn--primary order-submit">📱 Bestellung absenden</button>
+          <p class="form-note">Wir melden uns innerhalb von 24 Stunden mit einem verbindlichen Angebot.</p>
+        </form>
+        <div id="order-success" class="order-success" style="display:none;">
+          ✅ Danke! Deine Anfrage wurde gesendet. Wir melden uns innerhalb von 24 Stunden.
+        </div>
+      </div>
+
+      <!-- What is GrapheneOS -->
+      <div class="graphene-history">
+        <h2>Was ist GrapheneOS?</h2>
+        <p>Dein Handy ist das am stärksten überwachte Gerät das du besitzt. Es kennt jede Minute deinen Standort, speichert deine Nachrichten und Fotos und sendet — auf einem Standard-Android — ständig Daten an Google. GrapheneOS ist die Antwort: ein gehärtetes, entgoogeltes, quelloffenes Betriebssystem das das Android-App-Ökosystem behält aber die Überwachung entfernt und echten Schutz vor Angriffen hinzufügt.</p>
+        <p>GrapheneOS ist ein freies Open-Source-Betriebssystem basierend auf dem Android Open Source Project (AOSP). Es wird standardmäßig ohne Google-Apps oder -Dienste ausgeliefert und ersetzt sie durch datenschutzfreundliche Komponenten. Darüber hinaus bietet es zahlreiche Sicherheitsmaßnahmen die normales Android nicht hat.</p>
+        <p>Das Projekt ist gemeinnützig und wird durch Spenden finanziert. Es zielt speziell auf Google Pixel-Hardware ab weil diese Geräte die nötigen Sicherheitsanforderungen erfüllen: ein dediziertes Secure Element, vollständiger Verified Boot mit der Möglichkeit den Bootloader wieder zu sperren, und langfristige Firmware-Sicherheitsupdates.</p>
+
+        <h3>Wie die Härtung funktioniert</h3>
+        <p>GrapheneOS geht weit über ein einfaches „entgoogeltes ROM" hinaus:</p>
+        <ul class="hardening-list">
+          <li><strong>Gehärteter Speicher-Allokator</strong> (hardened_malloc), gehärteter Kernel und C-Bibliothek die Angriffe durch Speicherbeschädigung deutlich erschweren.</li>
+          <li><strong>Stärkeres App-Sandboxing</strong> und Exploit-Abwehr über die Android-Standards hinaus.</li>
+          <li><strong>Granulare Berechtigungen:</strong> pro App umschaltbare Netzwerk- und Sensoren-Schalter. Du kannst eine App ohne Internetzugang oder ohne Zugriff auf Kompass, Beschleunigungssensor etc. ausführen.</li>
+          <li><strong>Sicherheitshygiene:</strong> Zwangs-PIN die das Gerät bei Fehleingaben löscht, automatischer Neustart bei Inaktivität und USB-C-Port-Steuerung die Datenübertragung auf gesperrten Geräten blockiert.</li>
+          <li><strong>Verified Boot</strong> mit wieder gesperrtem Bootloader — Manipulationen am Betriebssystem sind erkennbar.</li>
+        </ul>
+
+        <h3>Sandboxed Google Play: das herausragende Merkmal</h3>
+        <p>Der größte Einwand gegen ein entgoogeltes Telefon: „aber meine Apps brauchen Google Play-Dienste." GrapheneOS löst das mit <strong>Sandboxed Google Play</strong>: Du kannst optional Google Play-Dienste und den Play Store als ganz normale, vollständig sandboxed laufende Apps installieren — ohne besondere Systemprivilegien. Sie laufen in derselben eingeschränkten Sandbox wie jede andere App. So erhältst du breite App-Kompatibilität ohne Google den privilegierten Zugriff zu geben den es auf Standard-Android hat.</p>
+        <p>Dies ist ein deutlich anderer Ansatz als die microG-Neuimplementierung mancher Alternativen — GrapheneOS führt die echten Play-Dienste in einer Sandbox aus, statt eines Ersatzes.</p>
+
+        <h2>GrapheneOS Geschichte</h2>
+        <p>GrapheneOS wurde 2014 von Daniel Micay gegründet. Es begann als Solo-Projekt und baute auf früherer Open-Source-Arbeit im Bereich Datenschutz und Sicherheit auf. Das Projekt erstellte zunächst einen Port von OpenBSD malloc für Androids Bionic libc und Portierte die PaX-Kernel-Patches auf die unterstützten Geräte.</p>
+        <p>Im späten 2015 wurde ein Unternehmen gegründet, das zum Hauptsponsor des Projekts wurde. In dieser Zeit war GrapheneOS als <a href="https://grapheneos.org/history/copperheados" target="_blank">CopperheadOS</a> bekannt. Das Unternehmen sollte den Open-Source-Projekt dienen, nicht umgekehrt. Lefter hielt sich nicht an die Versprechen und ist heute nicht mehr mit GrapheneOS verbunden.</p>
+        <p>2018 versuchte der CEO des Unternehmens, das Projekt durch Zwang zu übernehmen, wurde jedoch zurückgewiesen. Das Unternehmen übernahm die Infrastruktur und stahl die Spenden, aber das Projekt zog erfolgreich weiter und wurde vollständig wiederbelebt. Der frühere Sponsor betreibt bis heute eine Kampagne der Desinformation und belügt den Urheber der Arbeit.</p>
+        <p>Nach der Trennung vom früheren Sponsor wurde das Projekt in AndroidHardening und dann in GrapheneOS umbenannt. Es ist nun ein unabhängiges Open-Source-Projekt und wird nie wieder eng an einen Sponsor oder ein Unternehmen gebunden sein.</p>
+        <p>GrapheneOS hat mittlerweile mehrere Vollzeit- und Teilzeit-Entwickler, die durch Spenden unterstützt werden. Die <a href="https://grapheneos.org/history/#history" target="_blank">GrapheneOS Foundation</a> wurde im März 2023 als gemeinnützige Organisation in Kanada gegründet.</p>
+      </div>
+
+      <!-- Supported Pixels -->
+      <div class="supported-models">
+        <h2>Unterstützte Pixel-Modelle</h2>
+        <p class="models-intro">Wir flashen alle Google Pixel ab der Version 8 mit GrapheneOS:</p>
+        <div class="models-grid">
+          <div class="model-gen">
+            <h3>Pixel 10 Serie</h3>
+            <ul>
+              <li>Pixel 10a (stallion)</li>
+              <li>Pixel 10 (frankel)</li>
+              <li>Pixel 10 Pro (blazer)</li>
+              <li>Pixel 10 Pro XL (mustang)</li>
+              <li>Pixel 10 Pro Fold (rango)</li>
+            </ul>
+          </div>
+          <div class="model-gen">
+            <h3>Pixel 9 Serie</h3>
+            <ul>
+              <li>Pixel 9a (tegu)</li>
+              <li>Pixel 9 (tokay)</li>
+              <li>Pixel 9 Pro (caiman)</li>
+              <li>Pixel 9 Pro XL (komodo)</li>
+              <li>Pixel 9 Pro Fold (comet)</li>
+            </ul>
+          </div>
+          <div class="model-gen">
+            <h3>Pixel 8 Serie</h3>
+            <ul>
+              <li>Pixel 8a (akita)</li>
+              <li>Pixel 8 (shiba)</li>
+              <li>Pixel 8 Pro (husky)</li>
+            </ul>
+          </div>
+        </div>
       </div>
 
       <div class="shop-cta card">
@@ -63,6 +189,31 @@ const gT = t.grapheneShop || {};
   </section>
 </Base>
 
+<script>
+  document.getElementById('graphene-order-form')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const data = new FormData(form);
+    const payload = {
+      name: data.get('name'),
+      email: data.get('email'),
+      phone: data.get('phone'),
+      model: data.get('model'),
+      option: data.get('option'),
+      message: data.get('message'),
+      type: 'grapheneos-order'
+    };
+    // Send via mailto as fallback
+    const subject = encodeURIComponent('GrapheneOS Bestellung - ' + payload.name);
+    const body = encodeURIComponent(
+      `Name: ${payload.name}\nE-Mail: ${payload.email}\nTelefon: ${payload.phone || '-'}\nModell: ${payload.model}\nOption: ${payload.option}\nAnmerkungen: ${payload.message || '-'}`
+    );
+    window.location.href = `mailto:chris@karg.design?subject=${subject}&body=${body}`;
+    form.style.display = 'none';
+    document.getElementById('order-success').style.display = 'block';
+  });
+</script>
+
 <style>
 .shop-hero--tech {
   position: relative;
@@ -71,7 +222,7 @@ const gT = t.grapheneShop || {};
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: linear-gradient(135deg, #0d1b0d, #1a3a24, #0d2818);
+  background: url('/images/grapheneos-banner-clean.png') center center / cover no-repeat #000;
 }
 
 .shop-hero-overlay--tech {
@@ -84,8 +235,30 @@ const gT = t.grapheneShop || {};
 .shop-hero-content {
   position: relative;
   z-index: 2;
-  text-align: center;
   padding: var(--space-xl) var(--space-md);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+  width: 100%;
+}
+
+.shop-name--left {
+  text-align: left;
+  font-size: 3rem;
+  color: var(--color-cream);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  margin-bottom: 0.3rem;
+  max-width: 45%;
+}
+
+.shop-description--bottom {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: 1.05rem;
+  color: var(--color-cream);
+  max-width: 500px;
+  width: 100%;
 }
 
 .shop-back {
@@ -213,6 +386,292 @@ const gT = t.grapheneShop || {};
   font-weight: 600;
   color: var(--color-forest-deep);
   margin-bottom: var(--space-sm);
+}
+
+.phone-layout {
+  display: flex;
+  gap: var(--space-xl);
+  align-items: flex-start;
+  padding: var(--space-lg) 0;
+  flex-wrap: wrap;
+}
+
+.phone-display-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  width: 300px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.phone-display-img {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: contain;
+}
+
+.phone-info {
+  flex: 1;
+  min-width: 300px;
+}
+
+.phone-info h2 {
+  font-size: 1.8rem;
+  margin-bottom: var(--space-sm);
+  color: var(--color-forest-deep);
+}
+
+.phone-info-text {
+  font-size: 1.05rem;
+  color: var(--color-text-light);
+  margin-bottom: var(--space-md);
+  line-height: 1.6;
+}
+
+.phone-pricing {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius);
+  padding: var(--space-sm) var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.pricing-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  font-size: 0.95rem;
+}
+
+.pricing-row:last-child { border-bottom: none; }
+
+.pricing-label { color: var(--color-text); font-weight: 500; }
+.pricing-value { color: var(--color-forest); font-weight: 600; }
+
+.phone-options {
+  margin-bottom: var(--space-md);
+}
+
+.phone-options h3 {
+  font-size: 1.2rem;
+  margin-bottom: var(--space-sm);
+  color: var(--color-forest-deep);
+}
+
+.option-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: var(--radius);
+  padding: var(--space-sm) var(--space-md);
+  margin-bottom: 0.6rem;
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.option-icon { font-size: 1.5rem; flex-shrink: 0; }
+
+.phone-note {
+  font-size: 0.9rem;
+  color: var(--color-text-light);
+  background: rgba(255, 255, 255, 0.3);
+  padding: var(--space-sm);
+  border-radius: var(--radius);
+  border-left: 3px solid var(--color-forest);
+}
+
+/* Order Form */
+.order-form-wrapper {
+  max-width: 600px;
+  margin: var(--space-xl) auto;
+  padding: var(--space-lg);
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 12px rgba(45, 32, 19, 0.08);
+}
+
+.order-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.form-row {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: var(--color-text);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: white;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--color-forest);
+}
+
+.order-submit {
+  margin-top: var(--space-sm);
+  width: 100%;
+}
+
+.form-note {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  margin-top: 0.5rem;
+}
+
+.order-success {
+  text-align: center;
+  padding: var(--space-md);
+  background: #d4edda;
+  border-radius: var(--radius);
+  color: #155724;
+  font-size: 1.1rem;
+  margin-top: var(--space-md);
+}
+
+/* GrapheneOS History */
+.graphene-history {
+  max-width: 800px;
+  margin: var(--space-xl) auto;
+  padding: var(--space-lg);
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: var(--radius-lg);
+  border-left: 4px solid var(--color-forest);
+}
+
+.graphene-history h2 {
+  font-size: 1.6rem;
+  margin-bottom: var(--space-sm);
+  color: var(--color-forest-deep);
+}
+
+.graphene-history p {
+  font-size: 0.95rem;
+  color: var(--color-text-light);
+  margin-bottom: 0.8rem;
+  line-height: 1.7;
+}
+
+.graphene-history a {
+  color: var(--color-forest);
+  text-decoration: underline;
+}
+
+.graphene-history h3 {
+  font-size: 1.2rem;
+  color: var(--color-forest-deep);
+  margin-top: var(--space-md);
+  margin-bottom: var(--space-sm);
+}
+
+.hardening-list {
+  list-style: none;
+  padding: 0;
+  margin-bottom: var(--space-md);
+}
+
+.hardening-list li {
+  font-size: 0.95rem;
+  color: var(--color-text-light);
+  padding: 0.5rem 0;
+  line-height: 1.6;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.hardening-list li:last-child { border-bottom: none; }
+
+.hardening-list strong { color: var(--color-text); }
+
+/* Supported Models */
+.supported-models {
+  max-width: 800px;
+  margin: var(--space-xl) auto;
+  padding: var(--space-lg);
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: var(--radius-lg);
+}
+
+.supported-models h2 {
+  font-size: 1.6rem;
+  margin-bottom: var(--space-sm);
+  color: var(--color-forest-deep);
+  text-align: center;
+}
+
+.models-intro {
+  text-align: center;
+  font-size: 1rem;
+  color: var(--color-text-light);
+  margin-bottom: var(--space-md);
+}
+
+.models-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-md);
+}
+
+.model-gen {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: var(--radius);
+  padding: var(--space-sm) var(--space-md);
+}
+
+.model-gen h3 {
+  font-size: 1.1rem;
+  color: var(--color-forest);
+  margin-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(0,0,0,0.08);
+  padding-bottom: 0.3rem;
+}
+
+.model-gen ul {
+  list-style: none;
+  padding: 0;
+}
+
+.model-gen li {
+  font-size: 0.9rem;
+  padding: 0.25rem 0;
+  color: var(--color-text);
+}
+
+@media (max-width: 768px) {
+  .phone-layout { flex-direction: column; }
+  .phone-display-card { width: 100%; max-width: 300px; margin: 0 auto; }
+  .form-row { flex-direction: column; }
+  .models-grid { grid-template-columns: 1fr; }
 }
 
 .shop-cta {

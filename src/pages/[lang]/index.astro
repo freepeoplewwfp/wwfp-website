@@ -274,26 +274,19 @@ const projects = [
   <!-- GrapheneOS Phone Shop -->
   <section id="graphene-shop" class="section section--alt">
     <div class="container">
-      <h2 class="text-center mb-md">{t.grapheneShop.title}</h2>
+      <h2 class="text-center mb-md">Privacy Smart-Phones — GrapheneOS</h2>
       <p class="section-intro">{t.grapheneShop.subtitle}</p>
-      <div class="phone-grid">
-        {phoneData.map(phone => (
-          <div class="card phone-card">
-            <div class="phone-card-img-wrap">
-              <img src={phone.image} alt={t.grapheneShop[phone.key].name} class="phone-card-img" />
-              <span class="badge badge--graphene">{t.grapheneShop.installBadge}</span>
-            </div>
-            <div class="card-body">
-              <h3>{t.grapheneShop[phone.key].name}</h3>
-              <p class="phone-desc">{t.grapheneShop[phone.key].desc}</p>
-              <ul class="phone-specs">
-                {phone.specs.map(spec => <li>{spec}</li>)}
-              </ul>
-              <p class="phone-price"><strong>{t.grapheneShop.priceLabel}:</strong> {t.grapheneShop.inquire}</p>
-              <a href={`/${lang}/contact`} class="btn btn--secondary mt-sm">{t.grapheneShop.inquire}</a>
-            </div>
+      <div class="shop-cards-grid">
+        <a href={`/${lang}/shop/grapheneos-phones`} class="card shop-link-card">
+          <div class="shop-link-card-img">
+            <img src="/images/grapheneos-phone-shaped.png" alt="GrapheneOS Phone" style="max-height: 200px; object-fit: contain;" />
           </div>
-        ))}
+          <div class="card-body" style="text-align: center;">
+            <h3>GrapheneOS Phones</h3>
+            <p class="phone-desc">📍 Dornbirn, Österreich</p>
+            <span class="btn btn--primary mt-sm">Zur Übersicht →</span>
+          </div>
+        </a>
       </div>
     </div>
   </section>
@@ -910,6 +903,35 @@ html {
 }
 
 /* GrapheneOS Phone Shop */
+.shop-cards-grid {
+  display: flex;
+  justify-content: center;
+  max-width: 800px;
+  margin: 0 auto var(--space-lg);
+}
+
+.shop-link-card {
+  text-decoration: none;
+  color: var(--color-text);
+  width: 100%;
+  max-width: 400px;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.shop-link-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.shop-link-card-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+  background: #000;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
 .phone-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -1115,7 +1137,7 @@ html {
   .video-hero-title { font-size: 3rem; }
   .video-hero-tagline { font-size: 1.1rem; }
   .intro-grid { grid-template-columns: 1fr; }
-  .card-grid { grid-template-columns: 1fr 1fr; }
+  .card-grid { grid-template-columns: 1fr; }
   .membership-grid { grid-template-columns: 1fr; }
   .gallery-strip { grid-template-columns: repeat(2, 1fr); }
   .hostel-steps { grid-template-columns: 1fr 1fr; }

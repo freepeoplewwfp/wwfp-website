@@ -8,8 +8,9 @@ import { pl } from '../i18n/pl.js';
 import { ro } from '../i18n/ro.js';
 import { nl } from '../i18n/nl.js';
 import { pt } from '../i18n/pt.js';
+import { ar } from '../i18n/ar.js';
 
-const translations = { en, de, fr, es, it, pl, ro, nl, pt };
+const translations = { en, de, fr, es, it, pl, ro, nl, pt, ar };
 
 export async function getStaticPaths() {
   const langCodes = Object.keys(languages);

@@ -1,0 +1,285 @@
+---
+import Base from '../../layouts/Base.astro';
+import { languages } from '../../i18n/config.js';
+import { getTranslations } from '../../i18n/utils.js';
+
+export async function getStaticPaths() {
+  return Object.keys(languages).map(code => ({
+    params: { lang: code },
+    props: { lang: code },
+  }));
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+const s = t.services;
+
+const services = [
+  { icon: '🌐', title: s.webDevTitle, text: s.webDevText, price: s.webDevPrice },
+  { icon: '🤖', title: s.aiTitle, text: s.aiText, price: s.aiPrice },
+  { icon: '🎬', title: s.videoTitle, text: s.videoText, price: s.videoPrice },
+  { icon: '🎨', title: s.designTitle, text: s.designText, price: s.designPrice },
+  { icon: '🖥️', title: s.serverTitle, text: s.serverText, price: s.serverPrice },
+];
+
+const portfolio = [
+  { title: s.portfolio1Title, text: s.portfolio1Text, url: 'https://wwfp-website.pages.dev' },
+  { title: s.portfolio2Title, text: s.portfolio2Text },
+  { title: s.portfolio3Title, text: s.portfolio3Text },
+  { title: s.portfolio4Title, text: s.portfolio4Text, url: 'https://www.youtube.com/@wwfp_people_org' },
+];
+
+const reasons = [s.why1, s.why2, s.why3, s.why4, s.why5];
+---
+
+<Base lang={lang} t={t}>
+  <section class="services-hero">
+    <div class="container">
+      <h1>{s.title}</h1>
+      <p class="subtitle">{s.subtitle}</p>
+    </div>
+  </section>
+
+  <section class="services-grid">
+    <div class="container">
+      <div class="services-list">
+        {services.map(svc => (
+          <div class="service-card">
+            <div class="service-icon">{svc.icon}</div>
+            <h2>{svc.title}</h2>
+            <p>{svc.text}</p>
+            <div class="service-price">{svc.price}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="services-portfolio">
+    <div class="container">
+      <h2>{s.portfolioTitle}</h2>
+      <p class="portfolio-intro">{s.portfolioText}</p>
+      <div class="portfolio-grid">
+        {portfolio.map(item => (
+          <div class="portfolio-card">
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+            {item.url && <a href={item.url} target="_blank" rel="noopener" class="portfolio-link">{item.url.replace('https://','')}</a>}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="services-why">
+    <div class="container">
+      <h2>{s.whyUsTitle}</h2>
+      <ul class="why-list">
+        {reasons.map(r => <li>✅ {r}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="services-cta">
+    <div class="container">
+      <h2>{s.ctaTitle}</h2>
+      <p>{s.ctaText}</p>
+      <a href={`/${lang}/contact`} class="cta-btn">{s.ctaBtn} →</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+.services-hero {
+  background: linear-gradient(135deg, #1a3a2e 0%, #2d5a3d 100%);
+  color: #fff;
+  padding: 4rem 0 3rem;
+  text-align: center;
+}
+
+.services-hero h1 {
+  font-size: 2.5rem;
+  font-family: var(--font-head);
+  margin-bottom: 1rem;
+}
+
+.services-hero .subtitle {
+  font-size: 1.15rem;
+  max-width: 600px;
+  margin: 0 auto;
+  opacity: 0.9;
+}
+
+.services-grid {
+  padding: 4rem 0;
+  background: var(--color-bg-alt);
+}
+
+.services-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.service-card {
+  background: var(--color-paper);
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+.service-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.service-card h2 {
+  font-size: 1.3rem;
+  font-family: var(--font-head);
+  color: var(--color-forest-deep);
+  margin-bottom: 0.8rem;
+}
+
+.service-card p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  margin-bottom: 1rem;
+}
+
+.service-price {
+  font-weight: bold;
+  color: var(--color-forest);
+  font-size: 1.1rem;
+}
+
+.services-portfolio {
+  padding: 4rem 0;
+}
+
+.services-portfolio h2 {
+  font-size: 2rem;
+  font-family: var(--font-head);
+  text-align: center;
+  color: var(--color-forest-deep);
+  margin-bottom: 0.5rem;
+}
+
+.portfolio-intro {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  color: var(--color-text-muted);
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.portfolio-card {
+  background: var(--color-paper);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.portfolio-card h3 {
+  font-size: 1.1rem;
+  color: var(--color-forest-deep);
+  margin-bottom: 0.5rem;
+}
+
+.portfolio-card p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+}
+
+.portfolio-link {
+  font-size: 0.85rem;
+  color: var(--color-forest);
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.portfolio-link:hover {
+  text-decoration: underline;
+}
+
+.services-why {
+  padding: 3rem 0;
+  background: var(--color-bg-alt);
+}
+
+.services-why h2 {
+  font-size: 1.8rem;
+  font-family: var(--font-head);
+  text-align: center;
+  color: var(--color-forest-deep);
+  margin-bottom: 2rem;
+}
+
+.why-list {
+  list-style: none;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.why-list li {
+  font-size: 1rem;
+  line-height: 2;
+  color: var(--color-text);
+}
+
+.services-cta {
+  padding: 4rem 0;
+  text-align: center;
+  background: linear-gradient(135deg, #1a3a2e 0%, #2d5a3d 100%);
+  color: #fff;
+}
+
+.services-cta h2 {
+  font-size: 2rem;
+  font-family: var(--font-head);
+  margin-bottom: 1rem;
+}
+
+.services-cta p {
+  font-size: 1.05rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.9;
+}
+
+.cta-btn {
+  display: inline-block;
+  background: #00E5D1;
+  color: #1a3a2e;
+  padding: 0.9rem 2rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.cta-btn:hover {
+  background: #00c9b8;
+  transform: scale(1.03);
+}
+
+@media (max-width: 768px) {
+  .services-hero h1 { font-size: 1.8rem; }
+  .services-hero .subtitle { font-size: 1rem; }
+  .services-list { grid-template-columns: 1fr; }
+  .portfolio-grid { grid-template-columns: 1fr; }
+}
+</style>
