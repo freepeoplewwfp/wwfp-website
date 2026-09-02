@@ -10,7 +10,7 @@ export const shops = [
     city: 'Dornbirn',
     country: 'Österreich',
     image: '/images/woascht-wohl/IMG_20260819_152408.jpg',
-    video: '/videos/woascht-wohl-shop.mp4',
+    youtubeShort: 'u0-kPH1wsso',
     description: 'Woascht Wohl — Handcrafted Spirits. Traditionelle Schnapsbrennerei aus Dornbirn, Österreich.',
     customLayout: 'woascht-wohl',
   },
@@ -32,7 +32,7 @@ export const shops = [
     city: 'Chefchaouen',
     country: 'Morocco',
     image: '/images/chaouen/chaouen-2.jpg',
-    video: '/videos/artisanat-du-moroc.mp4',
+    youtubeShort: 'Ygi1cSGUez0',
     description: 'House of Atlas — rooted in the ancient medina, where leather and metalwork traditions span centuries.',
   },
   {

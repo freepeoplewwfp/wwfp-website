@@ -394,30 +394,6 @@ const projects = [
 
 </Base>
 
-<script is:inline>
-  // Shop video tap-to-play (fixes mobile autoplay blocking)
-  document.querySelectorAll('.shop-video-wrap').forEach(function(wrap) {
-    wrap.addEventListener('click', function(e) {
-      e.preventDefault();
-      e.stopPropagation();
-      var videoUrl = wrap.getAttribute('data-video');
-      var posterUrl = wrap.getAttribute('data-poster');
-      var video = document.createElement('video');
-      video.className = 'shop-card-img';
-      video.src = videoUrl;
-      video.poster = posterUrl;
-      video.autoplay = true;
-      video.muted = true;
-      video.loop = true;
-      video.playsInline = true;
-      video.controls = false;
-      video.setAttribute('aria-label', 'Shop video');
-      wrap.innerHTML = '';
-      wrap.appendChild(video);
-      video.play().catch(function() {});
-    });
-  });
-</script>
 
 <style>
 /* Fullscreen Video Hero */
@@ -753,41 +729,13 @@ iframe.shop-card-youtube {
   pointer-events: none;
 }
 
-.shop-video-wrap {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-}
 
-.shop-video-wrap .shop-video-poster {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
 
-.shop-video-play {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.65);
-  color: #fff;
-  font-size: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  z-index: 2;
-  transition: background 0.3s;
-}
 
-.shop-video-wrap:hover .shop-video-play {
-  background: rgba(0, 0, 0, 0.85);
-}
+
+
+
+
 
 .shop-card:hover .shop-card-img {
   transform: scale(1.08);
