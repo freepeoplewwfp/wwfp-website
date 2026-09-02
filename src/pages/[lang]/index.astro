@@ -1134,9 +1134,10 @@ html {
 }
 
 @media (max-width: 768px) {
-  .video-hero { height: 50vh; min-height: 280px; }
-  .video-hero-bg { object-position: center center; }
-  .video-hero-poster { background-position: center center; background-size: cover; }
+  .video-hero { height: auto; aspect-ratio: 16/9; min-height: 0; padding-top: 0; }
+  .video-hero-bg { object-fit: contain; object-position: center center; height: 100%; }
+  .video-hero-poster { background-size: contain; background-position: center center; background-repeat: no-repeat; background-color: #000; }
+  .video-hero-overlay { background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.1) 50%, rgba(26,58,36,0.4) 100%); }
   .video-play-btn { font-size: 1rem; padding: 12px 24px; }
   .video-replay-btn { font-size: 0.9rem; padding: 10px 22px; }
   .video-hero-title { font-size: 3rem; }
