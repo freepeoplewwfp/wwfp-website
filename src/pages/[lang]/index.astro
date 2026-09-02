@@ -299,7 +299,7 @@ const projects = [
           <a href={shop.customLayout ? `/${lang}/shop/${shop.customLayout}` : `/${lang}/shop/${shop.slug}`} class="shop-card">
             <div class="shop-card-img-wrap">
               {shop.youtubeShort ? (
-                <iframe class="shop-card-img shop-card-youtube" src={`https://www.youtube.com/embed/${shop.youtubeShort}?autoplay=1&mute=1&loop=1&playlist=${shop.youtubeShort}&controls=0`} frameborder="0" allow="autoplay; encrypted-media" allowfullscreen aria-label={`${shop.name} — ${shop.city}`}></iframe>
+                <iframe class="shop-card-img shop-card-youtube" src={`https://www.youtube-nocookie.com/embed/${shop.youtubeShort}?autoplay=1&mute=1&loop=1&playlist=${shop.youtubeShort}&controls=0`} frameborder="0" allow="autoplay; encrypted-media" allowfullscreen aria-label={`${shop.name} — ${shop.city}`}></iframe>
               ) : shop.video ? (
                 <div class="shop-video-wrap" data-video={shop.video} data-poster={shop.image}>
                   <img src={shop.image} alt={`${shop.name} — ${shop.city}`} class="shop-card-img shop-video-poster" />
@@ -339,7 +339,7 @@ const projects = [
 
       <div class="freedom-video-section">
         <div class="freedom-video-wrap">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/ViWVlXg2NTU?hl=de&cc_lang_pref=de&cc_load_policy=1" frameborder="0" allowfullscreen title="Install GrapheneOS Before Your Phone Becomes the Checkpoint"></iframe>
+          <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/ViWVlXg2NTU?hl=de&cc_lang_pref=de&cc_load_policy=1" frameborder="0" allowfullscreen title="Install GrapheneOS Before Your Phone Becomes the Checkpoint"></iframe>
         </div>
         <div class="freedom-youtube-cta">
           <a href="https://www.youtube.com/@wwfp_people_org" target="_blank" rel="noopener" class="btn btn--youtube">
