@@ -301,9 +301,10 @@ const projects = [
               {shop.youtubeShort ? (
                 <iframe class="shop-card-img shop-card-youtube" src={`https://www.youtube.com/embed/${shop.youtubeShort}?autoplay=1&mute=1&loop=1&playlist=${shop.youtubeShort}&controls=0`} frameborder="0" allow="autoplay; encrypted-media" allowfullscreen aria-label={`${shop.name} — ${shop.city}`}></iframe>
               ) : shop.video ? (
-                <video class="shop-card-img" autoplay muted loop playsinline preload="auto" poster={shop.image} aria-label={`${shop.name} — ${shop.city}`}>
-                  <source src={shop.video} type="video/mp4" />
-                </video>
+                <div class="shop-video-wrap" data-video={shop.video} data-poster={shop.image}>
+                  <img src={shop.image} alt={`${shop.name} — ${shop.city}`} class="shop-card-img shop-video-poster" />
+                  <div class="shop-video-play">▶</div>
+                </div>
               ) : (
                 <img src={shop.image} alt={`${shop.name} — ${shop.city}`} class="shop-card-img" />
               )}
@@ -392,6 +393,31 @@ const projects = [
   </div>
 
 </Base>
+
+<script is:inline>
+  // Shop video tap-to-play (fixes mobile autoplay blocking)
+  document.querySelectorAll('.shop-video-wrap').forEach(function(wrap) {
+    wrap.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var videoUrl = wrap.getAttribute('data-video');
+      var posterUrl = wrap.getAttribute('data-poster');
+      var video = document.createElement('video');
+      video.className = 'shop-card-img';
+      video.src = videoUrl;
+      video.poster = posterUrl;
+      video.autoplay = true;
+      video.muted = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.controls = false;
+      video.setAttribute('aria-label', 'Shop video');
+      wrap.innerHTML = '';
+      wrap.appendChild(video);
+      video.play().catch(function() {});
+    });
+  });
+</script>
 
 <style>
 /* Fullscreen Video Hero */
@@ -725,6 +751,42 @@ iframe.shop-card-youtube {
   border: none;
   object-fit: cover;
   pointer-events: none;
+}
+
+.shop-video-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.shop-video-wrap .shop-video-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.shop-video-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 2;
+  transition: background 0.3s;
+}
+
+.shop-video-wrap:hover .shop-video-play {
+  background: rgba(0, 0, 0, 0.85);
 }
 
 .shop-card:hover .shop-card-img {
