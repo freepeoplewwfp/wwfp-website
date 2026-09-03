@@ -18,7 +18,6 @@ const introHtml = t.events.intro.replace(/^(.+?\.) (.+)$/, '$1<br>$2');
 <Base lang={lang} t={t}>
   <section class="page-hero">
     <div class="page-hero-bg"></div>
-    <div class="page-hero-overlay"></div>
     <div class="container page-hero-content">
       <h1>{t.events.title}</h1>
       <p class="page-hero-text" set:html={introHtml}></p>
@@ -52,12 +51,50 @@ const introHtml = t.events.intro.replace(/^(.+?\.) (.+)$/, '$1<br>$2');
 </Base>
 
 <style>
-.page-hero { position: relative; padding: var(--space-xl) 0; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center; min-height: 280px; }
-.page-hero-bg { position: absolute; inset: 0; background-image: url('/images/wwfp-events.jpg'); background-size: cover; background-position: center; z-index: 0; }
-.page-hero-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); z-index: 1; }
-.page-hero-content { position: relative; z-index: 2; text-align: center; width: 100%; background: transparent; }
-.page-hero h1 { color: #00E5D1; margin-bottom: var(--space-sm); font-size: 2.5rem; text-shadow: 0 0 3px #000, 0 0 6px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.9); -webkit-text-stroke: 2px rgba(0,0,0,0.6); }
-.page-hero-text { color: #00E5D1; font-size: 1.1rem; font-weight: 500; max-width: 700px; margin: 0 auto; text-shadow: 0 0 3px #000, 0 0 6px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.9); -webkit-text-stroke: 1px rgba(0,0,0,0.5); line-height: 1.5; }
+/* Hero — dark base background ensures text is ALWAYS readable,
+   even when the image doesn't cover the full text area on mobile */
+.page-hero {
+  position: relative;
+  padding: var(--space-xl) var(--space-md);
+  overflow: hidden;
+  background: #0a1a14;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.page-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('/images/wwfp-events.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.6;
+  z-index: 0;
+}
+.page-hero-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  width: 100%;
+  max-width: 700px;
+}
+.page-hero h1 {
+  color: #00E5D1;
+  font-size: 2.5rem;
+  margin-bottom: var(--space-sm);
+  text-shadow: 0 0 3px #000, 0 0 6px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.9);
+  -webkit-text-stroke: 2px rgba(0,0,0,0.6);
+}
+.page-hero-text {
+  color: #00E5D1;
+  font-size: 1.1rem;
+  font-weight: 500;
+  max-width: 600px;
+  margin: 0 auto;
+  text-shadow: 0 0 3px #000, 0 0 6px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.9);
+  -webkit-text-stroke: 1px rgba(0,0,0,0.5);
+  line-height: 1.5;
+}
 
 .event-featured {
   display: flex;
@@ -114,9 +151,9 @@ const introHtml = t.events.intro.replace(/^(.+?\.) (.+)$/, '$1<br>$2');
 }
 
 @media (max-width: 768px) {
-  .page-hero { padding: var(--space-lg) var(--space-sm); min-height: 220px; }
-  .page-hero h1 { font-size: 1.6rem; }
-  .page-hero-text { font-size: 0.9rem; max-width: 100%; padding: 0 var(--space-xs); line-height: 1.4; }
+  .page-hero { padding: var(--space-lg) var(--space-sm); }
+  .page-hero h1 { font-size: 1.5rem; }
+  .page-hero-text { font-size: 0.85rem; line-height: 1.4; }
   .event-featured { flex-direction: column; }
 }
 </style>
