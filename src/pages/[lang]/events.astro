@@ -52,10 +52,10 @@ const introHtml = t.events.intro.replace(/^(.+?\.) (.+)$/, '$1<br>$2');
 
 <style>
 .page-hero { position: relative; padding: var(--space-xl) 0; overflow: hidden; background: transparent; justify-content: center; display: flex; align-items: center; }
-.page-hero-bg { position: absolute; inset: 0; background-image: url('/images/wwfp-events.jpg'); background-size: 100% auto; background-position: center 90%; background-repeat: no-repeat; background-color: #000; }
-.page-hero-content { position: relative; z-index: 1; text-align: center; width: 100%; background: transparent; min-height: 350px; }
-.page-hero h1 { color: #00E5D1; font-size: 4.2rem; margin: 0; text-shadow: 0 0 3px #000, 0 0 6px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.9); -webkit-text-stroke: 2px rgba(0,0,0,0.6); position: absolute; top: 5px; left: 0; right: 0; text-align: center; }
-.page-hero-text { color: #00E5D1; font-size: 1.4rem; font-weight: 500; max-width: 100%; margin: 0 auto; text-shadow: 0 0 3px #000, 0 0 6px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.9); -webkit-text-stroke: 1px rgba(0,0,0,0.5); position: absolute; bottom: -75px; left: 0; right: 0; white-space: nowrap; }
+.page-hero-bg { position: absolute; inset: 0; background-image: url('/images/wwfp-events.jpg'); background-size: cover; background-position: center; background-color: #000; }
+.page-hero-content { position: relative; z-index: 1; text-align: center; width: 100%; background: transparent; }
+.page-hero h1 { color: #00E5D1; margin-bottom: var(--space-sm); text-shadow: 0 0 3px #000, 0 0 6px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.9); -webkit-text-stroke: 2px rgba(0,0,0,0.6); }
+.page-hero-text { color: #00E5D1; font-size: 1.15rem; font-weight: 500; max-width: 700px; margin: 0 auto; text-shadow: 0 0 3px #000, 0 0 6px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.9); -webkit-text-stroke: 1px rgba(0,0,0,0.5); }
 
 .event-featured {
   display: flex;
@@ -109,5 +109,13 @@ const introHtml = t.events.intro.replace(/^(.+?\.) (.+)$/, '$1<br>$2');
 .upcoming-placeholder span {
   font-size: 2rem;
   color: var(--color-cream, #f5efe0);
+}
+
+@media (max-width: 768px) {
+  .page-hero { padding: var(--space-md) 0; }
+  .page-hero-bg { background-size: cover; background-position: center; }
+  .page-hero h1 { font-size: 1.8rem; }
+  .page-hero-text { font-size: 1rem; padding: 0 var(--space-sm); }
+  .event-featured { flex-direction: column; }
 }
 </style>
