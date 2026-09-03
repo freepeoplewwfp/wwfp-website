@@ -19,14 +19,9 @@ const t = getTranslations(lang);
     <div class="page-hero-bg"></div>
     <div class="page-hero-overlay"></div>
     <div class="container page-hero-content">
-      <div class="page-hero-left">
-        <span class="page-hero-support">Support</span>
-        <span class="page-hero-ourwork">Our Work</span>
-      </div>
-      <div class="page-hero-right">
-        <span class="page-hero-wwfp">WWFP</span>
-        <p class="page-hero-resttext">is financed exclusively through private donations. We do not accept money from governments, corporations, or political parties. This is how we stay independent.</p>
-      </div>
+      <span class="page-hero-support">Support Our Work</span>
+      <span class="page-hero-wwfp">WWFP</span>
+      <p class="page-hero-resttext">is financed exclusively through private donations. We do not accept money from governments, corporations, or political parties. This is how we stay independent.</p>
     </div>
   </section>
 
@@ -88,21 +83,69 @@ const t = getTranslations(lang);
 </Base>
 
 <style>
-.page-hero { position: relative; padding: var(--space-xl) 0; overflow: hidden; background: transparent; display: flex; align-items: center; }
-.page-hero-bg { position: absolute; inset: 0; background-image: url('/images/wwfp-22.jpg'); background-size: cover; background-position: center 12.5%; }
-.page-hero-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.1) 30%, rgba(0,0,0,0.1) 70%, rgba(0,0,0,0.55) 100%); z-index: 1; }
-.page-hero-content { position: relative; z-index: 2; width: 100%; background: transparent; display: flex; justify-content: space-between; align-items: center; }
-.page-hero-left { text-align: left; max-width: 35%; display: flex; flex-direction: column; }
-.page-hero-right { text-align: left; max-width: 38%; margin-left: auto; }
-.page-hero-support { color: #aaffaa; font-size: 4.5rem; font-weight: 700; line-height: 1; text-shadow: 0 0 3px #000, 0 0 6px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.9); -webkit-text-stroke: 2px rgba(0,0,0,0.6); display: block; margin-bottom: 0.3rem; }
-.page-hero-ourwork { color: #aaffaa; font-size: 2.25rem; font-weight: 600; line-height: 1.2; text-shadow: 0 2px 4px rgba(0,0,0,0.5); display: block; }
-.page-hero-wwfp { color: #90ee90; font-size: 3.6rem; font-weight: 800; line-height: 1; text-shadow: 0 0 3px #000, 0 0 6px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.9); -webkit-text-stroke: 2px rgba(0,0,0,0.6); display: block; margin-bottom: 1.2rem; letter-spacing: 0.02em; }
-.page-hero-resttext { color: #90ee90; font-size: 1.05rem; line-height: 1.5; text-shadow: 0 0 2px #000, 0 1px 4px rgba(0,0,0,0.7); -webkit-text-stroke: 0.5px rgba(0,0,0,0.4); margin: 0; padding-left: 0.8rem; max-width: 340px; }
+/* Hero — dark base, centered text, no absolute positioning that causes overflow */
+.page-hero {
+  position: relative;
+  padding: var(--space-xl) var(--space-md);
+  overflow: hidden;
+  background: #0d1f15;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.page-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('/images/wwfp-22.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.5;
+  z-index: 0;
+}
+.page-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 1;
+}
+.page-hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 600px;
+}
+.page-hero-support {
+  color: #aaffaa;
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.1;
+  text-shadow: 0 0 3px #000, 0 0 6px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.9);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.page-hero-wwfp {
+  color: #90ee90;
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+  text-shadow: 0 0 3px #000, 0 0 6px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.9);
+  display: block;
+  margin-bottom: 1rem;
+}
+.page-hero-resttext {
+  color: #c0e8c0;
+  font-size: 1rem;
+  line-height: 1.6;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+  margin: 0 auto;
+  max-width: 400px;
+}
 
 .support-lead {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   color: var(--color-text-light);
-  max-width: 100%;
+  max-width: 800px;
   margin: 0 auto var(--space-md);
   text-align: center;
 }
@@ -149,13 +192,9 @@ const t = getTranslations(lang);
 
 @media (max-width: 768px) {
   .donation-grid { grid-template-columns: 1fr; }
-  .page-hero { padding: var(--space-md) 0; }
-  .page-hero-bg { background-size: cover; background-position: center; }
-  .page-hero-content { flex-direction: column; gap: var(--space-md); text-align: center; }
-  .page-hero-left, .page-hero-right { text-align: center; max-width: 100%; margin-left: 0; }
-  .page-hero-support { font-size: 2.8rem; }
-  .page-hero-ourwork { font-size: 1.6rem; }
-  .page-hero-wwfp { font-size: 2.2rem; }
-  .page-hero-resttext { padding-left: 0; margin: 0 auto; font-size: 0.95rem; }
+  .page-hero { padding: var(--space-lg) var(--space-sm); }
+  .page-hero-support { font-size: 2rem; }
+  .page-hero-wwfp { font-size: 2rem; }
+  .page-hero-resttext { font-size: 0.9rem; }
 }
 </style>
