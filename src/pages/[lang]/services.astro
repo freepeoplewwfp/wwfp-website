@@ -33,10 +33,11 @@ const reasons = [s.why1, s.why2, s.why3, s.why4, s.why5];
 ---
 
 <Base lang={lang} t={t}>
-  <section class="services-hero">
-    <div class="container">
+  <section class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="container page-hero-content">
       <h1>{s.title}</h1>
-      <p class="subtitle">{s.subtitle}</p>
+      <p class="page-hero-text">{s.subtitle}</p>
     </div>
   </section>
 
@@ -90,24 +91,44 @@ const reasons = [s.why1, s.why2, s.why3, s.why4, s.why5];
 </Base>
 
 <style>
-.services-hero {
-  background: linear-gradient(135deg, #1a3a2e 0%, #2d5a3d 100%);
-  color: #fff;
-  padding: 4rem 0 3rem;
+.page-hero {
+  position: relative;
+  padding: var(--space-xl) var(--space-md);
+  overflow: hidden;
+  background: #0d1f15;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 }
-
-.services-hero h1 {
-  font-size: 2.5rem;
-  font-family: var(--font-head);
-  margin-bottom: 1rem;
+.page-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('/images/services-banner.jpeg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.5;
+  z-index: 0;
 }
-
-.services-hero .subtitle {
-  font-size: 1.15rem;
+.page-hero-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
   max-width: 600px;
+}
+.page-hero h1 {
+  color: #aaffaa;
+  font-size: 2.5rem;
+  margin-bottom: var(--space-sm);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+.page-hero-text {
+  color: #c0e8c0;
+  font-size: 1.1rem;
+  max-width: 500px;
   margin: 0 auto;
-  opacity: 0.9;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+  line-height: 1.6;
 }
 
 .services-grid {
@@ -127,6 +148,7 @@ const reasons = [s.why1, s.why2, s.why3, s.why4, s.why5];
   padding: 2rem;
   box-shadow: 0 2px 8px rgba(0,0,0,0.06);
   transition: transform 0.2s, box-shadow 0.2s;
+  text-align: center;
 }
 
 .service-card:hover {
@@ -277,9 +299,11 @@ const reasons = [s.why1, s.why2, s.why3, s.why4, s.why5];
 }
 
 @media (max-width: 768px) {
-  .services-hero h1 { font-size: 1.8rem; }
-  .services-hero .subtitle { font-size: 1rem; }
+  .page-hero { padding: var(--space-lg) var(--space-sm); }
+  .page-hero h1 { font-size: 1.6rem; }
+  .page-hero-text { font-size: 0.9rem; padding: 0 var(--space-xs); }
   .services-list { grid-template-columns: 1fr; }
   .portfolio-grid { grid-template-columns: 1fr; }
+  .service-card { padding: 1.5rem; }
 }
 </style>
