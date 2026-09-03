@@ -27,16 +27,16 @@ const navLabels = {
 
 <header class="site-header">
   <div class="container header-inner">
-    <a href={`/${lang}`} class="logo">
-      <img src="/images/wwfp-logo.png" alt="WWFP Logo" class="logo-img" />
-      <span class="logo-text">WWFP</span>
-    </a>
-
     <button class="nav-toggle" aria-label="Toggle navigation" id="navToggle">
       <span></span>
       <span></span>
       <span></span>
     </button>
+
+    <a href={`/${lang}`} class="logo">
+      <img src="/images/wwfp-logo.png" alt="WWFP Logo" class="logo-img" />
+      <span class="logo-text">WWFP</span>
+    </a>
 
     <nav class="site-nav" id="siteNav">
       {navItems.map(item => (
@@ -58,6 +58,19 @@ const navLabels = {
         </div>
       </div>
     </nav>
+
+    <div class="lang-switcher lang-switcher-mobile">
+      <button class="lang-btn" id="langBtnMobile">
+        {languages[lang].flag} ▾
+      </button>
+      <div class="lang-dropdown" id="langDropdownMobile">
+        {Object.values(languages).map(l => (
+          <a href={`/${l.code}`} class={l.code === lang ? 'lang-option active' : 'lang-option'}>
+            {l.flag} {l.name}
+          </a>
+        ))}
+      </div>
+    </div>
   </div>
 </header>
 
@@ -75,17 +88,20 @@ const navLabels = {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.6rem var(--space-md);
+  padding: 0.8rem var(--space-md);
   position: relative;
+  min-height: 64px;
 }
 
+/* Logo — centered on desktop */
 .logo {
   display: flex;
   align-items: center;
   gap: 0.6rem;
   text-decoration: none;
   position: absolute;
-  left: var(--space-md);
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .logo-img {
@@ -100,6 +116,7 @@ const navLabels = {
   color: var(--color-forest-deep);
 }
 
+/* Desktop nav — centered */
 .site-nav {
   display: flex;
   align-items: center;
@@ -119,10 +136,15 @@ const navLabels = {
   color: var(--color-forest);
 }
 
+/* Desktop language switcher — right side */
 .lang-switcher {
   position: relative;
   position: absolute;
   right: var(--space-md);
+}
+
+.lang-switcher-mobile {
+  display: none;
 }
 
 .lang-btn {
@@ -170,6 +192,7 @@ const navLabels = {
   color: var(--color-forest);
 }
 
+/* Hamburger — hidden on desktop */
 .nav-toggle {
   display: none;
   flex-direction: column;
@@ -188,12 +211,39 @@ const navLabels = {
 }
 
 @media (max-width: 900px) {
+  .header-inner {
+    padding: 0.8rem var(--space-md);
+    min-height: 64px;
+  }
+
+  /* Hamburger — left side, clearly separated from logo */
   .nav-toggle {
     display: flex;
     position: absolute;
-    left: var(--space-md);
+    left: var(--space-sm);
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 101;
   }
-  
+
+  /* Logo — right of hamburger, not overlapping */
+  .logo {
+    position: absolute;
+    left: 60px;
+    transform: none;
+  }
+
+  /* Mobile language switcher — right side, compact */
+  .lang-switcher { display: none; }
+  .lang-switcher-mobile {
+    display: block;
+    position: absolute;
+    right: var(--space-sm);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  /* Mobile nav dropdown — full width below header */
   .site-nav {
     display: none;
     position: absolute;
@@ -224,13 +274,21 @@ const navLabels = {
     document.getElementById('siteNav')?.classList.toggle('open');
   });
 
+  // Desktop lang switcher
   document.getElementById('langBtn')?.addEventListener('click', (e) => {
     e.stopPropagation();
     document.getElementById('langDropdown')?.classList.toggle('open');
   });
 
+  // Mobile lang switcher
+  document.getElementById('langBtnMobile')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.getElementById('langDropdownMobile')?.classList.toggle('open');
+  });
+
   document.addEventListener('click', () => {
     document.getElementById('langDropdown')?.classList.remove('open');
+    document.getElementById('langDropdownMobile')?.classList.remove('open');
   });
 
   // Toggle hidden sections (Hostel & Shop)
@@ -241,7 +299,6 @@ const navLabels = {
       const section = document.getElementById(key);
       if (section) {
         const isHidden = !section.classList.contains('section--visible');
-        // Hide all toggle sections first
         document.querySelectorAll('.section--hidden').forEach(s => s.classList.remove('section--visible'));
         if (isHidden) {
           section.classList.add('section--visible');
