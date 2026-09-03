@@ -213,7 +213,7 @@ const navLabels = {
 @media (max-width: 900px) {
   .header-inner {
     padding: 0.8rem var(--space-md);
-    min-height: 64px;
+    min-height: 72px;
   }
 
   /* Hamburger — left side, clearly separated from logo */
@@ -229,8 +229,9 @@ const navLabels = {
   /* Logo — right of hamburger, not overlapping */
   .logo {
     position: absolute;
-    left: 60px;
-    transform: none;
+    left: 75px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   /* Mobile language switcher — right side, compact */
