@@ -1,7 +1,3 @@
-// Shop data — easily replaceable when real shops are onboarded
-// Each shop: slug (URL), name, city, country, image, description
-// When real data arrives from Marrakesh trip, just update this file.
-
 export const shops = [
   {
     slug: 'woascht-wohl',
@@ -10,6 +6,7 @@ export const shops = [
     city: 'Dornbirn',
     country: 'Österreich',
     image: '/images/woascht-wohl/IMG_20260819_152408.jpg',
+    video: '/videos/woascht-wohl-shop.mp4',
     youtubeShort: 'u0-kPH1wsso',
     description: 'Woascht Wohl — Handcrafted Spirits. Traditionelle Schnapsbrennerei aus Dornbirn, Österreich.',
     customLayout: 'woascht-wohl',
@@ -21,6 +18,7 @@ export const shops = [
     city: 'Dornbirn',
     country: 'Österreich',
     image: '/images/grapheneos-short-thumb.jpg',
+    video: '/videos/grapheneos-shop.mp4',
     youtubeShort: '4NPKSs7-kfI',
     description: 'Privacy Phones — GrapheneOS. Sichere Telefone mit GrapheneOS. Freiheit in deiner Tasche.',
     customLayout: 'grapheneos-phones',
@@ -32,6 +30,7 @@ export const shops = [
     city: 'Chefchaouen',
     country: 'Morocco',
     image: '/images/chaouen/chaouen-2.jpg',
+    video: '/videos/dar-al-atlas-shop.mp4',
     youtubeShort: 'Ygi1cSGUez0',
     description: 'House of Atlas — rooted in the ancient medina, where leather and metalwork traditions span centuries.',
   },

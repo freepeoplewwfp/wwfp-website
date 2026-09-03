@@ -82,11 +82,11 @@ const t = getTranslations(lang);
 </Base>
 
 <style>
-.page-hero { position: relative; padding: 0; overflow: hidden; background: transparent; justify-content: center; display: flex; align-items: flex-end; padding-bottom: 2rem; min-height: 60vh; }
-.page-hero-bg { position: absolute; inset: 0; background-image: url('/images/contact.jpeg'); background-size: cover; background-position: center 0%; }
-.page-hero-content { position: relative; z-index: 1; text-align: center; width: 33%; background: transparent; padding-left: var(--space-md); margin-left: 0%; }
-.page-hero h1 { color: #2d8a3d; margin-bottom: 0.2rem; text-shadow: 0.3px 0 #fff, -0.3px 0 #fff, 0 0.3px #fff, 0 -0.3px #fff; }
-.page-hero-text { color: #2d8a3d; font-size: 1.15rem; max-width: 100%; margin: 0; text-shadow: 0.3px 0 #fff, -0.3px 0 #fff, 0 0.3px #fff, 0 -0.3px #fff; }
+.page-hero { position: relative; padding: var(--space-xl) 0; overflow: hidden; background: transparent; justify-content: center; display: flex; align-items: center; }
+.page-hero-bg { position: absolute; inset: 0; background-image: url('/images/contact.jpeg'); background-size: cover; background-position: center; }
+.page-hero-content { position: relative; z-index: 1; text-align: center; width: 100%; background: transparent; }
+.page-hero h1 { color: #aaffaa; margin-bottom: var(--space-sm); text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+.page-hero-text { color: #90ee90; font-size: 1.15rem; max-width: 700px; margin: 0 auto; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
 
 .contact-grid {
   display: grid;
@@ -158,5 +158,9 @@ const t = getTranslations(lang);
 
 @media (max-width: 768px) {
   .contact-grid { grid-template-columns: 1fr; }
+  .page-hero { padding: var(--space-md) 0; }
+  .page-hero-bg { background-size: cover; background-position: center; }
+  .page-hero h1 { font-size: 1.8rem; }
+  .page-hero-text { font-size: 1rem; padding: 0 var(--space-sm); }
 }
 </style>

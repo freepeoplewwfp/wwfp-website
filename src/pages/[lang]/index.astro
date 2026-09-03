@@ -3,8 +3,6 @@ import Base from '../../layouts/Base.astro';
 import { languages } from '../../i18n/config.js';
 import { getTranslations } from '../../i18n/utils.js';
 import { shops as shopData } from '../../data/shops.js';
-import { woaschtProducts } from '../../data/woaschtwohl.js';
-import { phones as phoneData } from '../../data/phones.js';
 
 export async function getStaticPaths() {
   return Object.keys(languages).map(code => ({
@@ -82,7 +80,6 @@ const projects = [
           vid.muted = false;
           vid.loop = false;
           vid.play();
-          // Hide poster so video is visible
           if (poster) poster.style.display = 'none';
           btn.style.display = 'none';
         });
@@ -234,60 +231,6 @@ const projects = [
     </div>
   </section>
 
-  <!-- Woascht Wohl Shop -->
-  <section id="woascht-wohl" class="section">
-    <div class="container">
-      <h2 class="text-center mb-md">{t.woaschtWohl.title}</h2>
-      <p class="section-intro">{t.woaschtWohl.subtitle}</p>
-      <div class="woascht-grid">
-        <div class="card woascht-card">
-          <div class="woascht-card-img-wrap">
-            <img src="/images/woascht-wohl/IMG_20260810_170308.jpg" alt="Woascht Wohl Handwerk" class="woascht-card-img" />
-          </div>
-        </div>
-        <div class="card woascht-card">
-          <div class="woascht-card-img-wrap">
-            <img src="/images/woascht-wohl/IMG_20260810_171152.jpg" alt="Woascht Wohl Handwerk" class="woascht-card-img" />
-          </div>
-        </div>
-        <div class="card woascht-card">
-          <div class="woascht-card-img-wrap">
-            <img src="/images/woascht-wohl/IMG_20260810_171403.jpg" alt="Woascht Wohl Handwerk" class="woascht-card-img" />
-          </div>
-        </div>
-        <div class="card woascht-card">
-          <div class="woascht-card-img-wrap">
-            <img src="/images/woascht-wohl/IMG_20260810_170854.jpg" alt="Woascht Wohl Handwerk" class="woascht-card-img" />
-          </div>
-        </div>
-      </div>
-      <p class="text-center mt-md" style="color: var(--color-text-light); font-style: italic;">Bilder vom Handwerk folgen in Kürze.</p>
-      <div class="text-center mt-lg">
-        <a href={`/${lang}/shop/woascht-wohl`} class="btn btn--primary">Zum Shop</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- GrapheneOS Phone Shop -->
-  <section id="graphene-shop" class="section section--alt">
-    <div class="container">
-      <h2 class="text-center mb-md">Privacy Smart-Phones — GrapheneOS</h2>
-      <p class="section-intro">{t.grapheneShop.subtitle}</p>
-      <div class="shop-cards-grid">
-        <a href={`/${lang}/shop/grapheneos-phones`} class="card shop-link-card">
-          <div class="shop-link-card-img">
-            <img src="/images/grapheneos-phone-shaped.png" alt="GrapheneOS Phone" style="max-height: 200px; object-fit: contain;" />
-          </div>
-          <div class="card-body" style="text-align: center;">
-            <h3>GrapheneOS Phones</h3>
-            <p class="phone-desc">📍 Dornbirn, Österreich</p>
-            <span class="btn btn--primary mt-sm">Zur Übersicht →</span>
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
-
   <!-- Shop -->
   <section id="shop" class="section section--alt">
     <div class="container">
@@ -298,13 +241,12 @@ const projects = [
         {shopData.map(shop => (
           <a href={shop.customLayout ? `/${lang}/shop/${shop.customLayout}` : `/${lang}/shop/${shop.slug}`} class="shop-card">
             <div class="shop-card-img-wrap">
-              {shop.youtubeShort ? (
+              {shop.video ? (
+                <video class="shop-card-img shop-card-video" autoplay muted loop playsinline preload="auto" poster={shop.image} aria-label={`${shop.name} — ${shop.city}`}>
+                  <source src={shop.video} type="video/mp4" />
+                </video>
+              ) : shop.youtubeShort ? (
                 <iframe class="shop-card-img shop-card-youtube" src={`https://www.youtube-nocookie.com/embed/${shop.youtubeShort}?autoplay=1&mute=1&loop=1&playlist=${shop.youtubeShort}&controls=0`} frameborder="0" allow="autoplay; encrypted-media" allowfullscreen aria-label={`${shop.name} — ${shop.city}`}></iframe>
-              ) : shop.video ? (
-                <div class="shop-video-wrap" data-video={shop.video} data-poster={shop.image}>
-                  <img src={shop.image} alt={`${shop.name} — ${shop.city}`} class="shop-card-img shop-video-poster" />
-                  <div class="shop-video-play">▶</div>
-                </div>
               ) : (
                 <img src={shop.image} alt={`${shop.name} — ${shop.city}`} class="shop-card-img" />
               )}
@@ -391,9 +333,7 @@ const projects = [
   <div class="black-bar">
     <p>„Wenn Recht zu Unrecht wird, wird Widerstand zur Pflicht!“</p>
   </div>
-
 </Base>
-
 
 <style>
 /* Fullscreen Video Hero */
@@ -428,7 +368,6 @@ const projects = [
   display: none;
 }
 
-/* When video is playing, ensure it's above poster */
 .video-hero-bg {
   z-index: 1;
 }
@@ -721,21 +660,14 @@ video.shop-card-img {
   transition: none;
 }
 
-iframe.shop-card-youtube {
+iframe.shop-card-youtube,
+.shop-card-video {
   width: 100%;
   height: 100%;
   border: none;
   object-fit: cover;
   pointer-events: none;
 }
-
-
-
-
-
-
-
-
 
 .shop-card:hover .shop-card-img {
   transform: scale(1.08);
@@ -883,268 +815,8 @@ html {
   display: block;
 }
 
-/* Woascht Wohl Shop */
-.woascht-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-md);
-  max-width: 1200px;
-  margin: 0 auto var(--space-lg);
-}
-
-.woascht-card {
-  padding: 0;
-  overflow: hidden;
-  text-align: center;
-  position: relative;
-}
-
-.woascht-card-img-wrap {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 3/4;
-}
-
-.woascht-card-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* GrapheneOS Phone Shop */
-.shop-cards-grid {
-  display: flex;
-  justify-content: center;
-  max-width: 800px;
-  margin: 0 auto var(--space-lg);
-}
-
-.shop-link-card {
-  text-decoration: none;
-  color: var(--color-text);
-  width: 100%;
-  max-width: 400px;
-  transition: transform var(--transition), box-shadow var(--transition);
-}
-
-.shop-link-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-}
-
-.shop-link-card-img {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-md);
-  background: #000;
-  border-radius: var(--radius) var(--radius) 0 0;
-}
-
-.phone-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-md);
-  max-width: 800px;
-  margin: 0 auto var(--space-lg);
-}
-
-.phone-card {
-  padding: 0;
-  overflow: hidden;
-  text-align: center;
-  border: 2px solid var(--color-forest);
-}
-
-.phone-card-img-wrap {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 3/4;
-  background: linear-gradient(135deg, rgba(26, 58, 36, 0.1), rgba(45, 90, 61, 0.05));
-}
-
-.phone-card-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.phone-desc {
-  font-size: 0.95rem;
-  color: var(--color-text-light);
-  margin: var(--space-sm) 0;
-}
-
-.phone-specs {
-  list-style: none;
-  padding: 0;
-  text-align: left;
-  max-width: 280px;
-  margin: var(--space-sm) auto;
-}
-
-.phone-specs li {
-  padding: 0.3rem 0;
-  padding-left: 1.5rem;
-  position: relative;
-  font-size: 0.9rem;
-}
-
-.phone-specs li::before {
-  content: '✓';
-  position: absolute;
-  left: 0;
-  color: var(--color-leaf);
-  font-weight: bold;
-}
-
-.phone-price {
-  margin: var(--space-sm) 0;
-  font-size: 1rem;
-}
-
-/* Badges */
-.badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  padding: 0.3rem 0.8rem;
-  border-radius: 50px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  z-index: 2;
-}
-
-.badge--coming-soon {
-  background: var(--color-sunset);
-  color: var(--color-white);
-}
-
-.badge--graphene {
-  background: var(--color-forest);
-  color: var(--color-cream);
-}
-
-/* Freedom & Privacy Section */
-.section--freedom {
-  background: linear-gradient(180deg, #1a1a1a 0%, #0d1a12 50%, #1a1a1a 100%);
-  color: var(--color-cream);
-  padding: 3rem 0 6rem 0;
-}
-
-.section--freedom h2,
-.section--freedom h3 {
-  color: var(--color-cream);
-}
-
-.freedom-title {
-  font-size: 2.5rem;
-}
-
-.freedom-eyecatcher {
-  text-align: center;
-  font-family: var(--font-head);
-  font-size: 1.8rem;
-  font-weight: bold;
-  colorcolor: var(--color-cream);
-  max-width: none;
-  margin: 0 auto var(--space-sm);
-  line-height: 1.4;
-}
-
-.freedom-subtitle {
-  text-align: center;
-  font-size: 1.1rem;
-  color: var(--color-sage);
-  max-width: 100%;
-  margin: 0 auto var(--space-lg);
-  font-style: italic;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.freedom-video-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-md);
-  margin-bottom: var(--space-lg);
-}
-
-.freedom-video-wrap {
-  position: relative;
-  width: 100%;
-  max-width: 640px;
-  aspect-ratio: 16/9;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-}
-
-.freedom-video-wrap iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-}
-
-.freedom-youtube-cta {
-  text-align: center;
-}
-
-.btn--youtube {
-  background: #ff0000;
-  color: var(--color-white);
-  display: inline-flex;
-  align-items: center;
-}
-
-.btn--youtube:hover {
-  background: #cc0000;
-  color: var(--color-white);
-}
-
-.freedom-cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-md);
-  max-width: 1000px;
-  margin: 0 auto var(--space-lg);
-}
-
-.freedom-card {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(245, 239, 224, 0.15);
-  backdrop-filter: blur(8px);
-  padding: var(--space-md);
-  text-align: center;
-  border-radius: var(--radius-lg);
-  transition: transform var(--transition), box-shadow var(--transition);
-}
-
-.freedom-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-}
-
-.freedom-card-icon {
-  font-size: 2.5rem;
-  margin-bottom: var(--space-sm);
-}
-
-.freedom-card h3 {
-  margin-bottom: var(--space-sm);
-  color: var(--color-cream);
-}
-
-.freedom-card p {
-  color: var(--color-sage);
-  font-size: 0.95rem;
-}
-
 @media (max-width: 768px) {
+  body { overflow-x: hidden; }
   .video-hero { height: auto; aspect-ratio: 16/9; min-height: 0; padding-top: 0; }
   .video-hero-bg { object-fit: contain; object-position: center center; height: 100%; }
   .video-hero-poster { background-size: contain; background-position: center center; background-repeat: no-repeat; background-color: #000; }
@@ -1159,7 +831,6 @@ html {
   .gallery-strip { grid-template-columns: repeat(2, 1fr); }
   .hostel-steps { grid-template-columns: 1fr 1fr; }
   .shop-grid { grid-template-columns: 1fr; }
-  .woascht-grid { grid-template-columns: 1fr 1fr; }
   .shop-card-img-wrap { aspect-ratio: 4/3; }
   .shop-card-overlay { opacity: 1; background: linear-gradient(180deg, transparent 60%, rgba(26, 58, 36, 0.8) 100%); }
   .big-quote { font-size: 1.1rem; white-space: normal; }
@@ -1170,11 +841,5 @@ html {
     flex-direction: column;
     text-align: left;
   }
-  .phone-grid { grid-template-columns: 1fr; }
-  .freedom-cards { grid-template-columns: 1fr; }
-  .freedom-eyecatcher { font-size: 1.3rem; }
-  .freedom-title { font-size: 1.8rem; }
-  .freedom-subtitle { white-space: normal; }
-  .freedom-video-wrap { max-width: 100%; }
 }
 </style>
