@@ -1,0 +1,495 @@
+---
+// WWFP AI Chat Widget — Visitor Assistant
+// Powered by Ollama (local, self-hosted)
+const lang = Astro.props.lang || 'de';
+---
+
+<div id="wwfp-chat" class="wwfp-chat-container">
+  <button id="wwfp-chat-toggle" class="wwfp-chat-toggle" aria-label="Chat with WWFP Assistant">
+    <span class="wwfp-chat-icon">💬</span>
+    <span class="wwfp-chat-badge" id="wwfp-chat-badge">!</span>
+  </button>
+
+  <div id="wwfp-chat-window" class="wwfp-chat-window" style="display:none">
+    <div class="wwfp-chat-header">
+      <div class="wwfp-chat-header-info">
+        <span class="wwfp-chat-avatar">🌟</span>
+        <div>
+          <div class="wwfp-chat-title">WWFP Assistant</div>
+          <div class="wwfp-chat-status" id="wwfp-chat-status">Online</div>
+        </div>
+      </div>
+      <button id="wwfp-chat-close" class="wwfp-chat-close" aria-label="Close chat">✕</button>
+    </div>
+
+    <div id="wwfp-chat-messages" class="wwfp-chat-messages">
+      <div class="wwfp-chat-bubble wwfp-chat-bubble--bot">
+        <div class="wwfp-chat-bubble-text" id="wwfp-chat-greeting">Hi! Ich bin der WWFP-Assistant. Wie kann ich helfen?</div>
+      </div>
+
+      <div class="wwfp-chat-quickactions" id="wwfp-chat-quickactions">
+        <button class="wwfp-chat-quickbtn" data-question="Was ist WWFP?">Was ist WWFP?</button>
+        <button class="wwfp-chat-quickbtn" data-question="Wie werde ich Mitglied?">Mitglied werden</button>
+        <button class="wwfp-chat-quickbtn" data-question="Wie kann ich spenden?">Spenden</button>
+        <button class="wwfp-chat-quickbtn" data-question="Wie kann ich Kontakt aufnehmen?">Kontakt</button>
+      </div>
+    </div>
+
+    <div class="wwfp-chat-input-area">
+      <div class="wwfp-chat-input-wrap">
+        <input
+          type="text"
+          id="wwfp-chat-input"
+          class="wwfp-chat-input"
+          placeholder="Schreib eine Nachricht..."
+          maxlength="500"
+          autocomplete="off"
+        />
+        <button id="wwfp-chat-send" class="wwfp-chat-send" aria-label="Send message">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+      <div class="wwfp-chat-disclaimer">AI-Assistant · Für persönliche Anliegen: chris@karg.design</div>
+    </div>
+  </div>
+</div>
+
+<script is:inline define:vars={{ lang }}>
+(function() {
+  const API_URL = 'https://api.wwfp.global/';
+  const toggle = document.getElementById('wwfp-chat-toggle');
+  const window_el = document.getElementById('wwfp-chat-window');
+  const closeBtn = document.getElementById('wwfp-chat-close');
+  const messages = document.getElementById('wwfp-chat-messages');
+  const input = document.getElementById('wwfp-chat-input');
+  const sendBtn = document.getElementById('wwfp-chat-send');
+  const quickActions = document.getElementById('wwfp-chat-quickactions');
+  const status = document.getElementById('wwfp-chat-status');
+  const badge = document.getElementById('wwfp-chat-badge');
+  const greeting = document.getElementById('wwfp-chat-greeting');
+
+  let conversation = [];
+  let isTyping = false;
+  let messageCount = 0;
+  const MAX_MESSAGES = 10; // per session
+  const greetingText = lang === 'de'
+    ? 'Hi! Ich bin der WWFP-Assistant. Wie kann ich helfen?'
+    : 'Hi! I\'m the WWFP Assistant. How can I help?';
+
+  greeting.textContent = greetingText;
+
+  // Detect language for quick actions
+  if (lang === 'en') {
+    document.querySelectorAll('.wwfp-chat-quickbtn').forEach(btn => {
+      const map = {
+        'Was ist WWFP?': 'What is WWFP?',
+        'Wie werde ich Mitglied?': 'How to become a member?',
+        'Wie kann ich spenden?': 'How to donate?',
+        'Wie kann ich Kontakt aufnehmen?': 'How to contact?'
+      };
+      const q = btn.dataset.question;
+      if (map[q]) {
+        btn.dataset.question = map[q];
+        btn.textContent = map[q];
+      }
+    });
+  }
+
+  // Toggle chat window
+  toggle.addEventListener('click', () => {
+    const visible = window_el.style.display !== 'none';
+    window_el.style.display = visible ? 'none' : 'flex';
+    if (!visible) {
+      badge.style.display = 'none';
+      input.focus();
+    }
+  });
+
+  closeBtn.addEventListener('click', () => {
+    window_el.style.display = 'none';
+  });
+
+  // Send message
+  async function sendMessage(text) {
+    if (!text.trim() || isTyping) return;
+    if (messageCount >= MAX_MESSAGES) {
+      addBotMessage(lang === 'de'
+        ? 'Ich habe mein Limit für diese Sitzung erreicht. Bitte schreib uns an chris@karg.design für weitere Fragen!'
+        : 'I\'ve reached my limit for this session. Please email chris@karg.design for further questions!');
+      return;
+    }
+
+    addUserMessage(text);
+    conversation.push({ role: 'user', content: text });
+    messageCount++;
+
+    // Hide quick actions after first message
+    if (quickActions) quickActions.style.display = 'none';
+
+    // Typing indicator
+    isTyping = true;
+    status.textContent = lang === 'de' ? 'Schreibt...' : 'Typing...';
+    const typingEl = addTypingIndicator();
+
+    try {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: conversation,
+          lang: lang
+        })
+      });
+
+      const data = await res.json();
+      typingEl.remove();
+
+      if (data.reply) {
+        addBotMessage(data.reply);
+        conversation.push({ role: 'assistant', content: data.reply });
+      } else if (data.error) {
+        addBotMessage(lang === 'de'
+          ? 'Entschuldigung, da ist was schiefgelaufen. Schreib uns an chris@karg.design!'
+          : 'Sorry, something went wrong. Email us at chris@karg.design!');
+      }
+    } catch (err) {
+      typingEl.remove();
+      addBotMessage(lang === 'de'
+        ? 'Ich kann gerade nicht antworten. Der Server ist vielleicht offline. Schreib an chris@karg.design!'
+        : 'I can\'t respond right now. The server might be offline. Email chris@karg.design!');
+    }
+
+    isTyping = false;
+    status.textContent = lang === 'de' ? 'Online' : 'Online';
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function addUserMessage(text) {
+    const el = document.createElement('div');
+    el.className = 'wwfp-chat-bubble wwfp-chat-bubble--user';
+    el.innerHTML = '<div class="wwfp-chat-bubble-text">' + escapeHtml(text) + '</div>';
+    messages.appendChild(el);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function addBotMessage(text) {
+    const el = document.createElement('div');
+    el.className = 'wwfp-chat-bubble wwfp-chat-bubble--bot';
+    el.innerHTML = '<div class="wwfp-chat-bubble-text">' + escapeHtml(text) + '</div>';
+    messages.appendChild(el);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  function addTypingIndicator() {
+    const el = document.createElement('div');
+    el.className = 'wwfp-chat-bubble wwfp-chat-bubble--bot wwfp-chat-typing';
+    el.innerHTML = '<div class="wwfp-chat-typing-dots"><span></span><span></span><span></span></div>';
+    messages.appendChild(el);
+    messages.scrollTop = messages.scrollHeight;
+    return el;
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  // Send button
+  sendBtn.addEventListener('click', () => {
+    sendMessage(input.value);
+    input.value = '';
+  });
+
+  // Enter key
+  input.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      sendMessage(input.value);
+      input.value = '';
+    }
+  });
+
+  // Quick action buttons
+  document.querySelectorAll('.wwfp-chat-quickbtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      sendMessage(btn.dataset.question);
+    });
+  });
+})();
+</script>
+
+<style>
+.wwfp-chat-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 99999;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.wwfp-chat-toggle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1a3a2e 0%, #2d5a3d 100%);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+}
+
+.wwfp-chat-toggle:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+.wwfp-chat-icon {
+  font-size: 1.8rem;
+}
+
+.wwfp-chat-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #00E5D1;
+  color: #1a3a2e;
+  font-size: 0.7rem;
+  font-weight: bold;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fff;
+}
+
+.wwfp-chat-window {
+  position: absolute;
+  bottom: 75px;
+  right: 0;
+  width: 380px;
+  height: 550px;
+  max-height: calc(100vh - 120px);
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: wwfp-chat-slide-up 0.3s ease;
+}
+
+@keyframes wwfp-chat-slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.wwfp-chat-header {
+  background: linear-gradient(135deg, #1a3a2e 0%, #2d5a3d 100%);
+  color: #fff;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.wwfp-chat-header-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.wwfp-chat-avatar {
+  font-size: 1.8rem;
+}
+
+.wwfp-chat-title {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.wwfp-chat-status {
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+.wwfp-chat-close {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.wwfp-chat-close:hover {
+  opacity: 1;
+}
+
+.wwfp-chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #f8f9fa;
+  scroll-behavior: smooth;
+}
+
+.wwfp-chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.wwfp-chat-messages::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+.wwfp-chat-bubble {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.wwfp-chat-bubble--bot {
+  align-self: flex-start;
+  background: #fff;
+  color: #2a2a2a;
+  border-bottom-left-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+.wwfp-chat-bubble--user {
+  align-self: flex-end;
+  background: #1a3a2e;
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+.wwfp-chat-quickactions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.wwfp-chat-quickbtn {
+  background: #e8f5e9;
+  color: #1a3a2e;
+  border: 1px solid #c8e6c9;
+  border-radius: 20px;
+  padding: 8px 14px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.wwfp-chat-quickbtn:hover {
+  background: #c8e6c9;
+}
+
+.wwfp-chat-typing-dots {
+  display: flex;
+  gap: 4px;
+  padding: 4px 0;
+}
+
+.wwfp-chat-typing-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #999;
+  animation: wwfp-typing-bounce 1.4s infinite;
+}
+
+.wwfp-chat-typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.wwfp-chat-typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes wwfp-typing-bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-8px); opacity: 1; }
+}
+
+.wwfp-chat-input-area {
+  padding: 12px 16px;
+  background: #fff;
+  border-top: 1px solid #eee;
+  flex-shrink: 0;
+}
+
+.wwfp-chat-input-wrap {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.wwfp-chat-input {
+  flex: 1;
+  border: 1px solid #ddd;
+  border-radius: 24px;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.wwfp-chat-input:focus {
+  border-color: #2d5a3d;
+}
+
+.wwfp-chat-send {
+  background: #1a3a2e;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.wwfp-chat-send:hover {
+  background: #2d5a3d;
+  transform: scale(1.05);
+}
+
+.wwfp-chat-disclaimer {
+  text-align: center;
+  font-size: 0.68rem;
+  color: #aaa;
+  margin-top: 6px;
+}
+
+@media (max-width: 768px) {
+  .wwfp-chat-container {
+    bottom: 15px;
+    right: 15px;
+  }
+  .wwfp-chat-window {
+    width: calc(100vw - 30px);
+    height: calc(100vh - 100px);
+    bottom: 70px;
+    right: 0;
+  }
+}
+</style>

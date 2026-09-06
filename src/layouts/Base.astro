@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import ChatWidget from '../components/ChatWidget.astro';
 import '../styles/global.css';
 
 import { languages } from '../i18n/config.js';
@@ -26,5 +27,6 @@ const textDir = isRtl ? 'rtl' : 'ltr';
     <slot />
   </main>
   <Footer lang={lang} t={t} />
+  <ChatWidget lang={lang} />
 </body>
 </html>
