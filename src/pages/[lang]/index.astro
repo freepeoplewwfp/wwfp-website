@@ -274,6 +274,7 @@ const projects = [
 
   <!-- Freedom & Privacy -->
   <section id="freedom" class="section section--freedom">
+    <div class="freedom-hero-bg"></div>
     <div class="container">
       <h2 class="text-center mb-md freedom-title">{t.freedom.title}</h2>
       <p class="freedom-eyecatcher">{t.freedom.eyecatcher}</p>
@@ -336,6 +337,9 @@ const projects = [
 </Base>
 
 <style>
+.freedom-hero-bg { position: absolute; inset: 0; background-image: url("/images/Freedom.jpg"); background-size: cover; background-position: center; opacity: 0.15; }
+.section--freedom { position: relative; overflow: hidden; }
+.section--freedom .container { position: relative; z-index: 1; }
 /* Fullscreen Video Hero */
 .video-hero {
   position: relative;
