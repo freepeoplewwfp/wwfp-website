@@ -1,0 +1,200 @@
+---
+import Base from '../../layouts/Base.astro';
+import { languages } from '../../i18n/config.js';
+import { getTranslations } from '../../i18n/utils.js';
+
+export async function getStaticPaths() {
+  return Object.keys(languages).map(code => ({
+    params: { lang: code },
+    props: { lang: code },
+  }));
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+---
+
+<Base lang={lang} t={t}>
+  <section class="page-hero">
+    <div class="page-hero-bg"></div>
+    <div class="page-hero-overlay"></div>
+    <div class="container page-hero-content">
+      <span class="page-hero-support">Support Our Work</span>
+      <span class="page-hero-wwfp">WWFP</span>
+      <p class="page-hero-resttext">is financed exclusively through private donations. We do not accept money from governments, corporations, or political parties. This is how we stay independent.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="support-lead">Unsere Sponsoren stellen sicher, dass WWFP weltweit eingesetzt werden kann. Wir ehren diese Unterstützung, indem wir Spenden sparsam und verantwortungsvoll einsetzen.</p>
+
+      <div class="donation-grid">
+        <!-- Bank Transfer -->
+        <div class="card donation-card">
+          <div class="card-icon">🏦</div>
+          <h3>{t.support.bankTitle}</h3>
+          <p>{t.support.bankText}</p>
+          <div class="bank-details">
+            <p><strong>{t.support.bankHolder}</strong></p>
+            <p>{t.support.bankIBAN}</p>
+            <p>{t.support.bankBIC}</p>
+            <p>{t.support.bankAddress}</p>
+          </div>
+          <p class="bank-note">{t.support.bankNote}</p>
+          <p class="bank-note" style="font-weight: 700; color: var(--color-primary);">⚠️ Wichtig! Verwendungszweck: Spende an WWFP</p>
+        </div>
+
+        <!-- PayPal -->
+        <div class="card donation-card">
+          <div class="card-icon">💳</div>
+          <h3>{t.support.paypalTitle}</h3>
+          <p>{t.support.paypalText}</p>
+          <a href="#" class="btn btn--primary mt-md" onclick="return false;">
+            {t.support.paypalButton}
+          </a>
+          <p class="paypal-note">PayPal link coming soon</p>
+        </div>
+
+        <!-- Bank Transfer 2 - Raiffeisenbank -->
+        <div class="card donation-card">
+          <div class="card-icon">🏦</div>
+          <h3>Banküberweisung</h3>
+          <p>Überweise deine Spende direkt auf unser Bankkonto. Jeder Betrag hilft, Lebensräume zu schaffen und unseren Heimatplaneten zu schützen.</p>
+          <div class="bank-details">
+            <p><strong>Account Holder: Dieter Scheikl</strong></p>
+            <p>IBAN: AT13 3742 0000 0030 4295</p>
+            <p>SWIFT/BIC: RVVGAT2B420</p>
+            <p>Raiffeisenbank im Rheintal</p>
+          </div>
+          <p class="bank-note">Private account — NPO business account coming soon.</p>
+          <p class="bank-note" style="font-weight: 700; color: var(--color-primary);">⚠️ Wichtig! Verwendungszweck: Spende an WWFP</p>
+        </div>
+      </div>
+
+      <!-- Transparency -->
+      <div class="transparency-box mt-lg">
+        <h3>📊 {t.support.transparencyTitle}</h3>
+        <p>Wir verwenden alle Spenden sparsam und verantwortungsvoll. Geld ist ein Mittel zum Zweck — wir bündeln unsere Energie und schaffen weltweit Lebensräume.</p>
+      </div>
+
+    </div>
+  </section>
+</Base>
+
+<style>
+/* Hero — dark base, centered text, no absolute positioning that causes overflow */
+.page-hero {
+  position: relative;
+  padding: var(--space-xl) var(--space-md);
+  overflow: hidden;
+  background: #0d1f15;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.page-hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('/images/wwfp-22.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.5;
+  z-index: 0;
+}
+.page-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 1;
+}
+.page-hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 600px;
+}
+.page-hero-support {
+  color: #aaffaa;
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.1;
+  text-shadow: 0 0 3px #000, 0 0 6px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.9);
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.page-hero-wwfp {
+  color: #90ee90;
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+  text-shadow: 0 0 3px #000, 0 0 6px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.9);
+  display: block;
+  margin-bottom: 1rem;
+}
+.page-hero-resttext {
+  color: #c0e8c0;
+  font-size: 1rem;
+  line-height: 1.6;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+  margin: 0 auto;
+  max-width: 400px;
+}
+
+.support-lead {
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+  max-width: 800px;
+  margin: 0 auto var(--space-md);
+  text-align: center;
+}
+
+.donation-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--space-md);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--space-sm);
+}
+
+.bank-details {
+  background: var(--color-bg-alt);
+  border-radius: var(--radius);
+  padding: var(--space-sm);
+  margin-top: var(--space-sm);
+  font-size: 0.9rem;
+}
+
+.bank-details p { margin: 0.2rem 0; }
+
+.bank-note, .paypal-note {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-top: var(--space-sm);
+  font-style: italic;
+}
+
+.transparency-box {
+  background: var(--color-bg-alt);
+  border-radius: var(--radius-lg);
+  padding: var(--space-md);
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .donation-grid { grid-template-columns: 1fr; }
+  .page-hero { padding: var(--space-lg) var(--space-sm); }
+  .page-hero-support { font-size: 2rem; }
+  .page-hero-wwfp { font-size: 2rem; }
+  .page-hero-resttext { font-size: 0.9rem; }
+}
+</style>

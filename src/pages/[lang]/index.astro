@@ -1,0 +1,845 @@
+---
+import Base from '../../layouts/Base.astro';
+import { languages } from '../../i18n/config.js';
+import { getTranslations } from '../../i18n/utils.js';
+import { shops as shopData } from '../../data/shops.js';
+
+export async function getStaticPaths() {
+  return Object.keys(languages).map(code => ({
+    params: { lang: code },
+    props: { lang: code },
+  }));
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+
+const values = [
+  { icon: '💫', title: t.values.esteemTitle, text: t.values.esteemText },
+  { icon: '📖', title: t.values.sharingTitle, text: t.values.sharingText },
+  { icon: '🎯', title: t.values.targetedTitle, text: t.values.targetedText },
+  { icon: '⚡', title: t.values.cuttingEdgeTitle, text: t.values.cuttingEdgeText },
+  { icon: '🕊️', title: t.values.nonviolenceTitle, text: t.values.nonviolenceText },
+  { icon: 'Freedom', title: t.values.independenceTitle, text: t.values.independenceText },
+  { icon: '🔍', title: t.values.transparencyTitle, text: t.values.transparencyText },
+];
+
+const projects = [
+  { img: '/images/wwfp-04.jpg', title: t.whatWeDo.project1Title, text: t.whatWeDo.project1Text },
+  { img: '/images/wwfp-06.jpg', title: t.whatWeDo.project2Title, text: t.whatWeDo.project2Text },
+  { img: '/images/wwfp-07.jpg', title: t.whatWeDo.project3Title, text: t.whatWeDo.project3Text },
+  { img: '/images/wwfp-09.jpg', title: t.whatWeDo.project4Title, text: t.whatWeDo.project4Text },
+];
+---
+
+<Base lang={lang} t={t}>
+  <!-- Fullscreen Video Hero -->
+  <section id="top" class="video-hero">
+    <video class="video-hero-bg" id="heroVideo" playsinline preload="metadata" crossorigin="anonymous" poster="/videos/about-us-frame.jpg">
+    </video>
+    <div class="video-hero-poster" id="heroPoster" style="background-image: url('/videos/about-us-frame.jpg'); display: block;"></div>
+    <div class="video-hero-overlay"></div>
+    <div class="video-hero-content">
+      <button class="video-play-btn" id="playBtn">▶ Play with Sound</button>
+      <button class="video-replay-btn" id="replayBtn" style="display:none">▶ Replay</button>
+    </div>
+  </section>
+  <script is:inline>
+    var vid = document.getElementById('heroVideo');
+    var btn = document.getElementById('playBtn');
+    var replayBtn = document.getElementById('replayBtn');
+    var poster = document.getElementById('heroPoster');
+    var hlsLoaded = false;
+
+    function loadHeroVideo(callback) {
+      if (hlsLoaded) { callback(); return; }
+      if (vid.canPlayType('application/vnd.apple.mpegurl')) {
+        vid.src = '/videos/about-us-hls/index.m3u8';
+        hlsLoaded = true;
+        callback();
+      } else {
+        var hs = document.createElement('script');
+        hs.src = 'https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js';
+        hs.onload = function() {
+          if (Hls.isSupported()) {
+            var hls = new Hls();
+            hls.loadSource('/videos/about-us-hls/index.m3u8');
+            hls.attachMedia(vid);
+            hlsLoaded = true;
+            callback();
+          }
+        };
+        document.head.appendChild(hs);
+      }
+    }
+
+    if (btn) {
+      btn.addEventListener('click', function() {
+        if (!vid) return;
+        loadHeroVideo(function() {
+          vid.muted = false;
+          vid.loop = false;
+          vid.play();
+          if (poster) poster.style.display = 'none';
+          btn.style.display = 'none';
+        });
+      });
+    }
+    if (replayBtn) {
+      replayBtn.addEventListener('click', function() {
+        if (vid) {
+          vid.currentTime = 0;
+          vid.play();
+          if (poster) poster.style.display = 'none';
+          replayBtn.style.display = 'none';
+        }
+      });
+    }
+    if (vid) {
+      vid.addEventListener('ended', function() {
+        vid.style.display = 'none';
+        if (poster) poster.style.display = 'block';
+        if (replayBtn) replayBtn.style.display = 'inline-block';
+      });
+    }
+  </script>
+
+  <!-- Intro -->
+  <section class="section">
+    <div class="container">
+      <div class="intro-grid">
+        <div class="intro-text">
+          <h2>{t.home.introTitle}</h2>
+          <p class="intro-lead">{t.home.introText}</p>
+        </div>
+        <div class="intro-image">
+          <img src="/images/wwfp-01.jpg" alt="WWFP community" class="rounded-img" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What We Do (merged) -->
+  <section id="what-we-do" class="section section--alt">
+    <div class="container">
+      <h2 class="text-center mb-md">{t.home.whatWeDoTitle}</h2>
+      <p class="section-intro">{t.home.whatWeDoIntro}</p>
+      <div class="card-grid">
+        {projects.map(p => (
+          <div class="card card--with-image">
+            <img src={p.img} alt={p.title} class="card-img" />
+            <div class="card-body">
+              <h3>{p.title}</h3>
+              <p>{p.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <!-- Gallery strip -->
+      <div class="gallery-strip">
+        <img src="/images/wwfp-12.jpg" alt="WWFP in action" />
+        <img src="/images/wwfp-13.jpg" alt="WWFP in action" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Values (merged) -->
+  <section id="values" class="section">
+    <div class="container">
+      <h2 class="text-center mb-md">{t.home.valuesTitle}</h2>
+      <p class="section-intro">{t.home.valuesIntro}</p>
+      <div class="values-list">
+        {values.map((v, i) => (
+          <div class={i % 2 === 0 ? 'value-row' : 'value-row value-row--alt'}>
+            <div class="value-icon">{v.icon}</div>
+            <div class="value-content">
+              <h3>{v.title}</h3>
+              <p>{v.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Get Involved (merged) -->
+  <section id="get-involved" class="section section--alt">
+    <div class="container">
+      <h2 class="text-center mb-md">{t.home.getInvolvedTitle}</h2>
+      <p class="section-intro">{t.home.getInvolvedIntro}</p>
+      <div class="membership-grid">
+        <div class="card membership-card">
+          <img src="/images/wwfp-14.jpg" alt="Passive member" class="card-img" />
+          <div class="card-body">
+            <h3>{t.home.passiveTitle}</h3>
+            <p>{t.home.passiveText}</p>
+            <ul class="check-list">
+              <li>{t.getInvolved.passivePoint1}</li>
+              <li>{t.getInvolved.passivePoint2}</li>
+              <li>{t.getInvolved.passivePoint3}</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card membership-card membership-card--active">
+          <img src="/images/wwfp-15.jpg" alt="Active member" class="card-img" />
+          <div class="card-body">
+            <h3>{t.home.activeTitle}</h3>
+            <p>{t.home.activeText}</p>
+            <ul class="check-list">
+              <li>{t.getInvolved.activePoint1}</li>
+              <li>{t.getInvolved.activePoint2}</li>
+              <li>{t.getInvolved.activePoint3}</li>
+              <li>{t.getInvolved.activePoint4}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-lg">
+        <a href={`/${lang}/contact`} class="btn btn--primary">{t.getInvolved.cta}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hostel -->
+  <section id="hostel" class="section section--hidden">
+    <div class="container">
+      <h2 class="text-center mb-md">{t.hostel.title}</h2>
+      <p class="section-intro">{t.hostel.intro}</p>
+      <div class="hostel-steps">
+        <div class="hostel-step">
+          <div class="step-number">1</div>
+          <p>{t.hostel.step1}</p>
+        </div>
+        <div class="hostel-step">
+          <div class="step-number">2</div>
+          <p>{t.hostel.step2}</p>
+        </div>
+        <div class="hostel-step">
+          <div class="step-number">3</div>
+          <p>{t.hostel.step3}</p>
+        </div>
+        <div class="hostel-step">
+          <div class="step-number">4</div>
+          <p>{t.hostel.step4}</p>
+        </div>
+      </div>
+      <div class="hostel-coming-soon card">
+        <h3>📍 {t.hostel.comingSoon}</h3>
+        <p>{t.hostel.comingSoonText}</p>
+        <a href={`/${lang}/contact`} class="btn btn--secondary mt-md">{t.nav.contact}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shop -->
+  <section id="shop" class="section section--alt">
+    <div class="container">
+      <h2 class="text-center mb-md">{t.shop.title}</h2>
+      <p class="section-intro">{t.shop.intro}</p>
+
+      <div class="shop-grid">
+        {shopData.map(shop => (
+          <a href={shop.customLayout ? `/${lang}/shop/${shop.customLayout}` : `/${lang}/shop/${shop.slug}`} class="shop-card">
+            <div class="shop-card-img-wrap">
+              {shop.video ? (
+                <video class="shop-card-img shop-card-video" autoplay muted loop playsinline preload="auto" poster={shop.image} aria-label={`${shop.name} — ${shop.city}`}>
+                  <source src={shop.video} type="video/mp4" />
+                </video>
+              ) : shop.youtubeShort ? (
+                <iframe class="shop-card-img shop-card-youtube" src={`https://www.youtube-nocookie.com/embed/${shop.youtubeShort}?autoplay=1&mute=1&loop=1&playlist=${shop.youtubeShort}&controls=0`} frameborder="0" allow="autoplay; encrypted-media" allowfullscreen aria-label={`${shop.name} — ${shop.city}`}></iframe>
+              ) : (
+                <img src={shop.image} alt={`${shop.name} — ${shop.city}`} class="shop-card-img" />
+              )}
+              <div class="shop-card-overlay">
+                <span class="shop-card-enter">{shop.placeholder ? (t.shop.yourShopHere || 'Dein Shop hier') : (t.shop.enterShop || 'Enter shop →')}</span>
+              </div>
+            </div>
+            <div class="shop-card-body">
+              <h3>{shop.name}</h3>
+              <p class="shop-card-location">📍 {shop.city}, {shop.country}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <div class="shop-note card">
+        <h3>🛍️ {t.shop.comingSoon}</h3>
+        <p>{t.shop.comingSoonText}</p>
+        <div class="shop-actions">
+          <a href={`/${lang}/contact`} class="btn btn--primary">{t.shop.registerCta}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Freedom & Privacy -->
+  <section id="freedom" class="section section--freedom">
+    <div class="container">
+      <h2 class="text-center mb-md freedom-title">{t.freedom.title}</h2>
+      <p class="freedom-eyecatcher">{t.freedom.eyecatcher}</p>
+      <p class="freedom-subtitle">{t.freedom.subtitle}</p>
+
+      <div class="freedom-video-section">
+        <div class="freedom-video-wrap">
+          <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/ViWVlXg2NTU?hl=de&cc_lang_pref=de&cc_load_policy=1" frameborder="0" allowfullscreen title="Install GrapheneOS Before Your Phone Becomes the Checkpoint"></iframe>
+        </div>
+        <div class="freedom-youtube-cta">
+          <a href="https://www.youtube.com/@wwfp_people_org" target="_blank" rel="noopener" class="btn btn--youtube">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; margin-right: 8px;">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+            {t.freedom.subscribeBtn}
+          </a>
+        </div>
+      </div>
+
+      <div class="freedom-cards">
+        <div class="card freedom-card">
+          <div class="freedom-card-icon">📋</div>
+          <h3>{t.freedom.chatControlTitle}</h3>
+          <p>{t.freedom.chatControlText}</p>
+        </div>
+        <div class="card freedom-card">
+          <div class="freedom-card-icon">📱</div>
+          <h3>{t.freedom.grapheneOSTitle}</h3>
+          <p>{t.freedom.grapheneOSText}</p>
+        </div>
+        <div class="card freedom-card">
+          <div class="freedom-card-icon">🔓</div>
+          <h3>{t.freedom.whyPrivacyTitle}</h3>
+          <p>{t.freedom.whyPrivacyText}</p>
+        </div>
+      </div>
+
+      <div class="text-center mt-lg">
+        <a href="https://www.youtube.com/@wwfp_people_org" target="_blank" rel="noopener" class="btn btn--clay">{t.freedom.youtubeCta}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quote / CTA -->
+  <section class="section section--forest quote-section">
+    <div class="quote-bg"></div>
+    <div class="container text-center quote-content">
+      <blockquote class="big-quote">
+        "{t.footer.tagline}"
+      </blockquote>
+      <a href="#get-involved" class="btn btn--clay mt-md">{t.home.heroCta}</a>
+    </div>
+  </section>
+
+  <!-- Black bar between quote and footer -->
+  <div class="black-bar">
+    <p>„Wenn Recht zu Unrecht wird, wird Widerstand zur Pflicht!“</p>
+  </div>
+</Base>
+
+<style>
+/* Fullscreen Video Hero */
+.video-hero {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 90%;
+  z-index: 0;
+}
+
+.video-hero-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-size: 115%;
+  background-position: center 90%;
+  z-index: 0;
+  display: none;
+}
+
+.video-hero-bg {
+  z-index: 1;
+}
+
+.video-hero-bg:not([src]) {
+  z-index: 0;
+}
+
+.video-hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0.2) 50%,
+    rgba(26, 58, 36, 0.6) 100%
+  );
+}
+
+.video-hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 0 var(--space-md);
+  max-width: 800px;
+}
+
+.video-play-btn {
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50px;
+  color: var(--color-cream);
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 16px 32px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+  backdrop-filter: blur(8px);
+}
+
+.video-play-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+  transform: scale(1.05);
+}
+
+.video-replay-btn {
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50px;
+  color: var(--color-cream);
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 12px 28px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+  backdrop-filter: blur(8px);
+}
+
+.video-replay-btn:hover {
+  background: rgba(0, 0, 0, 0.7);
+  transform: scale(1.05);
+}
+
+.section-intro {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto var(--space-lg);
+  font-size: 1.1rem;
+  color: var(--color-text-light);
+}
+
+.intro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-lg);
+  align-items: center;
+  text-align: center;
+}
+
+.intro-lead {
+  font-size: 1.15rem;
+  color: var(--color-text-light);
+  margin-bottom: var(--space-md);
+}
+
+.rounded-img {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  object-fit: cover;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+}
+
+.card--with-image {
+  padding: 0;
+  overflow: visible;
+}
+
+.card--with-image .card-img {
+  overflow: hidden;
+}
+
+.card-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-body {
+  padding: var(--space-md);
+  text-align: center;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+.gallery-strip {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+}
+
+.gallery-strip img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: transform var(--transition);
+}
+
+.gallery-strip img:hover {
+  transform: scale(1.03);
+}
+
+/* Values */
+.values-list {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.value-row {
+  display: flex;
+  gap: var(--space-md);
+  padding: var(--space-md) 0;
+  border-bottom: 1px solid var(--color-border);
+  align-items: flex-start;
+}
+
+.value-row--alt {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+.value-icon {
+  font-size: 2.5rem;
+  min-width: 60px;
+  text-align: center;
+}
+
+.value-content h3 {
+  margin-bottom: 0.3rem;
+}
+
+/* Membership */
+.membership-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.membership-card {
+  padding: 0;
+  overflow: hidden;
+  text-align: center;
+}
+
+.membership-card--active {
+  border: 2px solid var(--color-forest);
+}
+
+.check-list {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+  max-width: 300px;
+  margin: var(--space-sm) auto 0;
+}
+
+.check-list li {
+  padding: 0.4rem 0;
+  padding-left: 1.8rem;
+  position: relative;
+}
+
+.check-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--color-leaf);
+  font-weight: bold;
+}
+
+/* Hostel */
+.hostel-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+  max-width: 900px;
+  margin: 0 auto var(--space-lg);
+}
+
+.hostel-step {
+  text-align: center;
+}
+
+.step-number {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--color-forest);
+  color: var(--color-cream);
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-sm);
+}
+
+.hostel-coming-soon {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  padding: var(--space-md);
+}
+
+.hostel-coming-soon h3 {
+  margin-bottom: var(--space-sm);
+}
+
+/* Shop */
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+  max-width: 1200px;
+  margin: 0 auto var(--space-lg);
+}
+
+.shop-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 2px 8px rgba(45, 32, 19, 0.06);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.shop-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.shop-card-img-wrap {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+}
+
+.shop-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+video.shop-card-img {
+  transition: none;
+}
+
+iframe.shop-card-youtube,
+.shop-card-video {
+  width: 100%;
+  height: 100%;
+  border: none;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.shop-card:hover .shop-card-img {
+  transform: scale(1.08);
+}
+
+.shop-card:hover video.shop-card-img {
+  transform: none;
+}
+
+.shop-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 50%, rgba(26, 58, 36, 0.7) 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: var(--space-sm);
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.shop-card:hover .shop-card-overlay {
+  opacity: 1;
+}
+
+.shop-card-enter {
+  color: var(--color-cream);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.shop-card-body {
+  padding: var(--space-sm);
+  text-align: center;
+}
+
+.shop-card-body h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.2rem;
+}
+
+.shop-card-location {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  margin: 0;
+}
+
+.shop-note {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+  padding: var(--space-md);
+}
+
+.shop-note h3 {
+  margin-bottom: var(--space-sm);
+}
+
+.shop-actions {
+  margin-top: var(--space-md);
+}
+
+/* Quote */
+.quote-section {
+  position: relative;
+  overflow: hidden;
+  min-height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #1a3c28;
+  padding: var(--space-xl) 0;
+  margin-bottom: 0;
+}
+
+.quote-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('/images/wwfp-17.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.35;
+}
+
+.quote-content {
+  position: relative;
+  z-index: 1;
+}
+
+.big-quote {
+  font-family: var(--font-head);
+  font-size: 2rem;
+  color: #2c7500 !important;
+  font-style: italic;
+  max-width: 100%;
+  margin: 0 auto;
+  white-space: nowrap;
+  text-shadow: 0.5px 0 0 #fff, -0.5px 0 0 #fff, 0 0.5px 0 #fff, 0 -0.5px 0 #fff;
+  -webkit-text-stroke: 0.3px #fff;
+  z-index: 10;
+  position: relative;
+  padding: 0 var(--space-sm);
+}
+
+.black-bar {
+  background: #000;
+  text-align: center;
+  padding: var(--space-lg) var(--space-md);
+  margin: 0;
+  border: none;
+}
+
+main {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+body {
+  margin-bottom: 0;
+}
+
+.black-bar p {
+  color: #2c7500 !important;
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin: 0;
+  letter-spacing: 0.05em;
+  text-shadow: 0.5px 0 0 #fff, -0.5px 0 0 #fff, 0 0.5px 0 #fff, 0 -0.5px 0 #fff;
+  -webkit-text-stroke: 0.3px #fff;
+  padding: 0 var(--space-sm);
+}
+
+/* Smooth scroll for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hidden sections (Hostel & Shop) */
+.section--hidden {
+  display: none;
+}
+
+.section--hidden.section--visible {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  body { overflow-x: hidden; }
+  .video-hero { height: auto; aspect-ratio: 16/9; min-height: 0; padding-top: 0; }
+  .video-hero-bg { object-fit: contain; object-position: center center; height: 100%; }
+  .video-hero-poster { background-size: contain; background-position: center center; background-repeat: no-repeat; background-color: #000; }
+  .video-hero-overlay { background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.1) 50%, rgba(26,58,36,0.4) 100%); }
+  .video-play-btn { font-size: 1rem; padding: 12px 24px; }
+  .video-replay-btn { font-size: 0.9rem; padding: 10px 22px; }
+  .video-hero-title { font-size: 3rem; }
+  .video-hero-tagline { font-size: 1.1rem; }
+  .intro-grid { grid-template-columns: 1fr; }
+  .card-grid { grid-template-columns: 1fr; }
+  .membership-grid { grid-template-columns: 1fr; }
+  .gallery-strip { grid-template-columns: repeat(2, 1fr); }
+  .hostel-steps { grid-template-columns: 1fr 1fr; }
+  .shop-grid { grid-template-columns: 1fr; }
+  .shop-card-img-wrap { aspect-ratio: 4/3; }
+  .shop-card-overlay { opacity: 1; background: linear-gradient(180deg, transparent 60%, rgba(26, 58, 36, 0.8) 100%); }
+  .big-quote { font-size: 1.1rem; white-space: normal; }
+  .black-bar p { font-size: 1.2rem; white-space: normal; }
+  .quote-section { min-height: 250px; padding: var(--space-lg) 0; }
+  .card-img { height: 160px; }
+  .value-row, .value-row--alt {
+    flex-direction: column;
+    text-align: left;
+  }
+}
+</style>

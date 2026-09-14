@@ -1,0 +1,32 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ChatWidget from '../components/ChatWidget.astro';
+import '../styles/global.css';
+
+import { languages } from '../i18n/config.js';
+
+const { lang, t } = Astro.props;
+
+const isRtl = languages[lang]?.rtl;
+const textDir = isRtl ? 'rtl' : 'ltr';
+---
+
+<!DOCTYPE html>
+<html lang={lang} dir={textDir}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{t.meta.title}</title>
+  <meta name="description" content={t.meta.description} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head>
+<body>
+  <Header lang={lang} t={t} />
+  <main>
+    <slot />
+  </main>
+  <Footer lang={lang} t={t} />
+  <ChatWidget lang={lang} />
+</body>
+</html>

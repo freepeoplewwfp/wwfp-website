@@ -1,0 +1,169 @@
+---
+import { languages } from '../i18n/config.js';
+
+const { lang, t } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col footer-col-brand">
+        <img src="/images/wwfp-logo-footer.png" alt="WWFP Logo" class="footer-logo-img" />
+        <p class="footer-tagline">Wir sind alle freie Menschen.<br>Es gibt keine Probleme, nur Lösungen.</p>
+      </div>
+
+      <div class="footer-col">
+        <ul style="margin-top: 1.8rem;">
+          <li><a href={`/${lang}/get-involved`}>{t.getInvolved.passiveTitle.replace('Become a ', '')}</a></li>
+          <li><a href={`/${lang}/get-involved`}>{t.getInvolved.activeTitle.replace('Become an ', '')}</a></li>
+          <li><a href={`/${lang}/support`}>{t.nav.support}</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <ul style="margin-top: 1.2rem;">
+          <li><strong>{t.nav.contact}</strong></li>
+          <li>{t.contact.address}</li>
+          <li><a href="mailto:info@wwfp.global">info@wwfp.global</a></li>
+          <li><a href="https://wa.me/436505972706" target="_blank">💬 WhatsApp</a></li>
+          <li><a href="https://t.me/wwfp_people_org" target="_blank">✈️ Telegram</a></li>
+          <li><a href="https://www.youtube.com/@wwfp_people_org" target="_blank">▶️ YouTube</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <ul style="margin-top: 1.8rem;">
+          <li><a href={`/${lang}/code-of-conduct`}>{t.codeOfConduct.title}</a></li>
+          <li><a href={`/${lang}/values`}>{t.nav.values}</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>© {year} {t.footer.rights}</p>
+      <div class="footer-langs">
+        {Object.values(languages).map(l => (
+          <a href={`/${l.code}`} class={l.code === lang ? 'footer-lang active' : 'footer-lang'}>
+            {l.flag}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+.site-footer {
+  background: var(--color-forest-deep);
+  color: var(--color-sage);
+  padding: var(--space-md) 0 var(--space-md);
+  margin-top: 0;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+  align-items: center;
+}
+
+.footer-col-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.footer-logo-img {
+  max-width: 120px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.footer-tagline {
+  font-style: italic;
+  color: var(--color-sage);
+  white-space: nowrap;
+  margin: 0;
+}
+
+.footer-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-col li {
+  margin-bottom: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.footer-col li strong {
+  color: var(--color-cream);
+  font-size: 1rem;
+}
+
+.footer-col a {
+  color: var(--color-sage);
+  text-decoration: none;
+}
+
+.footer-col a:hover {
+  color: var(--color-cream);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(245, 239, 224, 0.15);
+  padding-top: var(--space-sm);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.footer-bottom p {
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.footer-langs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.footer-lang {
+  font-size: 1.2rem;
+  opacity: 0.6;
+  text-decoration: none;
+}
+
+.footer-lang.active,
+.footer-lang:hover {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .footer-col-brand {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  .footer-tagline {
+    white-space: normal;
+    text-align: center;
+  }
+  .footer-col ul {
+    margin-top: 0 !important;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: var(--space-sm);
+    text-align: center;
+  }
+}
+</style>

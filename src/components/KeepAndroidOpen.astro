@@ -1,0 +1,238 @@
+---
+// KeepAndroidOpen Banner with countdown timer
+// Place this component on the homepage above the hero or below the header
+// Translatable text passed via props
+
+const { lang = 'de', t } = Astro.props;
+
+// Translations for the banner
+const bannerText = {
+  de: {
+    headline: 'Dein Handy wird bald nicht mehr dir gehören.',
+    countdownLabel: 'Tage bis zum Lockdown',
+    body: 'Ab 2027 wird ein stilles Update von Google ohne Zustimmung der Nutzer alle Android-Apps blockieren, deren Entwickler sich nicht bei Google registriert, ihren Vertrag nicht unterzeichnet und nicht bezahlt haben.',
+    subtext: 'Jede App und jedes Gerät, weltweit, ohne Möglichkeit des Widerspruchs.',
+    cta: 'Verbreite die Nachricht',
+  },
+  en: {
+    headline: 'Your phone will soon no longer belong to you.',
+    countdownLabel: 'days until lockdown',
+    body: 'Starting in 2027, a silent update from Google will block all Android apps whose developers have not registered with Google, signed their contract, and paid.',
+    subtext: 'Every app and every device, worldwide, with no possibility of appeal.',
+    cta: 'Spread the word',
+  },
+  fr: {
+    headline: 'Votre téléphone ne vous appartiendra bientôt plus.',
+    countdownLabel: 'jours avant le verrouillage',
+    body: 'À partir de 2027, une mise à jour silencieuse de Google bloquera toutes les applications Android dont les développeurs ne se sont pas enregistrés auprès de Google.',
+    subtext: 'Chaque application et chaque appareil, dans le monde entier, sans possibilité de recours.',
+    cta: 'Partagez le message',
+  },
+  es: {
+    headline: 'Tu teléfono pronto ya no será tuyo.',
+    countdownLabel: 'días hasta el bloqueo',
+    body: 'A partir de 2027, una actualización silenciosa de Google bloqueará todas las aplicaciones de Android cuyos desarrolladores no se hayan registrado en Google.',
+    subtext: 'Cada aplicación y cada dispositivo, en todo el mundo, sin posibilidad de oposición.',
+    cta: 'Difunde el mensaje',
+  },
+  it: {
+    headline: 'Il tuo telefono presto non sarà più tuo.',
+    countdownLabel: 'giorni fino al blocco',
+    body: 'A partire dal 2027, un aggiornamento silenzioso di Google bloccherà tutte le app Android i cui sviluppatori non si sono registrati con Google.',
+    subtext: 'Ogni app e ogni dispositivo, in tutto il mondo, senza possibilità di opporsi.',
+    cta: 'Diffondi il messaggio',
+  },
+  pl: {
+    headline: 'Twój telefon wkrótce nie będzie już należał do Ciebie.',
+    countdownLabel: 'dni do blokady',
+    body: 'Od 2027 roku cicha aktualizacja Google zablokuje wszystkie aplikacje Android, których twórcy nie zarejestrują się w Google.',
+    subtext: 'Każda aplikacja i każde urządzenie, na całym świecie, bez możliwości odwołania.',
+    cta: 'Roześlij wiadomość',
+  },
+  ro: {
+    headline: 'Telefonul tău nu va mai fi al tău în curând.',
+    countdownLabel: 'zile până la blocare',
+    body: 'Începând din 2027, o actualizare silențioasă de la Google va bloca toate aplicațiile Android ale căror dezvoltatori nu s-au înregistrat la Google.',
+    subtext: 'Fiecare aplicație și fiecare dispozitiv, la nivel mondial, fără posibilitate de contestare.',
+    cta: 'Răspândește mesajul',
+  },
+  nl: {
+    headline: 'Je telefoon zal binnenkort niet meer van jou zijn.',
+    countdownLabel: 'dagen tot lockdown',
+    body: 'Vanaf 2027 zal een stille update van Google alle Android-apps blokkeren waarvan de ontwikkelaars zich niet bij Google hebben geregistreerd.',
+    subtext: 'Elke app en elk apparaat, wereldwijd, zonder mogelijkheid van bezwaar.',
+    cta: 'Verspreid het bericht',
+  },
+  pt: {
+    headline: 'O seu telefone em breve não será mais seu.',
+    countdownLabel: 'dias até ao bloqueio',
+    body: 'A partir de 2027, uma atualização silenciosa do Google bloqueará todos os aplicativos Android cujos desenvolvedores não se registraram no Google.',
+    subtext: 'Cada aplicativo e cada dispositivo, em todo o mundo, sem possibilidade de recurso.',
+    cta: 'Espalhe a mensagem',
+  },
+  ar: {
+    headline: 'هاتفك قريباً لن يعود ملكاً لك.',
+    countdownLabel: 'يوماً حتى الإغلاق',
+    body: ' starting in 2027, a silent update from Google will block all Android apps whose developers have not registered with Google.',
+    subtext: 'Every app and every device, worldwide, with no possibility of appeal.',
+    cta: 'انشر الرسالة',
+  },
+};
+
+const bt = bannerText[lang] || bannerText.en;
+---
+
+<section class="kao-banner" id="keep-android-open">
+  <div class="kao-banner-overlay"></div>
+  <div class="kao-banner-content">
+    <div class="kao-banner-countdown-wrap">
+      <div class="kao-countdown-number" id="kao-countdown">113</div>
+      <div class="kao-countdown-label">{bt.countdownLabel}</div>
+    </div>
+    <div class="kao-banner-text">
+      <h2 class="kao-banner-headline">{bt.headline}</h2>
+      <p class="kao-banner-body">{bt.body}</p>
+      <p class="kao-banner-subtext">{bt.subtext}</p>
+      <a href="https://keepandroidopen.org/" target="_blank" rel="noopener noreferrer" class="kao-banner-cta">
+        {bt.cta} ↓
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+.kao-banner {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: #ffffff;
+  padding: 2rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 3px solid #e94560;
+}
+
+.kao-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 80% 50%, rgba(233, 69, 96, 0.15) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.kao-banner-content {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.kao-banner-countdown-wrap {
+  flex-shrink: 0;
+  text-align: center;
+  background: rgba(233, 69, 96, 0.15);
+  border: 2px solid #e94560;
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  min-width: 120px;
+}
+
+.kao-countdown-number {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #e94560;
+  line-height: 1;
+  font-family: monospace;
+}
+
+.kao-countdown-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.8;
+  margin-top: 0.5rem;
+}
+
+.kao-banner-text {
+  flex: 1;
+}
+
+.kao-banner-headline {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  color: #ffffff;
+}
+
+.kao-banner-body {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0 0 0.5rem 0;
+  opacity: 0.9;
+}
+
+.kao-banner-subtext {
+  font-size: 0.85rem;
+  font-style: italic;
+  margin: 0 0 1rem 0;
+  opacity: 0.7;
+}
+
+.kao-banner-cta {
+  display: inline-block;
+  background: #e94560;
+  color: #ffffff;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.kao-banner-cta:hover {
+  background: #c73e54;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .kao-banner-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .kao-banner-countdown-wrap {
+    min-width: 100px;
+    padding: 0.8rem 1.2rem;
+  }
+
+  .kao-countdown-number {
+    font-size: 2.5rem;
+  }
+
+  .kao-banner-headline {
+    font-size: 1.2rem;
+  }
+
+  .kao-banner-body {
+    font-size: 0.9rem;
+  }
+}
+</style>
+
+<script>
+// Countdown to January 1, 2027
+const targetDate = new Date('2027-01-01T00:00:00');
+function updateCountdown() {
+  const now = new Date();
+  const diff = targetDate - now;
+  const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+  const el = document.getElementById('kao-countdown');
+  if (el) {
+    el.textContent = days > 0 ? days : 0;
+  }
+}
+updateCountdown();
+setInterval(updateCountdown, 60000); // Update every minute
+</script>
