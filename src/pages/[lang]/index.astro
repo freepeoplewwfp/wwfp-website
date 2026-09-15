@@ -130,13 +130,11 @@ import KeepAndroidOpen from '../../components/KeepAndroidOpen.astro';
     <div class="container">
       <h2 class="text-center mb-md">{t.home.whatWeDoTitle}</h2>
       <p class="section-intro">{t.home.whatWeDoIntro}</p>
-      <div class="card-grid">
+      <div class="whatwedo-grid">
         {projects.map(p => (
-          <div class="card">
-            <div class="card-body">
-              <h3>{p.title}</h3>
-              <p>{p.text}</p>
-            </div>
+          <div class="whatwedo-item">
+            <h3>{p.title}</h3>
+            <p>{p.text}</p>
           </div>
         ))}
       </div>
@@ -850,6 +848,28 @@ html {
     flex-direction: column;
     text-align: left;
   }
+}
+
+.whatwedo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+.whatwedo-item {
+  padding: 0 0.5rem;
+}
+.whatwedo-item h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--color-text);
+}
+.whatwedo-item p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-muted);
+  margin: 0;
 }
 </style>
 <!-- Build trigger: Mon Sep 14 07:13:56 PM CEST 2026 -->
