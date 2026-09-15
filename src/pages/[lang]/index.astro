@@ -234,47 +234,6 @@ import KeepAndroidOpen from '../../components/KeepAndroidOpen.astro';
     </div>
   </section>
 
-  <!-- Shop -->
-  <section id="shop" class="section section--alt">
-    <div class="container">
-      <h2 class="text-center mb-md">{t.shop.title}</h2>
-      <p class="section-intro">{t.shop.intro}</p>
-
-      <div class="shop-grid">
-        {shopData.map(shop => (
-          <a href={shop.customLayout ? `/${lang}/shop/${shop.customLayout}` : `/${lang}/shop/${shop.slug}`} class="shop-card">
-            <div class="shop-card-img-wrap">
-              {shop.video ? (
-                <video class="shop-card-img shop-card-video" autoplay muted loop playsinline preload="auto" poster={shop.image} aria-label={`${shop.name} — ${shop.city}`}>
-                  <source src={shop.video} type="video/mp4" />
-                </video>
-              ) : shop.youtubeShort ? (
-                <iframe class="shop-card-img shop-card-youtube" src={`https://www.youtube-nocookie.com/embed/${shop.youtubeShort}?autoplay=1&mute=1&loop=1&playlist=${shop.youtubeShort}&controls=0`} frameborder="0" allow="autoplay; encrypted-media" allowfullscreen aria-label={`${shop.name} — ${shop.city}`}></iframe>
-              ) : (
-                <img src={shop.image} alt={`${shop.name} — ${shop.city}`} class="shop-card-img" />
-              )}
-              <div class="shop-card-overlay">
-                <span class="shop-card-enter">{shop.placeholder ? (t.shop.yourShopHere || 'Dein Shop hier') : (t.shop.enterShop || 'Enter shop →')}</span>
-              </div>
-            </div>
-            <div class="shop-card-body">
-              <h3>{shop.name}</h3>
-              <p class="shop-card-location">📍 {shop.city}, {shop.country}</p>
-            </div>
-          </a>
-        ))}
-      </div>
-
-      <div class="shop-note card">
-        <h3>🛍️ {t.shop.comingSoon}</h3>
-        <p>{t.shop.comingSoonText}</p>
-        <div class="shop-actions">
-          <a href={`/${lang}/contact`} class="btn btn--primary">{t.shop.registerCta}</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Freedom & Privacy -->
   <section id="freedom" class="section section--freedom">
     <div class="freedom-hero-bg"></div>
