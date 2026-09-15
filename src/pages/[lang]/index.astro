@@ -129,8 +129,7 @@ import KeepAndroidOpen from '../../components/KeepAndroidOpen.astro';
       <p class="section-intro">{t.home.whatWeDoIntro}</p>
       <div class="card-grid">
         {projects.map(p => (
-          <div class="card card--with-image">
-            <img src={p.img} alt={p.title} class="card-img" />
+          <div class="card">
             <div class="card-body">
               <h3>{p.title}</h3>
               <p>{p.text}</p>
