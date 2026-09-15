@@ -19,7 +19,7 @@ export const de = {
     heroCta: 'Werde Teil der Bewegung',
     heroCtaSecondary: 'Unterstütze unsere Arbeit',
     introTitle: 'Wir sind WWFP',
-    introText: 'Die Woascht Wohl & Free People Organization ist ein internationales Netzwerk von Erdlingen, die sich für das grundlegende Recht auf Habitat und Umweltschutz einsetzen. Wir protestieren nicht gegen Probleme — wir ignorieren sie und fangen an, so zu leben, wie es sein sollte.',
+    introText: 'ein internationales Netzwerk von Erdlingen, die sich für das grundlegende Recht auf Habitat und Umweltschutz einsetzen. Wir protestieren nicht gegen Probleme — wir ignorieren sie und fangen an, so zu leben, wie es sein sollte.',
     introCta: 'Erfahre mehr über uns',
     pillarsTitle: 'Wofür wir stehen',
     pillar1Title: 'Habitat-Rechte',
