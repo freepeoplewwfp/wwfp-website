@@ -30,6 +30,7 @@ const projects = [
   { img: '/images/wwfp-07.jpg', title: t.whatWeDo.project3Title, text: t.whatWeDo.project3Text },
   { img: '/images/wwfp-09.jpg', title: t.whatWeDo.project4Title, text: t.whatWeDo.project4Text },
 ];
+import KeepAndroidOpen from '../../components/KeepAndroidOpen.astro';
 ---
 
 <Base lang={lang} t={t}>
@@ -43,7 +44,9 @@ const projects = [
       <button class="video-play-btn" id="playBtn">▶ Play with Sound</button>
       <button class="video-replay-btn" id="replayBtn" style="display:none">▶ Replay</button>
     </div>
-  </section>
+  
+  <KeepAndroidOpen lang={lang} t={t} />
+</section>
   <script is:inline>
     var vid = document.getElementById('heroVideo');
     var btn = document.getElementById('playBtn');
