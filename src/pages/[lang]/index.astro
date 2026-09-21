@@ -70,6 +70,7 @@ const t = getTranslations(lang);
   border: 1px solid #7cfc00;
   backdrop-filter: blur(10px);
   box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  display: none;
 }
 
 #editor-header {
@@ -474,6 +475,7 @@ html {
     </div>
   </section>
 
+  {import.meta.env.DEV && (
   <div id="layout-editor">
     <div id="editor-header">Director's Mode <span>⚙️</span></div>
 
@@ -527,6 +529,7 @@ html {
     <!-- Export positions to console -->
     <button id="export-btn" class="lock-btn" style="margin-top: 8px; background: #246; color: white;">📋 Export Positions</button>
   </div>
+  )}
 
 
   <section class="banner-space" id="space-2">
@@ -863,6 +866,12 @@ html {
       }, observerOptions);
 
       document.querySelectorAll('.fade-in-element').forEach(el => observer.observe(el));
+
+      // Show Director's Panel only in dev mode
+      if (import.meta.env.DEV) {
+        var panel = document.getElementById('layout-editor');
+        if (panel) panel.style.display = 'block';
+      }
 
       // === Director's Mode — Container-based editor with persistent lock ===
       var currentLayer = null;
