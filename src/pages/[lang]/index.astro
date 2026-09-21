@@ -13,296 +13,267 @@ export async function getStaticPaths() {
 
 const { lang } = Astro.props;
 const t = getTranslations(lang);
-
-const values = [
-  { icon: '💫', title: t.values.esteemTitle, text: t.values.esteemText },
-  { icon: '📖', title: t.values.sharingTitle, text: t.values.sharingText },
-  { icon: '🎯', title: t.values.targetedTitle, text: t.values.targetedText },
-  { icon: '⚡', title: t.values.cuttingEdgeTitle, text: t.values.cuttingEdgeText },
-  { icon: '🕊️', title: t.values.nonviolenceTitle, text: t.values.nonviolenceText },
-  { icon: 'Freedom', title: t.values.independenceTitle, text: t.values.independenceText },
-  { icon: '🔍', title: t.values.transparencyTitle, text: t.values.transparencyText },
-];
-
-const projects = [
-  { img: '/images/wwfp-04.jpg', title: t.whatWeDo.project1Title, text: t.whatWeDo.project1Text },
-  { img: '/images/wwfp-06.jpg', title: t.whatWeDo.project2Title, text: t.whatWeDo.project2Text },
-  { img: '/images/wwfp-07.jpg', title: t.whatWeDo.project3Title, text: t.whatWeDo.project3Text },
-  { img: '/images/wwfp-09.jpg', title: t.whatWeDo.project4Title, text: t.whatWeDo.project4Text },
-];
-import KeepAndroidOpen from '../../components/KeepAndroidOpen.astro';
 ---
 
-<Base lang={lang} t={t}>
-  <!-- Fullscreen Video Hero -->
-  <section id="top" class="video-hero">
-    <video class="video-hero-bg" id="heroVideo" playsinline preload="metadata" crossorigin="anonymous" poster="/videos/about-us-frame.jpg">
-    </video>
-    <div class="video-hero-poster" id="heroPoster" style="background-image: url('/videos/about-us-frame.jpg'); display: block;"></div>
-    <div class="video-hero-overlay"></div>
-    <div class="video-hero-content">
-      <button class="video-play-btn" id="playBtn">▶ Play with Sound</button>
-      <button class="video-replay-btn" id="replayBtn" style="display:none">▶ Replay</button>
-    </div>
-  
-</section>
-
-<section class="section keep-android-section">
-  <KeepAndroidOpen lang={lang} t={t} />
-</section>
-  <script is:inline>
-    var vid = document.getElementById('heroVideo');
-    var btn = document.getElementById('playBtn');
-    var replayBtn = document.getElementById('replayBtn');
-    var poster = document.getElementById('heroPoster');
-    var hlsLoaded = false;
-
-    function loadHeroVideo(callback) {
-      if (hlsLoaded) { callback(); return; }
-      if (vid.canPlayType('application/vnd.apple.mpegurl')) {
-        vid.src = '/videos/about-us-hls/index.m3u8';
-        hlsLoaded = true;
-        callback();
-      } else {
-        var hs = document.createElement('script');
-        hs.src = 'https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js';
-        hs.onload = function() {
-          if (Hls.isSupported()) {
-            var hls = new Hls();
-            hls.loadSource('/videos/about-us-hls/index.m3u8');
-            hls.attachMedia(vid);
-            hlsLoaded = true;
-            callback();
-          }
-        };
-        document.head.appendChild(hs);
-      }
-    }
-
-    if (btn) {
-      btn.addEventListener('click', function() {
-        if (!vid) return;
-        loadHeroVideo(function() {
-          vid.muted = false;
-          vid.loop = false;
-          vid.play();
-          if (poster) poster.style.display = 'none';
-          btn.style.display = 'none';
-        });
-      });
-    }
-    if (replayBtn) {
-      replayBtn.addEventListener('click', function() {
-        if (vid) {
-          vid.currentTime = 0;
-          vid.play();
-          if (poster) poster.style.display = 'none';
-          replayBtn.style.display = 'none';
-        }
-      });
-    }
-    if (vid) {
-      vid.addEventListener('ended', function() {
-        vid.style.display = 'none';
-        if (poster) poster.style.display = 'block';
-        if (replayBtn) replayBtn.style.display = 'inline-block';
-      });
-    }
-  </script>
-
-  <!-- Intro -->
-  <section class="section">
-    <div class="container">
-      <div class="intro-grid">
-        <div class="intro-text">
-          <h2>{t.home.introTitle}</h2>
-          <p class="intro-lead">{t.home.introText}</p>
-        </div>
-        <div class="intro-image">
-          <img src="/images/wwfp-01.jpg" alt="WWFP community" class="rounded-img" />
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- What We Do (merged) -->
-  <section id="what-we-do" class="section section--alt">
-    <div class="container">
-      <h2 class="text-center mb-md">{t.home.whatWeDoTitle}</h2>
-      <p class="section-intro">{t.home.whatWeDoIntro}</p>
-      <div class="whatwedo-grid">
-        {projects.map(p => (
-          <div class="whatwedo-item">
-            <h3>{p.title}</h3>
-            <p>{p.text}</p>
-          </div>
-        ))}
-      </div>
-      <!-- Gallery strip -->
-      <div class="gallery-strip">
-        <img src="/images/wwfp-12.jpg" alt="WWFP in action" />
-        <img src="/images/wwfp-13.jpg" alt="WWFP in action" />
-      </div>
-    </div>
-  </section>
-
-  <!-- Values (merged) -->
-  <section id="values" class="section">
-    <div class="container">
-      <h2 class="text-center mb-md">{t.home.valuesTitle}</h2>
-      <p class="section-intro">{t.home.valuesIntro}</p>
-      <div class="values-list">
-        {values.map((v, i) => (
-          <div class={i % 2 === 0 ? 'value-row' : 'value-row value-row--alt'}>
-            <div class="value-icon">{v.icon}</div>
-            <div class="value-content">
-              <h3>{v.title}</h3>
-              <p>{v.text}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Get Involved (merged) -->
-  <section id="get-involved" class="section section--alt">
-    <div class="container">
-      <h2 class="text-center mb-md">{t.home.getInvolvedTitle}</h2>
-      <p class="section-intro">{t.home.getInvolvedIntro}</p>
-      <div class="membership-grid">
-        <div class="card membership-card">
-          <img src="/images/wwfp-14.jpg" alt="Passive member" class="card-img" />
-          <div class="card-body">
-            <h3>{t.home.passiveTitle}</h3>
-            <p>{t.home.passiveText}</p>
-            <ul class="check-list">
-              <li>{t.getInvolved.passivePoint1}</li>
-              <li>{t.getInvolved.passivePoint2}</li>
-              <li>{t.getInvolved.passivePoint3}</li>
-            </ul>
-          </div>
-        </div>
-        <div class="card membership-card membership-card--active">
-          <img src="/images/wwfp-15.jpg" alt="Active member" class="card-img" />
-          <div class="card-body">
-            <h3>{t.home.activeTitle}</h3>
-            <p>{t.home.activeText}</p>
-            <ul class="check-list">
-              <li>{t.getInvolved.activePoint1}</li>
-              <li>{t.getInvolved.activePoint2}</li>
-              <li>{t.getInvolved.activePoint3}</li>
-              <li>{t.getInvolved.activePoint4}</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="text-center mt-lg">
-        <a href={`/${lang}/contact`} class="btn btn--primary">{t.getInvolved.cta}</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Hostel -->
-  <section id="hostel" class="section section--hidden">
-    <div class="container">
-      <h2 class="text-center mb-md">{t.hostel.title}</h2>
-      <p class="section-intro">{t.hostel.intro}</p>
-      <div class="hostel-steps">
-        <div class="hostel-step">
-          <div class="step-number">1</div>
-          <p>{t.hostel.step1}</p>
-        </div>
-        <div class="hostel-step">
-          <div class="step-number">2</div>
-          <p>{t.hostel.step2}</p>
-        </div>
-        <div class="hostel-step">
-          <div class="step-number">3</div>
-          <p>{t.hostel.step3}</p>
-        </div>
-        <div class="hostel-step">
-          <div class="step-number">4</div>
-          <p>{t.hostel.step4}</p>
-        </div>
-      </div>
-      <div class="hostel-coming-soon card">
-        <h3>📍 {t.hostel.comingSoon}</h3>
-        <p>{t.hostel.comingSoonText}</p>
-        <a href={`/${lang}/contact`} class="btn btn--secondary mt-md">{t.nav.contact}</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Freedom & Privacy -->
-  <section id="freedom" class="section section--freedom">
-    <div class="freedom-hero-bg"></div>
-    <div class="container">
-      <h2 class="text-center mb-md freedom-title">{t.freedom.title}</h2>
-      <p class="freedom-eyecatcher">{t.freedom.eyecatcher}</p>
-      <p class="freedom-subtitle">{t.freedom.subtitle}</p>
-
-      <div class="freedom-video-section">
-        <div class="freedom-video-wrap">
-          <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/ViWVlXg2NTU?hl=de&cc_lang_pref=de&cc_load_policy=1" frameborder="0" allowfullscreen title="Install GrapheneOS Before Your Phone Becomes the Checkpoint"></iframe>
-        </div>
-        <div class="freedom-youtube-cta">
-          <a href="https://www.youtube.com/@wwfp_people_org" target="_blank" rel="noopener" class="btn btn--youtube">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; margin-right: 8px;">
-              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-            </svg>
-            {t.freedom.subscribeBtn}
-          </a>
-        </div>
-      </div>
-
-      <div class="freedom-cards">
-        <div class="card freedom-card">
-          <div class="freedom-card-icon">📋</div>
-          <h3>{t.freedom.chatControlTitle}</h3>
-          <p>{t.freedom.chatControlText}</p>
-        </div>
-        <div class="card freedom-card">
-          <div class="freedom-card-icon">📱</div>
-          <h3>{t.freedom.grapheneOSTitle}</h3>
-          <p>{t.freedom.grapheneOSText}</p>
-        </div>
-        <div class="card freedom-card">
-          <div class="freedom-card-icon">🔓</div>
-          <h3>{t.freedom.whyPrivacyTitle}</h3>
-          <p>{t.freedom.whyPrivacyText}</p>
-        </div>
-      </div>
-
-      <div class="text-center mt-lg">
-        <a href="https://www.youtube.com/@wwfp_people_org" target="_blank" rel="noopener" class="btn btn--clay">{t.freedom.youtubeCta}
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Quote / CTA -->
-  <section class="section section--forest quote-section">
-    <div class="quote-bg"></div>
-    <div class="container text-center quote-content">
-      <blockquote class="big-quote">
-        "{t.footer.tagline}"
-      </blockquote>
-      <a href="#get-involved" class="btn btn--clay mt-md">{t.home.heroCta}</a>
-    </div>
-  </section>
-
-  <!-- Black bar between quote and footer -->
-  <div class="black-bar">
-    <p>„Wenn Recht zu Unrecht wird, wird Widerstand zur Pflicht!“</p>
-  </div>
-</Base>
-
 <style>
-.freedom-hero-bg { position: absolute; inset: 0; background-image: url("/images/Freedom.jpg"); background-size: cover; background-position: center; opacity: 0.15; }
-.section--freedom { position: relative; overflow: hidden; }
-.section--freedom .container { position: relative; z-index: 1; }
-/* Fullscreen Video Hero */
+/* All scoped styles remain here */
+* {
+  box-sizing: border-box;
+}
+
+#calibration-grid {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10000;
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  border: 2px solid rgba(124, 252, 0, 0.5);
+}
+
+.grid-line-v {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(124, 252, 0, 0.3);
+}
+
+.grid-line-h {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(124, 252, 0, 0.3);
+}
+
+.grid-label {
+  position: absolute;
+  font-size: 10px;
+  color: rgba(124, 252, 0, 0.6);
+  font-family: monospace;
+}
+
+#layout-editor {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 260px;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 15px;
+  border-radius: 12px;
+  z-index: 9999;
+  font-family: sans-serif;
+  font-size: 13px;
+  border: 1px solid #7cfc00;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+
+#editor-header {
+  font-weight: bold;
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #444;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #7cfc00;
+}
+
+.editor-target {
+  background: rgba(124, 252, 0, 0.2);
+  padding: 8px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: bold;
+  border: 1px dashed #7cfc00;
+}
+
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.slider-row label {
+  width: 40px;
+  font-size: 11px;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.slider-row input {
+  flex: 1;
+  cursor: pointer;
+}
+
+.slider-row .val {
+  width: 40px;
+  text-align: right;
+  font-family: monospace;
+  color: #7cfc00;
+}
+
+.lock-btn {
+  width: 100%;
+  padding: 10px;
+  background: #7cfc00;
+  color: black;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.lock-btn:hover {
+  background: #adff2f;
+}
+
+.lock-btn.locked {
+  background: #444;
+  color: #888;
+  cursor: not-allowed;
+}
+
+.banner-space {
+  position: relative;
+  width: 100%;
+  height: auto;
+  background-color: #051a0f;
+  overflow: hidden;
+  display: block;
+}
+
+.banner-image {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.banner-content {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  z-index: 2;
+  text-align: center;
+  width: auto;
+}
+
+/* Position classes removed — all positioning is now inline styles per element */
+.content-left, .content-right, .content-left-text, .content-right-text {
+  z-index: 10;
+  margin: 0;
+  padding: 0;
+}
+
+/* Director's Panel — Layer Selector */
+.layer-selector, .element-selector {
+  margin-bottom: 12px;
+}
+.layer-label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin-bottom: 4px;
+}
+#layer-select, #element-select {
+  width: 100%;
+  padding: 6px 8px;
+  background: rgba(0,0,0,0.5);
+  color: #7cfc00;
+  border: 1px solid #444;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+}
+#layer-select option, #element-select option {
+  background: #111;
+  color: #ccc;
+}
+/* Per-element lock — just a visual marker, no screen-wide effect */
+.elem-locked {
+  outline: 1px dashed rgba(255, 100, 100, 0.5);
+  outline-offset: 4px;
+}
+.elem-locked::after {
+  content: ' 🔒';
+  font-size: 0.7em;
+  opacity: 0.7;
+}
+
+.typewriter-text {
+  font-family: var(--font-head);
+  font-size: 2rem;
+  font-weight: 800;
+  color: rgba(180, 255, 180, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0;
+  text-shadow:
+    0 0 12px rgba(0, 100, 0, 0.6),
+    -1px -1px 0 #004d00, 1px -1px 0 #006400,
+    -1px 1px 0 #006400, 1px 1px 0 #004d00;
+}
+
+.banner-title {
+  font-family: var(--font-head);
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: rgba(180, 255, 180, 0.7);
+  margin-bottom: var(--space-md);
+  line-height: 1.2;
+  text-shadow:
+    0 0 12px rgba(0, 100, 0, 0.6),
+    -1px -1px 0 #004d00, 1px -1px 0 #006400,
+    -1px 1px 0 #006400, 1px 1px 0 #004d00;
+}
+
+.banner-text {
+  font-size: 0.84rem;
+  color: rgba(180, 255, 180, 0.7);
+  opacity: 0.9;
+  line-height: 1.6;
+  text-shadow:
+    0 0 12px rgba(0, 100, 0, 0.6),
+    -1px -1px 0 #004d00, 1px -1px 0 #006400,
+    -1px 1px 0 #006400, 1px 1px 0 #004d00;
+}
+
+.fade-in-element {
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+}
+
+.fade-in-element.visible {
+  opacity: 1;
+}
+
+.cursor {
+  display: inline-block;
+  width: 3px;
+  background-color: var(--color-leaf);
+  margin-left: 5px;
+  animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
 .video-hero {
   position: relative;
   height: 100vh;
@@ -398,387 +369,8 @@ import KeepAndroidOpen from '../../components/KeepAndroidOpen.astro';
   transform: scale(1.05);
 }
 
-.section-intro {
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto var(--space-lg);
-  font-size: 1.1rem;
-  color: var(--color-text-light);
-}
-
-.intro-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: var(--space-lg);
-  align-items: center;
-}
-
-.intro-lead {
-  font-size: 1.15rem;
-  color: var(--color-text-light);
-  margin-bottom: var(--space-md);
-}
-
-.rounded-img {
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  width: 100%;
-  max-height: 280px;
-  object-fit: cover;
-}
-
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-md);
-}
-
-.card--with-image {
-  padding: 0;
-  overflow: visible;
-}
-
-.card--with-image .card-img {
-  overflow: hidden;
-}
-
-.card-img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.card-body {
-  padding: var(--space-md);
-  text-align: center;
-  word-break: break-word;
-  hyphens: auto;
-}
-
-.gallery-strip {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-sm);
-  margin-top: var(--space-lg);
-}
-
-.gallery-strip img {
-  width: 100%;
-  height: auto;
-  object-fit: contain;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  transition: transform var(--transition);
-}
-
-.gallery-strip img:hover {
-  transform: scale(1.03);
-}
-
-/* Values */
-.values-list {
-  max-width: 860px;
-  margin: 0 auto;
-}
-
-.value-row {
-  display: flex;
-  gap: var(--space-md);
-  padding: var(--space-md) 0;
-  border-bottom: 1px solid var(--color-border);
-  align-items: flex-start;
-}
-
-.value-row--alt {
-  flex-direction: row-reverse;
-  text-align: right;
-}
-
-.value-icon {
-  font-size: 2.5rem;
-  min-width: 60px;
-  text-align: center;
-}
-
-.value-content h3 {
-  margin-bottom: 0.3rem;
-}
-
-/* Membership */
-.membership-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-md);
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.membership-card {
-  padding: 0;
-  overflow: hidden;
-  text-align: center;
-}
-
-.membership-card--active {
-  border: 2px solid var(--color-forest);
-}
-
-.check-list {
-  list-style: none;
-  padding: 0;
-  text-align: left;
-  max-width: 300px;
-  margin: var(--space-sm) auto 0;
-}
-
-.check-list li {
-  padding: 0.4rem 0;
-  padding-left: 1.8rem;
-  position: relative;
-}
-
-.check-list li::before {
-  content: '✓';
-  position: absolute;
-  left: 0;
-  color: var(--color-leaf);
-  font-weight: bold;
-}
-
-/* Hostel */
-.hostel-steps {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-md);
-  max-width: 900px;
-  margin: 0 auto var(--space-lg);
-}
-
-.hostel-step {
-  text-align: center;
-}
-
-.step-number {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: var(--color-forest);
-  color: var(--color-cream);
-  font-size: 1.5rem;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto var(--space-sm);
-}
-
-.hostel-coming-soon {
-  max-width: 600px;
-  margin: 0 auto;
-  text-align: center;
-  padding: var(--space-md);
-}
-
-.hostel-coming-soon h3 {
-  margin-bottom: var(--space-sm);
-}
-
-/* Shop */
-.shop-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-md);
-  max-width: 1200px;
-  margin: 0 auto var(--space-lg);
-}
-
-.shop-card {
-  display: flex;
-  flex-direction: column;
-  text-decoration: none;
-  color: inherit;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 2px 8px rgba(45, 32, 19, 0.06);
-  transition: transform var(--transition), box-shadow var(--transition);
-}
-
-.shop-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
-}
-
-.shop-card-img-wrap {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 3/4;
-}
-
-.shop-card-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
-}
-
-video.shop-card-img {
-  transition: none;
-}
-
-iframe.shop-card-youtube,
-.shop-card-video {
-  width: 100%;
-  height: 100%;
-  border: none;
-  object-fit: cover;
-  pointer-events: none;
-}
-
-.shop-card:hover .shop-card-img {
-  transform: scale(1.08);
-}
-
-.shop-card:hover video.shop-card-img {
-  transform: none;
-}
-
-.shop-card-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 50%, rgba(26, 58, 36, 0.7) 100%);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  padding: var(--space-sm);
-  opacity: 0;
-  transition: opacity var(--transition);
-}
-
-.shop-card:hover .shop-card-overlay {
-  opacity: 1;
-}
-
-.shop-card-enter {
-  color: var(--color-cream);
-  font-size: 0.95rem;
-  font-weight: 600;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-}
-
-.shop-card-body {
-  padding: var(--space-sm);
-  text-align: center;
-}
-
-.shop-card-body h3 {
-  font-size: 1.1rem;
-  margin-bottom: 0.2rem;
-}
-
-.shop-card-location {
-  font-size: 0.85rem;
-  color: var(--color-text-light);
-  margin: 0;
-}
-
-.shop-note {
-  max-width: 600px;
-  margin: 0 auto;
-  text-align: center;
-  padding: var(--space-md);
-}
-
-.shop-note h3 {
-  margin-bottom: var(--space-sm);
-}
-
-.shop-actions {
-  margin-top: var(--space-md);
-}
-
-/* Quote */
-.quote-section {
-  position: relative;
-  overflow: hidden;
-  min-height: 400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #1a3c28;
-  padding: var(--space-xl) 0;
-  margin-bottom: 0;
-}
-
-.quote-bg {
-  position: absolute;
-  inset: 0;
-  background-image: url('/images/wwfp-17.jpg');
-  background-size: cover;
-  background-position: center;
-  opacity: 0.35;
-}
-
-.quote-content {
-  position: relative;
-  z-index: 1;
-}
-
-.big-quote {
-  font-family: var(--font-head);
-  font-size: 2rem;
-  color: #2c7500 !important;
-  font-style: italic;
-  max-width: 100%;
-  margin: 0 auto;
-  white-space: nowrap;
-  text-shadow: 0.5px 0 0 #fff, -0.5px 0 0 #fff, 0 0.5px 0 #fff, 0 -0.5px 0 #fff;
-  -webkit-text-stroke: 0.3px #fff;
-  z-index: 10;
-  position: relative;
-  padding: 0 var(--space-sm);
-}
-
-.black-bar {
-  background: #000;
-  text-align: center;
-  padding: var(--space-lg) var(--space-md);
-  margin: 0;
-  border: none;
-}
-
-main {
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-body {
-  margin-bottom: 0;
-}
-
-.black-bar p {
-  color: #2c7500 !important;
-  font-size: 2.2rem;
-  font-weight: 600;
-  margin: 0;
-  letter-spacing: 0.05em;
-  text-shadow: 0.5px 0 0 #fff, -0.5px 0 0 #fff, 0 0.5px 0 #fff, 0 -0.5px 0 #fff;
-  -webkit-text-stroke: 0.3px #fff;
-  padding: 0 var(--space-sm);
-}
-
-/* Smooth scroll for anchor links */
 html {
   scroll-behavior: smooth;
-}
-
-/* Hidden sections (Hostel & Shop) */
-.section--hidden {
-  display: none;
-}
-
-.section--hidden.section--visible {
-  display: block;
 }
 
 @media (max-width: 768px) {
@@ -789,51 +381,720 @@ html {
   .video-hero-overlay { background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.1) 50%, rgba(26,58,36,0.4) 100%); }
   .video-play-btn { font-size: 1rem; padding: 12px 24px; }
   .video-replay-btn { font-size: 0.9rem; padding: 10px 22px; }
-  .video-hero-title { font-size: 3rem; }
-  .video-hero-tagline { font-size: 1.1rem; }
-  .intro-grid { grid-template-columns: 1fr; }
-  .card-grid { grid-template-columns: 1fr; }
-  .membership-grid { grid-template-columns: 1fr; }
-  .gallery-strip { grid-template-columns: repeat(2, 1fr); }
-  .hostel-steps { grid-template-columns: 1fr 1fr; }
-  .shop-grid { grid-template-columns: 1fr; }
-  .shop-card-img-wrap { aspect-ratio: 4/3; }
-  .shop-card-overlay { opacity: 1; background: linear-gradient(180deg, transparent 60%, rgba(26, 58, 36, 0.8) 100%); }
-  .big-quote { font-size: 1.1rem; white-space: normal; }
-  .black-bar p { font-size: 1.2rem; white-space: normal; }
-  .quote-section { min-height: 250px; padding: var(--space-lg) 0; }
-  .card-img { height: 160px; }
-  .value-row, .value-row--alt {
-    flex-direction: column;
-    text-align: left;
-  }
 }
-
-.whatwedo-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  margin: 2rem 0;
-}
-.whatwedo-item {
-  padding: 0 0.5rem;
-}
-.whatwedo-item h3 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: var(--color-text);
-}
-.whatwedo-item p {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: var(--color-muted);
-  margin: 0;
-}
-.freedom-eyecatcher, .freedom-subtitle { text-align: center; }
-.freedom-video-section { display: flex; justify-content: center; align-items: center; flex-direction: column; }
-.freedom-video-wrap { margin: 0 auto; }
-.freedom-youtube-cta { text-align: center; }
-.freedom-cards { text-align: center; }
 </style>
-<!-- Build trigger: Mon Sep 14 07:13:56 PM CEST 2026 -->
+
+<Base lang={lang} t={t}>
+  <!-- Fullscreen Video Hero -->
+  <section id="top" class="video-hero">
+    <video class="video-hero-bg" id="heroVideo" playsinline preload="metadata" crossorigin="anonymous" poster="/videos/about-us-frame.jpg"></video>
+    <div class="video-hero-poster" id="heroPoster" style="background-image: url('/videos/about-us-frame.jpg'); display: block;"></div>
+    <div class="video-hero-overlay"></div>
+    <div class="video-hero-content">
+      <button class="video-play-btn" id="playBtn">▶ Play with Sound</button>
+      <button class="video-replay-btn" id="replayBtn" style="display:none">▶ Replay</button>
+    </div>
+  </section>
+
+  <section class="banner-space" id="space-1">
+    <img src="/Website Banners/Firewall.jpg" alt="Banner 1" class="banner-image" />
+
+    <div class="banner-content" id="pos-identity" style="top: 10%; left: 50%; transform: translate(-50%, 0);">
+      <h1 class="typewriter-text" id="typewriter"></h1>
+    </div>
+
+    <div class="banner-content content-left fade-in-element" id="pos-left-title" style="position: absolute; top: 35%; left: 12%; max-width: 320px;">
+      <h2 class="banner-title">Wer wir sind</h2>
+    </div>
+
+    <div class="banner-content content-right fade-in-element" id="pos-right-title" style="position: absolute; top: 35%; left: 70%; max-width: 320px;">
+      <h2 class="banner-title">Wie wir uns finanzieren</h2>
+    </div>
+
+    <div class="banner-content fade-in-element" id="pos-warning" style="top: 50%; left: 50%; transform: translate(-50%, 0);">
+      <p class="banner-text" style="font-weight: bold; font-size: 0.9rem; color: rgba(180, 255, 180, 0.9); text-shadow: 0 0 15px rgba(0, 100, 0, 0.6); text-align: center; line-height: 1.2; width: 250px; margin: 0 auto;">
+        Dein Handy wird bald<br>nicht mehr dir gehören.
+      </p>
+    </div>
+
+    <div class="banner-content content-left" id="pos-left-text" style="position: absolute; top: 65%; left: 12%; max-width: 320px;">
+      <p class="banner-text">
+        Die Free People Organization ist ein gemeinnütziger Verein, der sich selbst trägt.
+        Ein internationales Netzwerk von Menschen, die nicht gegen Probleme protestieren,
+        sondern anfangen, so zu leben, wie es sein sollte. Wir bauen Lebensräume,
+        schützen die Umwelt und schaffen Orte, an denen Wissen, Kunst und gemeinschaftliches
+        Arbeiten fließen. Wo Menschen gedeihen, statt zu überleben.
+      </p>
+    </div>
+
+
+    <div class="banner-content content-right-text" id="pos-right-text" style="position: absolute; top: 65%; left: 70%; max-width: 320px;">
+      <p class="banner-text">
+        Durch eigene wirtschaftliche Geschäftsbetriebe — nicht durch Spenden allein. Jeder Euro fließt zu 100% in unsere Zwecke.<br><br>
+        Einnahmen → Hostel-Infrastruktur → Räume für Menschen die mithelfen → produzieren und verkaufen → neue Einnahmen → weitere Lebensräume.
+      </p>
+    </div>
+
+    <div class="banner-content" id="pos-revolution" style="position: absolute; top: 20%; left: 50%; transform: translate(-50%, 0); z-index: 10;">
+      <style>
+        .revolution-text { font-family: var(--font-head); font-size: 3.5rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.08em; margin: 0; text-align: center; }
+        .rev-letter { display: inline-block; opacity: 0; animation: revLetterIn 1.2s ease-out forwards; color: rgba(180, 255, 180, 0.85); text-shadow: 0 0 20px rgba(124, 252, 0, 0.4), 0 0 40px rgba(0, 100, 0, 0.3), -1px -1px 0 #004d00, 1px -1px 0 #006400, -1px 1px 0 #006400, 1px 1px 0 #004d00; }
+        @keyframes revLetterIn { 0% { opacity: 0; transform: translateY(40px) rotateX(-90deg) scale(0.5); filter: blur(10px); } 60% { opacity: 0.8; transform: translateY(-5px) rotateX(10deg) scale(1.1); filter: blur(0px); } 100% { opacity: 1; transform: translateY(0) rotateX(0) scale(1); filter: blur(0px); } }
+        .rev-letter.glowing { animation: revGlow 3s ease-in-out infinite; opacity: 1 !important; }
+        @keyframes revGlow { 0%, 100% { opacity: 1; text-shadow: 0 0 20px rgba(124, 252, 0, 0.4), 0 0 40px rgba(0, 100, 0, 0.3), -1px -1px 0 #004d00, 1px -1px 0 #006400, -1px 1px 0 #006400, 1px 1px 0 #004d00; } 50% { opacity: 1; text-shadow: 0 0 30px rgba(124, 252, 0, 0.7), 0 0 60px rgba(0, 150, 0, 0.5), 0 0 80px rgba(0, 100, 0, 0.3), -1px -1px 0 #004d00, 1px -1px 0 #006400, -1px 1px 0 #006400, 1px 1px 0 #004d00; } }
+      </style>
+      <h1 class="revolution-text">
+        <span class="rev-letter" style="animation-delay: 0s">R</span><span class="rev-letter" style="animation-delay: 0.15s">(</span><span class="rev-letter" style="animation-delay: 0.3s">e</span><span class="rev-letter" style="animation-delay: 0.45s">)</span><span class="rev-letter" style="animation-delay: 0.6s">v</span><span class="rev-letter" style="animation-delay: 0.75s">o</span><span class="rev-letter" style="animation-delay: 0.9s">l</span><span class="rev-letter" style="animation-delay: 1.05s">u</span><span class="rev-letter" style="animation-delay: 1.2s">t</span><span class="rev-letter" style="animation-delay: 1.35s">i</span><span class="rev-letter" style="animation-delay: 1.5s">o</span><span class="rev-letter" style="animation-delay: 1.65s">n</span>
+      </h1>
+    </div>
+
+    <div class="banner-content fade-in-element" id="pos-countdown" style="top: 85%; left: 50%; transform: translate(-50%, 0);">
+      <div id="countdown-clock" style="display: flex; gap: 20px; justify-content: center; align-items: center; font-family: monospace; font-weight: bold; color: rgba(144, 238, 144, 1); font-size: 1.5rem; text-shadow: none;">
+        <div style="text-align: center;"><span id="days">00</span><div style="font-size: 0.7rem; text-transform: uppercase; opacity: 0.8;">Days</div></div>
+        <div style="font-size: 1.5rem;">:</div>
+        <div style="text-align: center;"><span id="hours">00</span><div style="font-size: 0.7rem; text-transform: uppercase; opacity: 0.8;">Hours</div></div>
+        <div style="font-size: 1.5rem;">:</div>
+        <div style="text-align: center;"><span id="minutes">00</span><div style="font-size: 0.7rem; text-transform: uppercase; opacity: 0.8;">Mins</div></div>
+        <div style="font-size: 1.5rem;">:</div>
+        <div style="text-align: center;"><span id="seconds">00</span><div style="font-size: 0.7rem; text-transform: uppercase; opacity: 0.8;">Secs</div></div>
+      </div>
+      <p style="text-align: center; margin-top: 10px; color: rgba(144, 238, 144, 0.8); font-size: 1rem; font-weight: bold;">until lockdown</p>
+    </div>
+
+    <div class="banner-content fade-in-element" id="pos-spread" style="position: absolute; top: 92%; left: 50%; transform: translate(-50%, 0); z-index: 10;">
+      <a href="https://keepandroidopen.org" target="_blank" rel="noopener noreferrer" style="color: rgba(144, 238, 144, 0.9); font-size: 1rem; font-weight: bold; text-decoration: none; text-shadow: 0 0 10px rgba(0, 100, 0, 0.5); border-bottom: 1px solid rgba(144, 238, 144, 0.4); padding-bottom: 2px; transition: color 0.3s;">↓ Spread the word</a>
+    </div>
+
+    <div class="banner-content fade-in-element" id="pos-chatcontrol" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, 0); z-index: 10; max-width: 350px;">
+      <h2 class="banner-title" style="font-size: 1.3rem;">Chatkontrolle</h2>
+      <p class="banner-text" style="font-size: 0.78rem; line-height: 1.5;">
+        Die EU plant die automatische Scannung aller privaten Nachrichten — Chats, E-Mails, Fotos. Keine Ausnahme, keine Einwilligung. Was als Schutz für Kinder verkauft wird, ist die größte Überwachungsmaschine der Geschichte. Ende-zu-Ende-Verschlüsselung, das Fundament privater Kommunikation, wird ausgehebelt. Wenn deine Nachrichten gescannt werden, sind sie nicht mehr privat.
+        <a href="https://keepandroidopen.org" target="_blank" rel="noopener noreferrer" style="color: rgba(144, 238, 144, 0.9); text-decoration: underline;">Mehr erfahren →</a>
+      </p>
+    </div>
+  </section>
+
+  <div id="layout-editor">
+    <div id="editor-header">Director's Mode <span>⚙️</span></div>
+
+    <!-- Layer Selector -->
+    <div class="layer-selector">
+      <label class="layer-label">Layer</label>
+      <select id="layer-select">
+        <option value="space-1">1 · Firewall</option>
+        <option value="space-2">2 · GrapheneOS</option>
+        <option value="space-3">3 · Connected</option>
+        <option value="space-4">4 · Kontakt</option>
+      </select>
+    </div>
+
+    <!-- Element Selector (populated dynamically) -->
+    <div class="element-selector">
+      <label class="layer-label">Element</label>
+      <select id="element-select"><option value="">— select —</option></select>
+    </div>
+
+    <div class="editor-target" id="active-target">Select an element</div>
+    <div class="slider-row">
+      <label>Top</label>
+      <input type="range" min="0" max="100" value="0" data-prop="top">
+      <span class="val">0%</span>
+    </div>
+    <div class="slider-row">
+      <label>Left</label>
+      <input type="range" min="0" max="100" value="0" data-prop="left">
+      <span class="val">0%</span>
+    </div>
+    <div class="slider-row">
+      <label>Width</label>
+      <input type="range" min="10" max="90" value="30" data-prop="max-width">
+      <span class="val">30%</span>
+    </div>
+    <div class="slider-row">
+      <label>Opacity</label>
+      <input type="range" min="0" max="100" value="100" data-prop="opacity">
+      <span class="val">100%</span>
+    </div>
+    <div class="slider-row">
+      <label>Grid</label>
+      <input type="checkbox" id="toggle-grid" style="width: auto; flex: none; cursor: pointer;">
+      <span class="val" id="grid-status">OFF</span>
+    </div>
+
+    <!-- Lock / Unlock individual container -->
+    <button id="lock-container-btn" class="lock-btn">🔒 Lock Container</button>
+
+    <!-- Export positions to console -->
+    <button id="export-btn" class="lock-btn" style="margin-top: 8px; background: #246; color: white;">📋 Export Positions</button>
+  </div>
+
+
+  <section class="banner-space" id="space-2">
+    <img src="/Website Banners/graphene-os-aifreeimages.jpg" alt="Banner 2 — GrapheneOS" class="banner-image" />
+
+    <!-- GrapheneOS Description -->
+    <div class="banner-content fade-in-element" id="pos-2-grapheneos-text" style="position: absolute; top: 35%; left: 10%; z-index: 10; max-width: 380px;">
+      <p class="banner-text" style="font-size: 0.82rem; line-height: 1.6;">
+        GrapheneOS ist ein Open-Source-Betriebssystem für Smartphones, das Privatsphäre und Sicherheit von Grund auf neu denkt. Keine Google-Dienste, keine Verfolgung, keine Werbung. Kompatibel mit Android-Apps, aber auf deine Freiheit gebaut. Sandbox-basiert, gehärtet, mit verbesserten Berechtigungen und exploit-resistent. Dein Handy gehört wieder dir.
+      </p>
+      <a href="https://grapheneos.org/" target="_blank" rel="noopener noreferrer" style="color: rgba(144, 238, 144, 0.9); font-size: 0.85rem; text-decoration: underline; text-shadow: 0 0 8px rgba(0, 100, 0, 0.5);">Mehr erfahren →</a>
+    </div>
+
+    <!-- Second GrapheneOS Image -->
+    <div class="banner-content fade-in-element" id="pos-2-image" style="position: absolute; top: 30%; left: 60%; z-index: 10;">
+      <img src="/Website Banners/grapheneos-aifreeimages-2.jpg" alt="GrapheneOS" style="max-width: 413px; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.5);" />
+    </div>
+
+    <!-- karg.design Shop Card / Button -->
+    <div class="banner-content fade-in-element" id="pos-2-shopcard" style="position: absolute; top: 65%; left: 60%; z-index: 10; max-width: 280px;">
+      <a href="https://karg.design" target="_blank" rel="noopener noreferrer" style="display: block; background: rgba(0, 0, 0, 0.6); border: 2px solid rgba(144, 238, 144, 0.4); border-radius: 12px; padding: 15px; text-decoration: none; backdrop-filter: blur(10px); transition: all 0.3s;">
+        <h3 style="color: rgba(144, 238, 144, 1); font-size: 1.05rem; font-weight: bold; margin: 0 0 6px 0; text-shadow: 0 0 10px rgba(0, 100, 0, 0.5);">karg.design</h3>
+        <p style="color: rgba(200, 220, 200, 0.8); font-size: 0.6rem; margin: 0 0 9px 0; line-height: 1.5;">Web-Entwicklung • AI-Services • Video-Produktion • Design • Hosting</p>
+        <div style="display: inline-block; background: rgba(144, 238, 144, 0.2); border: 1px solid rgba(144, 238, 144, 0.5); border-radius: 6px; padding: 6px 15px; color: rgba(144, 238, 144, 1); font-weight: bold; font-size: 0.68rem; text-align: center;">→ Buy Now</div>
+      </a>
+    </div>
+
+    <!-- karg.design Skills Description -->
+    <div class="banner-content fade-in-element" id="pos-2-skills" style="position: absolute; top: 65%; left: 10%; z-index: 10; max-width: 340px;">
+      <h3 class="banner-title" style="font-size: 1.3rem;">karg.design für WWFP</h3>
+      <p class="banner-text" style="font-size: 0.78rem; line-height: 1.5;">
+        karg.design ist die Web-Development-Abteilung von WWFP. 100% der Einnahmen fließen in den Verein. Wir bieten professionelle Web-Entwicklung, AI-Lösungen, Video-Produktion und Hosting an. Unsere Skills finanzieren die Mission: Lebensräume bauen, Umwelt schützen, Gemeinschaften stärken. Wenn du bei uns etwas bestellst, unterstützt du keine Firma — du unterstützt Menschen.
+      </p>
+    </div>
+
+    <!-- WWFP Logo -->
+    <div class="banner-content fade-in-element" id="pos-2-logo" style="position: absolute; top: 8%; left: 50%; transform: translate(-50%, 0); z-index: 10;">
+      <img src="/wwfp-logo-signature.png" alt="WWFP Logo" style="max-width: 110px; opacity: 0.85;" />
+    </div>
+
+    <!-- wwfp.global watermark to cover aifreeimages.com text -->
+    <div class="banner-content" id="pos-2-watermark" style="position: absolute; bottom: 2%; right: 2%; z-index: 5;">
+      <span style="font-family: var(--font-head); font-size: 1rem; font-weight: bold; color: #83c5e6; letter-spacing: 0.05em; padding: 6px 12px; background: #0a0f1a; border-radius: 4px;">wwfp.global</span>
+    </div>
+  </section>
+
+  <section class="banner-space" id="space-3">
+    <img src="/Website Banners/getting connected.jpg" alt="Banner 3 — Getting Connected" class="banner-image" />
+
+    <!-- Title -->
+    <div class="banner-content fade-in-element" id="pos-3-title" style="position: absolute; top: 8%; left: 50%; transform: translate(-50%, 0); z-index: 10; text-align: center;">
+      <h2 class="banner-title" style="font-size: 2.8rem; text-align: center;">Self-Sustainable Society</h2>
+      <p class="banner-text" style="font-size: 1.02rem; text-align: center; margin-top: 8px; max-width: 500px; margin-left: auto; margin-right: auto;">Ein Kreislauf der sich selbst trägt. Menschen verbinden sich, teilen Wissen, produzieren gemeinsam und bauen Lebensräume die neue Menschen aufnehmen.</p>
+    </div>
+
+    <!-- SVG Circle Diagram -->
+    <div class="banner-content fade-in-element" id="pos-3-diagram" style="position: absolute; top: 35%; left: 50%; transform: translate(-50%, 0); z-index: 10;">
+      <svg viewBox="0 0 400 400" width="400" height="400" style="max-width: 100%;">
+        <!-- Connection lines (circle) -->
+        <circle cx="200" cy="200" r="140" fill="none" stroke="rgba(144, 238, 144, 0.3)" stroke-width="2" stroke-dasharray="8 4">
+          <animate attributeName="stroke-dashoffset" from="0" to="-48" dur="3s" repeatCount="indefinite" />
+        </circle>
+
+        <!-- Arrows along the circle -->
+        <g style="filter: drop-shadow(0 0 4px rgba(124, 252, 0, 0.4));">
+          <!-- Node 1: Menschen (top) -->
+          <circle cx="200" cy="60" r="45" fill="rgba(10, 20, 15, 0.85)" stroke="rgba(144, 238, 144, 0.5)" stroke-width="2" />
+          <text x="200" y="56" text-anchor="middle" fill="rgba(144, 238, 144, 0.9)" font-size="11" font-weight="bold" font-family="sans-serif">Menschen</text>
+          <text x="200" y="70" text-anchor="middle" fill="rgba(180, 255, 180, 0.6)" font-size="8" font-family="sans-serif">Fähigkeiten & Energie</text>
+
+          <!-- Node 2: Wissen teilen (top-right) -->
+          <circle cx="322" cy="130" r="45" fill="rgba(10, 20, 15, 0.85)" stroke="rgba(144, 238, 144, 0.5)" stroke-width="2" />
+          <text x="322" y="127" text-anchor="middle" fill="rgba(144, 238, 144, 0.9)" font-size="11" font-weight="bold" font-family="sans-serif">Wissen</text>
+          <text x="322" y="140" text-anchor="middle" fill="rgba(180, 255, 180, 0.6)" font-size="8" font-family="sans-serif">teilen & lernen</text>
+
+          <!-- Node 3: Produzieren (bottom-right) -->
+          <circle cx="322" cy="270" r="45" fill="rgba(10, 20, 15, 0.85)" stroke="rgba(144, 238, 144, 0.5)" stroke-width="2" />
+          <text x="322" y="267" text-anchor="middle" fill="rgba(144, 238, 144, 0.9)" font-size="11" font-weight="bold" font-family="sans-serif">Produzieren</text>
+          <text x="322" y="280" text-anchor="middle" fill="rgba(180, 255, 180, 0.6)" font-size="8" font-family="sans-serif">Handwerk & Kunst</text>
+
+          <!-- Node 4: Verkaufen (bottom) -->
+          <circle cx="200" cy="340" r="45" fill="rgba(10, 20, 15, 0.85)" stroke="rgba(144, 238, 144, 0.5)" stroke-width="2" />
+          <text x="200" y="337" text-anchor="middle" fill="rgba(144, 238, 144, 0.9)" font-size="11" font-weight="bold" font-family="sans-serif">Verkaufen</text>
+          <text x="200" y="350" text-anchor="middle" fill="rgba(180, 255, 180, 0.6)" font-size="8" font-family="sans-serif">Shop & Services</text>
+
+          <!-- Node 5: Lebensräume (bottom-left) -->
+          <circle cx="78" cy="270" r="45" fill="rgba(10, 20, 15, 0.85)" stroke="rgba(144, 238, 144, 0.5)" stroke-width="2" />
+          <text x="78" y="267" text-anchor="middle" fill="rgba(144, 238, 144, 0.9)" font-size="11" font-weight="bold" font-family="sans-serif">Lebensräume</text>
+          <text x="78" y="280" text-anchor="middle" fill="rgba(180, 255, 180, 0.6)" font-size="8" font-family="sans-serif">bauen & erhalten</text>
+
+          <!-- Node 6: Aufnehmen (top-left) -->
+          <circle cx="78" cy="130" r="45" fill="rgba(10, 20, 15, 0.85)" stroke="rgba(144, 238, 144, 0.5)" stroke-width="2" />
+          <text x="78" y="127" text-anchor="middle" fill="rgba(144, 238, 144, 0.9)" font-size="11" font-weight="bold" font-family="sans-serif">Aufnehmen</text>
+          <text x="78" y="140" text-anchor="middle" fill="rgba(180, 255, 180, 0.6)" font-size="8" font-family="sans-serif">Wohnen & Essen</text>
+
+          <!-- Animated flow arrows between nodes -->
+          <g fill="rgba(144, 238, 144, 0.7)">
+            <polygon points="245,72 255,80 245,88" />
+            <polygon points="310,175 318,185 308,190" />
+            <polygon points="288,310 300,305 295,318" />
+            <polygon points="155,328 145,320 155,312" />
+            <polygon points="90,225 82,215 92,210" />
+            <polygon points="132,90 120,95 125,82" />
+          </g>
+        </g>
+
+        <!-- Center text -->
+        <text x="200" y="195" text-anchor="middle" fill="rgba(144, 238, 144, 0.5)" font-size="14" font-weight="bold" font-family="sans-serif">WWFP</text>
+        <text x="200" y="215" text-anchor="middle" fill="rgba(180, 255, 180, 0.4)" font-size="9" font-family="sans-serif">Kreislauf</text>
+      </svg>
+    </div>
+
+    <!-- Hostel & Tourismus text -->
+    <div class="banner-content fade-in-element" id="pos-3-hostel" style="position: absolute; top: 35%; left: 5%; z-index: 10; max-width: 280px;">
+      <h3 class="banner-title" style="font-size: 1.7rem; text-align: center;">Hostel & Tourismus</h3>
+      <p class="banner-text" style="font-size: 0.98rem; line-height: 1.5; text-align: center;">
+        Grundeigentümer unterzeichnen einen lebenslangen Vertrag. WWFP hilft beim Ausbau für nachhaltigen Tourismus. Sie verwalten, erhalten faire Lohn. Der Überschuss fließt an WWFP — um weitere Lebensräume zu schaffen.
+      </p>
+    </div>
+
+    <!-- Community text -->
+    <div class="banner-content fade-in-element" id="pos-3-community" style="position: absolute; top: 35%; right: 5%; z-index: 10; max-width: 280px;">
+      <h3 class="banner-title" style="font-size: 1.7rem; text-align: center;">Gemeinschaft</h3>
+      <p class="banner-text" style="font-size: 0.98rem; line-height: 1.5; text-align: center;">
+        Aktive Mitglieder erhalten Stimmrecht, kostenloses Wohnen und Verpflegung. Deine Zeit ist das Wertvollste was du geben kannst. Direkt an Lösungen arbeiten — statt gegen Probleme zu protestieren.
+      </p>
+    </div>
+  </section>
+
+  <section class="banner-space" id="space-4">
+    <img src="/Website Banners/Kontakt.jpg" alt="Banner 4 — Kontakt" class="banner-image" />
+
+    <!-- Title -->
+    <div class="banner-content fade-in-element" id="pos-4-title" style="position: absolute; top: 8%; left: 50%; transform: translate(-50%, 0); z-index: 10; text-align: center;">
+      <h2 class="banner-title" style="font-size: 2.8rem; text-align: center;">Werde Teil der Bewegung</h2>
+      <p class="banner-text" style="font-size: 1.02rem; text-align: center; margin-top: 8px; max-width: 500px; margin-left: auto; margin-right: auto;">Wir suchen Menschen die bereit sind, die Welt mit uns neu zu denken. Schreib uns, komm vorbei, oder werde Mitglied.</p>
+    </div>
+
+    <!-- Social Media Links -->
+    <div class="banner-content fade-in-element" id="pos-4-social" style="position: absolute; top: 30%; left: 50%; transform: translate(-50%, 0); z-index: 10; text-align: center;">
+      <div style="display: flex; gap: 25px; justify-content: center; align-items: center;">
+        <a href="https://wa.me/436602755613" target="_blank" rel="noopener noreferrer" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; gap: 8px;">
+          <div style="width: 55px; height: 55px; border-radius: 50%; background: rgba(37, 211, 102, 0.2); border: 2px solid rgba(37, 211, 102, 0.5); display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">💬</div>
+          <span style="color: rgba(144, 238, 144, 0.8); font-size: 0.75rem; font-family: sans-serif;">WhatsApp</span>
+        </a>
+        <a href="https://facebook.com/wwfp" target="_blank" rel="noopener noreferrer" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; gap: 8px;">
+          <div style="width: 55px; height: 55px; border-radius: 50%; background: rgba(24, 119, 242, 0.2); border: 2px solid rgba(24, 119, 242, 0.5); display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">📘</div>
+          <span style="color: rgba(144, 238, 144, 0.8); font-size: 0.75rem; font-family: sans-serif;">Facebook</span>
+        </a>
+        <a href="https://instagram.com/wwfp" target="_blank" rel="noopener noreferrer" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; gap: 8px;">
+          <div style="width: 55px; height: 55px; border-radius: 50%; background: rgba(225, 48, 108, 0.2); border: 2px solid rgba(225, 48, 108, 0.5); display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">📸</div>
+          <span style="color: rgba(144, 238, 144, 0.8); font-size: 0.75rem; font-family: sans-serif;">Instagram</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Passive Mitglieder -->
+    <div class="banner-content fade-in-element" id="pos-4-passive" style="position: absolute; top: 50%; left: 8%; z-index: 10; max-width: 320px; text-align: center;">
+      <h3 class="banner-title" style="font-size: 1.5rem; text-align: center;">Passives Mitglied</h3>
+      <p class="banner-text" style="font-size: 0.9rem; line-height: 1.6; text-align: center;">
+        Unterstütze unsere Ansichten und Aktionen bei einzelnen Veranstaltungen. Keine Verpflichtungen, kein Stimmrecht. Komm einfach vorbei, wenn du kannst.
+      </p>
+      <div style="text-align: center;"><ul style="list-style: none; padding: 0; margin: 12px auto 0 auto; display: inline-block; text-align: left; color: rgba(180, 255, 180, 0.7); font-size: 0.82rem; line-height: 1.8;">
+        <li>✓ Unterstützung bei Veranstaltungen</li>
+        <li>✓ Folgen & teilen in Social Media</li>
+        <li>✓ Keine Verpflichtungen, keine Bindung</li>
+      </ul></div>
+    </div>
+
+    <!-- Aktive Mitglieder -->
+    <div class="banner-content fade-in-element" id="pos-4-active" style="position: absolute; top: 50%; right: 8%; z-index: 10; max-width: 320px; text-align: center;">
+      <h3 class="banner-title" style="font-size: 1.5rem; text-align: center;">Aktives Mitglied</h3>
+      <p class="banner-text" style="font-size: 0.9rem; line-height: 1.6; text-align: center;">
+        Arbeite an Projekten, erhalte Stimmrecht und Zugang zu kostenlosem Wohnen und Verpflegung. Deine Zeit ist das Wertvollste was du geben kannst.
+      </p>
+      <div style="text-align: center;"><ul style="list-style: none; padding: 0; margin: 12px auto 0 auto; display: inline-block; text-align: left; color: rgba(180, 255, 180, 0.7); font-size: 0.82rem; line-height: 1.8;">
+        <li>✓ Stimmrecht in der Generalversammlung</li>
+        <li>✓ Kostenloses Wohnen und Verpflegung</li>
+        <li>✓ Projektunterstützung & Reisefinanzierung</li>
+        <li>✓ Direkt an Lösungen arbeiten</li>
+      </ul></div>
+    </div>
+
+    <!-- Contact CTA -->
+    <div class="banner-content fade-in-element" id="pos-4-cta" style="position: absolute; bottom: 5%; left: 50%; transform: translate(-50%, 0); z-index: 10; text-align: center;">
+      <a href="/de/contact" style="display: inline-block; background: rgba(0, 0, 0, 0.6); border: 2px solid rgba(144, 238, 144, 0.4); border-radius: 50px; padding: 14px 36px; color: rgba(144, 238, 144, 1); font-weight: bold; font-size: 1.1rem; text-decoration: none; text-shadow: 0 0 10px rgba(0, 100, 0, 0.5); backdrop-filter: blur(10px); transition: all 0.3s;">→ Kontakt aufnehmen</a>
+    </div>
+  </section>
+
+  <script is:inline>
+    (function() {
+      var vid = document.getElementById('heroVideo');
+      var btn = document.getElementById('playBtn');
+      var replayBtn = document.getElementById('replayBtn');
+      var poster = document.getElementById('heroPoster');
+      var hlsLoaded = false;
+
+      function loadHeroVideo(callback) {
+        if (hlsLoaded) { callback(); return; }
+        if (vid && vid.canPlayType('application/vnd.apple.mpegurl')) {
+          vid.src = '/videos/about-us-hls/index.m3u8';
+          hlsLoaded = true;
+          callback();
+        } else {
+          var hs = document.createElement('script');
+          hs.src = 'https://cdn.jsdelivr.net/npm/hls.js@1/dist/hls.min.js';
+          hs.onload = function() {
+            if (typeof Hls !== 'undefined' && Hls.isSupported()) {
+              var hls = new Hls();
+              hls.loadSource('/videos/about-us-hls/index.m3u8');
+              hls.attachMedia(vid);
+              hlsLoaded = true;
+              callback();
+            }
+          };
+          document.head.appendChild(hs);
+        }
+      }
+
+      if (btn) {
+        btn.addEventListener('click', function() {
+          if (!vid) return;
+          loadHeroVideo(function() {
+            vid.muted = false;
+            vid.loop = false;
+            vid.play().catch(e => console.error("Playback failed", e));
+            if (poster) poster.style.display = 'none';
+            btn.style.display = 'none';
+          });
+        });
+      }
+      if (replayBtn) {
+        replayBtn.addEventListener('click', function() {
+          if (vid) {
+            vid.currentTime = 0;
+            vid.play().catch(e => console.error("Playback failed", e));
+            if (poster) poster.style.display = 'none';
+            replayBtn.style.display = 'none';
+          }
+        });
+      }
+      if (vid) {
+        vid.addEventListener('ended', function() {
+          vid.style.display = 'none';
+          if (poster) poster.style.display = 'block';
+          if (replayBtn) replayBtn.style.display = 'inline-block';
+        });
+      }
+
+      function startTypewriter(elementId, text, loop = true) {
+        const textElement = document.getElementById(elementId);
+        if (!textElement) return;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typeSpeed = 150;
+        function type() {
+          const currentText = text.substring(0, charIndex);
+          textElement.innerHTML = currentText + '<span class="cursor">|</span>';
+          if (!isDeleting && charIndex < text.length) {
+            charIndex++;
+            typeSpeed = 150;
+          } else if (isDeleting && charIndex > 0) {
+            charIndex--;
+            typeSpeed = 70;
+          } else {
+            if (!loop && isDeleting) return;
+            isDeleting = !isDeleting;
+            typeSpeed = isDeleting ? 1000 : 500;
+          }
+          setTimeout(type, typeSpeed);
+        }
+        type();
+      }
+
+      startTypewriter('typewriter', "WWFP · Identity", true);
+
+      // R(e)volution — add glow after all letters appear
+      (function() {
+        var revLetters = document.querySelectorAll('.rev-letter');
+        if (revLetters.length === 0) return;
+        // Total animation time: last letter delay (1.65s) + letter duration (1.2s) = 2.85s
+        setTimeout(function() {
+          revLetters.forEach(function(l) { l.classList.add('glowing'); });
+        }, 2900);
+      })();
+
+      function startRealCountdown() {
+        const targetDate = new Date('2026-12-31T23:59:59').getTime();
+
+        function update() {
+          const now = new Date().getTime();
+          const distance = targetDate - now;
+
+          if (distance < 0) {
+            const clock = document.getElementById('countdown-clock');
+            if (clock) clock.innerHTML = "LOCKDOWN REACHED";
+            return;
+          }
+
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+          const d = days.toString().padStart(2, '0');
+          const h = hours.toString().padStart(2, '0');
+          const m = minutes.toString().padStart(2, '0');
+          const s = seconds.toString().padStart(2, '0');
+
+          const dEl = document.getElementById('days');
+          const hEl = document.getElementById('hours');
+          const mEl = document.getElementById('minutes');
+          const sEl = document.getElementById('seconds');
+
+          if (dEl) dEl.innerText = d;
+          if (hEl) hEl.innerText = h;
+          if (mEl) mEl.innerText = m;
+          if (sEl) sEl.innerText = s;
+        }
+
+        update();
+        setInterval(update, 1000);
+      }
+
+      startRealCountdown();
+
+      const observerOptions = { threshold: 0.2 };
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll('.fade-in-element').forEach(el => observer.observe(el));
+
+      // === Director's Mode — Container-based editor with persistent lock ===
+      var currentLayer = null;
+      var currentElement = null;
+
+      function loadLockedPositions() {
+        try {
+          var saved = JSON.parse(localStorage.getItem('wwfp-locked-positions') || '{}');
+          Object.keys(saved).forEach(function(id) {
+            var el = document.getElementById(id);
+            if (el) {
+              el.style.top = saved[id].top;
+              el.style.left = saved[id].left;
+              if (saved[id].maxWidth) el.style.maxWidth = saved[id].maxWidth;
+              if (saved[id].opacity !== undefined && saved[id].opacity !== '') el.style.opacity = saved[id].opacity;
+              el.classList.add('elem-locked');
+            }
+          });
+        } catch(e) { console.error('Load locked positions failed:', e); }
+      }
+
+      function getLockedData() {
+        try { return JSON.parse(localStorage.getItem('wwfp-locked-positions') || '{}'); }
+        catch(e) { return {}; }
+      }
+
+      function isLocked(id) {
+        return id in getLockedData();
+      }
+
+      function saveLock(id, target) {
+        var saved = getLockedData();
+        saved[id] = {
+          top: target.style.top || '',
+          left: target.style.left || '',
+          maxWidth: target.style.maxWidth || '',
+          opacity: target.style.opacity || ''
+        };
+        localStorage.setItem('wwfp-locked-positions', JSON.stringify(saved));
+      }
+
+      function removeLock(id) {
+        var saved = getLockedData();
+        delete saved[id];
+        localStorage.setItem('wwfp-locked-positions', JSON.stringify(saved));
+      }
+
+      // Apply locked positions immediately on page load
+      loadLockedPositions();
+
+      function populateElements() {
+        var layerSelect = document.getElementById('layer-select');
+        var elementSelect = document.getElementById('element-select');
+        currentLayer = layerSelect.value;
+        elementSelect.innerHTML = '<option value="">— select —</option>';
+        if (!currentLayer) return;
+        var layer = document.getElementById(currentLayer);
+        if (!layer) return;
+        layer.querySelectorAll('.banner-content').forEach(function(el) {
+          var opt = document.createElement('option');
+          opt.value = el.id;
+          opt.textContent = el.id + (isLocked(el.id) ? ' LOCKED' : '');
+          elementSelect.appendChild(opt);
+        });
+      }
+
+      function updateLockButton() {
+        var btn = document.getElementById('lock-container-btn');
+        if (!btn || !currentElement) return;
+        if (isLocked(currentElement)) {
+          btn.innerText = 'Unlock Container';
+          btn.style.background = '#c44';
+          btn.style.color = 'white';
+        } else {
+          btn.innerText = 'Lock Container';
+          btn.style.background = '';
+          btn.style.color = '';
+        }
+      }
+
+      function updateSliders(target) {
+        document.querySelectorAll('#layout-editor input[type="range"]').forEach(function(slider) {
+          var prop = slider.getAttribute('data-prop');
+          if (prop === 'max-width') {
+            var mw = parseInt(target.style.maxWidth) || 30;
+            slider.value = mw;
+            var vd = slider.nextElementSibling;
+            if (vd) vd.innerText = mw + '%';
+          } else if (prop === 'opacity') {
+            var op = Math.round((parseFloat(target.style.opacity) || 1) * 100);
+            slider.value = op;
+            var vd2 = slider.nextElementSibling;
+            if (vd2) vd2.innerText = op + '%';
+          } else {
+            var val = parseInt(target.style[prop]) || 0;
+            slider.value = val;
+            var vd3 = slider.nextElementSibling;
+            if (vd3) vd3.innerText = val + '%';
+          }
+        });
+      }
+
+      document.getElementById('layer-select').addEventListener('change', populateElements);
+
+      document.getElementById('element-select').addEventListener('change', function() {
+        currentElement = this.value;
+        var target = document.getElementById(currentElement);
+        var display = document.getElementById('active-target');
+        if (!target) {
+          if (display) display.innerText = 'Select an element';
+          updateLockButton();
+          return;
+        }
+        if (display) display.innerText = currentElement + (isLocked(currentElement) ? ' LOCKED' : '');
+        updateSliders(target);
+        updateLockButton();
+      });
+
+      document.querySelectorAll('#layout-editor input[type="range"]').forEach(function(slider) {
+        slider.addEventListener('input', function() {
+          if (!currentElement) return;
+          if (isLocked(currentElement)) return;
+          var prop = this.getAttribute('data-prop');
+          var val = this.value;
+          var target = document.getElementById(currentElement);
+          if (!target) return;
+          if (prop === 'max-width') target.style.maxWidth = val + '%';
+          else if (prop === 'opacity') target.style.opacity = val / 100;
+          else target.style[prop] = val + '%';
+          var vd = this.nextElementSibling;
+          if (vd && vd.classList.contains('val')) vd.innerText = val + '%';
+        });
+      });
+
+      document.getElementById('lock-container-btn').addEventListener('click', function() {
+        if (!currentElement) return;
+        var target = document.getElementById(currentElement);
+        if (!target) return;
+        if (isLocked(currentElement)) {
+          removeLock(currentElement);
+          target.classList.remove('elem-locked');
+        } else {
+          saveLock(currentElement, target);
+          target.classList.add('elem-locked');
+        }
+        var display = document.getElementById('active-target');
+        if (display) display.innerText = currentElement + (isLocked(currentElement) ? ' LOCKED' : '');
+        updateLockButton();
+        populateElements();
+      });
+
+      document.getElementById('export-btn').addEventListener('click', function() {
+        var layers = ['space-1', 'space-2', 'space-3', 'space-4'];
+        var saved = getLockedData();
+        var output = '=== EXPORTED POSITIONS ===\n';
+        layers.forEach(function(lid) {
+          var layer = document.getElementById(lid);
+          if (!layer) return;
+          output += '\n[' + lid + ']\n';
+          layer.querySelectorAll('.banner-content').forEach(function(el) {
+            var locked = isLocked(el.id) ? 'LOCKED' : 'unlocked';
+            var pos = saved[el.id] || { top: el.style.top||'', left: el.style.left||'', maxWidth: el.style.maxWidth||'', opacity: el.style.opacity||'' };
+            output += '  ' + el.id + ': top=' + pos.top + ' left=' + pos.left + ' max-width=' + pos.maxWidth + ' opacity=' + pos.opacity + ' [' + locked + ']\n';
+          });
+        });
+        console.log(output);
+        var display = document.getElementById('active-target');
+        if (display) display.innerText = 'Positions in console (F12)';
+      });
+
+      document.addEventListener('click', function(e) {
+        var target = e.target.closest('.banner-content');
+        if (!target) return;
+        var layer = target.closest('.banner-space');
+        if (!layer) return;
+        var layerId = layer.id;
+        var elementId = target.id;
+        document.getElementById('layer-select').value = layerId;
+        populateElements();
+        document.getElementById('element-select').value = elementId;
+        currentLayer = layerId;
+        currentElement = elementId;
+        var display = document.getElementById('active-target');
+        if (display) display.innerText = elementId + (isLocked(elementId) ? ' LOCKED' : '');
+        updateSliders(target);
+        updateLockButton();
+      });
+
+      // Re-apply locked positions after Astro hot-reload
+      setTimeout(loadLockedPositions, 500);
+      populateElements();
+    })();
+
+    // Initialize Calibration Grid
+    (function() {
+      const grid = document.getElementById('calibration-grid');
+      const toggle = document.getElementById('toggle-grid');
+      const valDisplay = document.getElementById('grid-status');
+
+      if (grid && toggle) {
+        toggle.addEventListener('change', function() {
+          grid.style.display = this.checked ? 'grid' : 'none';
+          if (valDisplay) valDisplay.innerText = this.checked ? 'ON' : 'OFF';
+        });
+
+        // Create Grid Lines
+        for (let i = 1; i < 10; i++) {
+          const vLine = document.createElement('div');
+          vLine.className = 'grid-line-v';
+          vLine.style.left = (i * 10) + '%';
+          grid.appendChild(vLine);
+
+          const hLine = document.createElement('div');
+          hLine.className = 'grid-line-h';
+          hLine.style.top = (i * 10) + '%';
+          grid.appendChild(hLine);
+
+          const vLabel = document.createElement('div');
+          vLabel.className = 'grid-label';
+          vLabel.innerText = (i * 10) + '%';
+          vLabel.style.left = (i * 10) + '%';
+          vLabel.style.top = '5px';
+          grid.appendChild(vLabel);
+
+          const hLabel = document.createElement('div');
+          hLabel.className = 'grid-label';
+          hLabel.innerText = (i * 10) + '%';
+          hLabel.style.top = (i * 10) + '%';
+          hLabel.style.left = '5px';
+          grid.appendChild(hLabel);
+        }
+      }
+    })();
+  </script>
+</Base>
