@@ -1,0 +1,78 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import { shops } from '../../../data/shops.js';
+import { languages } from '../../../i18n/config.js';
+import { getTranslations } from '../../../i18n/utils.js';
+
+export async function getStaticPaths() {
+  return Object.keys(languages).map(code => ({
+    params: { lang: code },
+    props: { lang: code },
+  }));
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+
+const shopText = {
+  de: {
+    title: 'Shops',
+    subtitle: 'Handwerkskunst, Spirituosen und mehr. Jeder Einkauf unterstützt Menschen, nicht Firmen.',
+    yourShop: 'Dein Shop hier',
+    yourShopText: 'Bist du Handwerker, Künstler oder Produzent? Registriere dich bei WWFP und verkaufe deine Ware über unsere Plattform. Du behältst den Großteil der Einnahmen — eine kleine Gebühr unterstützt den Verein.',
+    register: 'Jetzt registrieren',
+    visit: 'Shop besuchen →'
+  },
+  en: {
+    title: 'Shops',
+    subtitle: 'Crafts, spirits and more. Every purchase supports people, not corporations.',
+    yourShop: 'Your Shop Here',
+    yourShopText: 'Are you an artisan, artist or producer? Register with WWFP and sell your goods through our platform. You keep most of the proceeds — a small fee supports the organization.',
+    register: 'Register now',
+    visit: 'Visit shop →'
+  }
+};
+
+const text = shopText[lang] || shopText.de;
+---
+
+<Base lang={lang} t={t}>
+  <Header lang={lang} t={t} />
+  <main style="background: #0a1a0f; min-height: 100vh; padding: 80px 20px 40px;">
+    <div style="max-width: 1000px; margin: 0 auto;">
+      
+      <h1 style="font-family: var(--font-head); font-size: 2.8rem; color: rgba(190, 215, 190, 0.85); text-align: center; margin-bottom: 16px; text-shadow: 0 1px 3px rgba(0,0,0,0.7);">
+        {text.title}
+      </h1>
+      <p style="font-size: 1.1rem; color: rgba(180, 200, 180, 0.7); text-align: center; margin-bottom: 48px; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+        {text.subtitle}
+      </p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; margin-bottom: 48px;">
+        
+        {shops.map(shop => (
+          <a href={`/${lang}/shop/${shop.slug}`} style="display: block; background: rgba(10, 26, 15, 0.5); border: 1px solid rgba(124, 252, 0, 0.15); border-radius: 12px; padding: 24px; text-decoration: none; transition: all 0.3s;">
+            <h3 style="font-family: var(--font-head); font-size: 1.4rem; color: rgba(190, 215, 190, 0.85); margin-bottom: 8px;">{shop.name}</h3>
+            <p style="font-size: 0.85rem; color: rgba(160, 180, 160, 0.6); line-height: 1.5; margin-bottom: 12px;">{shop.description || shop.tagline || ''}</p>
+            <span style="font-size: 0.8rem; color: rgba(124, 252, 0, 0.5);">{text.visit}</span>
+          </a>
+        ))}
+
+        <div style="background: rgba(10, 26, 15, 0.3); border: 2px dashed rgba(124, 252, 0, 0.2); border-radius: 12px; padding: 24px; text-align: center; display: flex; flex-direction: column; justify-content: center; min-height: 180px;">
+          <h3 style="font-family: var(--font-head); font-size: 1.4rem; color: rgba(124, 252, 0, 0.5); margin-bottom: 12px;">+ {text.yourShop}</h3>
+          <p style="font-size: 0.82rem; color: rgba(150, 170, 150, 0.55); line-height: 1.5; margin-bottom: 16px;">
+            {text.yourShopText}
+          </p>
+          <a href={`/${lang}/contact`} style="display: inline-block; background: rgba(124, 252, 0, 0.1); border: 1px solid rgba(124, 252, 0, 0.25); border-radius: 50px; padding: 8px 20px; color: rgba(124, 252, 0, 0.7); font-size: 0.85rem; font-weight: bold; text-decoration: none; transition: all 0.3s; align-self: center;">
+            → {text.register}
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+  <Footer lang={lang} t={t} />
+</Base>

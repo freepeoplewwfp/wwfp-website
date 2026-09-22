@@ -1,0 +1,115 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { languages } from '../../i18n/config.js';
+import { getTranslations } from '../../i18n/utils.js';
+
+export async function getStaticPaths() {
+  return Object.keys(languages).map(code => ({
+    params: { lang: code },
+    props: { lang: code },
+  }));
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+
+const hostelText = {
+  de: {
+    title: 'Hostel & Lebensräume',
+    subtitle: 'Wir suchen Verbündete — Menschen mit Land die bereit sind, die Welt mit uns neu zu denken.',
+    intro: 'Wir bauen ein weltweites Netzwerk autarker Lebensräume. Menschen mit Landbesitz in schwer zugänglichen Regionen gehen einen Vertrag mit WWFP ein — 10 Jahre bis lebenslang. Wir bauen ein autarkes Feriendomizil auf und vermarkten es. Das Land bleibt im Besitz der Familien.',
+    how: 'Wie es funktioniert',
+    steps: [
+      { title: 'Land & Vertrag', text: 'Du hast Land in einer Region ohne intakte Infrastruktur. Wir schließen einen Vertrag — 10 Jahre bis lebenslang. Dein Land bleibt dein Land.' },
+      { title: 'Aufbau', text: 'WWFP baut ein autarkes Feriendomizil auf deinem Grundstück. Freiwillige helfen beim Aufbau, wir finanzieren Material und Know-how.' },
+      { title: 'Vermarktung', text: 'Wir vermarkten das Hostel über unsere Plattform. WWFP erhält 50% der Zimmervermietung. Zusätzliche Geschäfte vor Ort (Restaurant, Läden) gehören zu 100% dir.' },
+      { title: 'Handwerk', text: 'Deine Handwerkskunst kann über unsere Shop-Plattform vermarktet werden. 15% des Verkaufs fließen an WWFP, der Rest an dich.' }
+    ],
+    join: 'Werde Teil des Netzwerks',
+    joinText: 'Wenn du Land besitzt und bereit bist, mit uns an einer nachhaltigen Zukunft zu arbeiten, melde dich bei uns. Wir suchen Menschen die nichts zu verlieren haben und alles zu gewinnen.',
+    contact: 'Kontakt aufnehmen',
+    placeholder: 'Hier entsteht unser Hostel-Netzwerk. Erste Projekte in Vorbereitung.'
+  },
+  en: {
+    title: 'Hostel & Living Spaces',
+    subtitle: 'We seek allies — people with land ready to rethink the world with us.',
+    intro: 'We build a worldwide network of self-sufficient living spaces. People with land in remote regions enter a contract with WWFP — 10 years to lifelong. We build an autonomous holiday accommodation and market it. The land remains with the families.',
+    how: 'How it works',
+    steps: [
+      { title: 'Land & Contract', text: 'You have land in a region without intact infrastructure. We sign a contract — 10 years to lifelong. Your land stays your land.' },
+      { title: 'Build', text: 'WWFP builds an autonomous holiday accommodation on your property. Volunteers help with construction, we finance materials and know-how.' },
+      { title: 'Marketing', text: 'We market the hostel through our platform. WWFP receives 50% of room rental. Additional businesses on site (restaurant, shops) are 100% yours.' },
+      { title: 'Craft', text: 'Your craftsmanship can be marketed through our shop platform. 15% of sales go to WWFP, the rest to you.' }
+    ],
+    join: 'Join the network',
+    joinText: 'If you own land and are ready to work with us on a sustainable future, get in touch. We seek people who have nothing to lose and everything to gain.',
+    contact: 'Get in touch',
+    placeholder: 'Our hostel network is being built here. First projects in preparation.'
+  }
+};
+
+const text = hostelText[lang] || hostelText.de;
+---
+
+<Base lang={lang} t={t}>
+  <Header lang={lang} t={t} />
+  <main style="background: #0a1a0f; min-height: 100vh; padding: 80px 20px 40px;">
+    <div style="max-width: 800px; margin: 0 auto;">
+      
+      <!-- Title -->
+      <h1 style="font-family: var(--font-head); font-size: 2.8rem; color: rgba(190, 215, 190, 0.85); text-align: center; margin-bottom: 16px; text-shadow: 0 1px 3px rgba(0,0,0,0.7);">
+        {text.title}
+      </h1>
+      <p style="font-size: 1.1rem; color: rgba(180, 200, 180, 0.7); text-align: center; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+        {text.subtitle}
+      </p>
+
+      <!-- Intro -->
+      <div style="background: rgba(10, 26, 15, 0.6); border: 1px solid rgba(124, 252, 0, 0.15); border-radius: 12px; padding: 24px; margin-bottom: 32px;">
+        <p style="font-size: 1rem; color: rgba(200, 220, 200, 0.75); line-height: 1.7;">
+          {text.intro}
+        </p>
+      </div>
+
+      <!-- How it works -->
+      <h2 style="font-family: var(--font-head); font-size: 1.8rem; color: rgba(190, 215, 190, 0.8); margin-bottom: 20px; text-shadow: 0 1px 3px rgba(0,0,0,0.7);">
+        {text.how}
+      </h2>
+      <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px;">
+        {text.steps.map((step, i) => (
+          <div style="background: rgba(10, 26, 15, 0.4); border: 1px solid rgba(124, 252, 0, 0.1); border-radius: 8px; padding: 16px 20px; display: flex; gap: 16px; align-items: flex-start;">
+            <div style="flex: none; width: 32px; height: 32px; border-radius: 50%; background: rgba(124, 252, 0, 0.15); border: 1px solid rgba(124, 252, 0, 0.3); display: flex; align-items: center; justify-content: center; color: rgba(124, 252, 0, 0.8); font-weight: bold; font-size: 0.9rem;">{i + 1}</div>
+            <div>
+              <h3 style="font-size: 1.1rem; color: rgba(190, 215, 190, 0.8); margin-bottom: 4px;">{step.title}</h3>
+              <p style="font-size: 0.9rem; color: rgba(180, 200, 180, 0.65); line-height: 1.6;">{step.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Join CTA -->
+      <div style="background: rgba(10, 26, 15, 0.6); border: 1px solid rgba(124, 252, 0, 0.2); border-radius: 12px; padding: 24px; text-align: center; margin-bottom: 32px;">
+        <h2 style="font-family: var(--font-head); font-size: 1.6rem; color: rgba(190, 215, 190, 0.85); margin-bottom: 12px;">
+          {text.join}
+        </h2>
+        <p style="font-size: 0.95rem; color: rgba(180, 200, 180, 0.7); line-height: 1.6; margin-bottom: 20px;">
+          {text.joinText}
+        </p>
+        <a href={`/${lang}/contact`} style="display: inline-block; background: rgba(0, 0, 0, 0.5); border: 2px solid rgba(124, 252, 0, 0.3); border-radius: 50px; padding: 12px 32px; color: rgba(190, 215, 190, 0.85); font-weight: bold; font-size: 1rem; text-decoration: none; transition: all 0.3s;">
+          → {text.contact}
+        </a>
+      </div>
+
+      <!-- Placeholder -->
+      <div style="text-align: center; padding: 40px 20px; border: 1px dashed rgba(124, 252, 0, 0.15); border-radius: 12px;">
+        <p style="font-size: 0.9rem; color: rgba(150, 170, 150, 0.5); font-style: italic;">
+          {text.placeholder}
+        </p>
+      </div>
+
+    </div>
+  </main>
+  <Footer lang={lang} t={t} />
+</Base>
