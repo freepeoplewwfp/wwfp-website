@@ -1,7 +1,5 @@
 ---
 import Base from '../../../layouts/Base.astro';
-import Header from '../../../components/Header.astro';
-import Footer from '../../../components/Footer.astro';
 import { shops } from '../../../data/shops.js';
 import { languages } from '../../../i18n/config.js';
 import { getTranslations } from '../../../i18n/utils.js';
@@ -39,7 +37,6 @@ const text = shopText[lang] || shopText.de;
 ---
 
 <Base lang={lang} t={t}>
-  <Header lang={lang} t={t} />
   <main style="background: #0a1a0f; min-height: 100vh; padding: 80px 20px 40px;">
     <div style="max-width: 1000px; margin: 0 auto;">
       
@@ -74,5 +71,4 @@ const text = shopText[lang] || shopText.de;
 
     </div>
   </main>
-  <Footer lang={lang} t={t} />
 </Base>
