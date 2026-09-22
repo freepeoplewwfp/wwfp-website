@@ -14,32 +14,54 @@ export async function getStaticPaths() {
 const { lang } = Astro.props;
 const t = getTranslations(lang);
 
-const shopText = {
+const content = {
   de: {
     title: 'Shops',
-    subtitle: 'Handwerkskunst, Spirituosen und mehr. Jeder Einkauf unterstützt Menschen, nicht Firmen.',
+    subtitle: 'Handgemachte Ware von Artisanen & Hippies. Jeder Einkauf unterstützt Menschen, nicht Firmen.',
+    howTitle: 'Wie es funktioniert',
+    howSteps: [
+      { num: '1', title: 'Registrieren', text: 'Du bist Handwerker, Künstler oder Hippie mit handgemachter Ware? Registriere dich bei WWFP über das Kontaktformular.' },
+      { num: '2', title: 'Profil & Banner', text: 'Nach der Freigabe gestaltest du dein Shop-Profil: Banner, Beschreibung, Profilbild. Alles in deinem Style.' },
+      { num: '3', title: 'Artikel hochladen', text: 'Lade deine Produkte hoch — Fotos, Beschreibung, Preis. Du bestimmst was und wie viel. Du gestaltest deine Preise selbst.' },
+      { num: '4', title: 'Prüfung & Freigabe', text: 'Wir prüfen jeden Artikel kurz — keine Massenware, keine Kopien. Nur echtes Handwerk. Nach Prüfung geht dein Artikel live.' },
+      { num: '5', title: 'Verkaufen', text: 'Kunden kaufen über unsere Plattform. Du behältst 85% des Verkaufspreises. 15% fließen an WWFP — direkt in den Vereinszweck.' }
+    ],
     yourShop: 'Dein Shop hier',
-    yourShopText: 'Bist du Handwerker, Künstler oder Produzent? Registriere dich bei WWFP und verkaufe deine Ware über unsere Plattform. Du behältst den Großteil der Einnahmen — eine kleine Gebühr unterstützt den Verein.',
+    yourShopText: 'Registriere dich jetzt und verkaufe deine handgemachte Ware über WWFP.',
     register: 'Jetzt registrieren',
-    visit: 'Shop besuchen →'
+    visit: 'Shop besuchen →',
+    footer: 'Wir handeln direkt mit Menschen die mit ihren Händen arbeiten. Keine Zwischenhändler, keine Massenware. Jeder Euro geht an die Person die das Werk erschaffen hat — minus 15% die WWFP helfen, weitere Lebensräume zu bauen.'
   },
   en: {
     title: 'Shops',
-    subtitle: 'Crafts, spirits and more. Every purchase supports people, not corporations.',
+    subtitle: 'Handmade goods from artisans & hippies. Every purchase supports people, not corporations.',
+    howTitle: 'How it works',
+    howSteps: [
+      { num: '1', title: 'Register', text: 'You are an artisan, artist or hippie with handmade goods? Register with WWFP through our contact form.' },
+      { num: '2', title: 'Profile & Banner', text: 'After approval, you design your shop profile: banner, description, profile picture. Everything in your style.' },
+      { num: '3', title: 'Upload Articles', text: 'Upload your products — photos, description, price. You decide what and how much. You set your own prices.' },
+      { num: '4', title: 'Review & Approval', text: 'We review each item briefly — no mass-produced goods, no copies. Only real craftsmanship. After review your item goes live.' },
+      { num: '5', title: 'Sell', text: 'Customers buy through our platform. You keep 85% of the sale price. 15% goes to WWFP — directly into our mission.' }
+    ],
     yourShop: 'Your Shop Here',
-    yourShopText: 'Are you an artisan, artist or producer? Register with WWFP and sell your goods through our platform. You keep most of the proceeds — a small fee supports the organization.',
+    yourShopText: 'Register now and sell your handmade goods through WWFP.',
     register: 'Register now',
-    visit: 'Visit shop →'
+    visit: 'Visit shop →',
+    footer: 'We trade directly with people who work with their hands. No middlemen, no mass production. Every euro goes to the person who created the work — minus 15% that helps WWFP build more living spaces.'
   }
 };
 
-const text = shopText[lang] || shopText.de;
+const text = content[lang] || content.de;
+
+// Only show real shops (not placeholders)
+const realShops = shops.filter(s => !s.placeholder);
 ---
 
 <Base lang={lang} t={t}>
   <main style="background: #0a1a0f; min-height: 100vh; padding: 80px 20px 40px;">
     <div style="max-width: 1000px; margin: 0 auto;">
       
+      <!-- Title -->
       <h1 style="font-family: var(--font-head); font-size: 2.8rem; color: rgba(190, 215, 190, 0.85); text-align: center; margin-bottom: 16px; text-shadow: 0 1px 3px rgba(0,0,0,0.7);">
         {text.title}
       </h1>
@@ -47,18 +69,24 @@ const text = shopText[lang] || shopText.de;
         {text.subtitle}
       </p>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; margin-bottom: 48px;">
+      <!-- Existing Shops -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; margin-bottom: 56px;">
         
-        {shops.map(shop => (
-          <a href={`/${lang}/shop/${shop.slug}`} style="display: block; background: rgba(10, 26, 15, 0.5); border: 1px solid rgba(124, 252, 0, 0.15); border-radius: 12px; padding: 24px; text-decoration: none; transition: all 0.3s;">
+        {realShops.map(shop => (
+          <a href={`/${lang}/shop/${shop.slug}`} style="display: block; background: rgba(10, 26, 15, 0.5); border: 1px solid rgba(124, 252, 0, 0.15); border-radius: 12px; padding: 24px; text-decoration: none; transition: all 0.3s; overflow: hidden;">
+            {shop.image && (
+              <div style="width: 100%; height: 160px; border-radius: 8px; margin-bottom: 16px; background-image: url({shop.image}); background-size: cover; background-position: center; filter: brightness(0.8);"></div>
+            )}
             <h3 style="font-family: var(--font-head); font-size: 1.4rem; color: rgba(190, 215, 190, 0.85); margin-bottom: 8px;">{shop.name}</h3>
-            <p style="font-size: 0.85rem; color: rgba(160, 180, 160, 0.6); line-height: 1.5; margin-bottom: 12px;">{shop.description || shop.tagline || ''}</p>
+            <p style="font-size: 0.85rem; color: rgba(160, 180, 160, 0.6); line-height: 1.5; margin-bottom: 12px;">{shop.description}</p>
             <span style="font-size: 0.8rem; color: rgba(124, 252, 0, 0.5);">{text.visit}</span>
           </a>
         ))}
 
-        <div style="background: rgba(10, 26, 15, 0.3); border: 2px dashed rgba(124, 252, 0, 0.2); border-radius: 12px; padding: 24px; text-align: center; display: flex; flex-direction: column; justify-content: center; min-height: 180px;">
-          <h3 style="font-family: var(--font-head); font-size: 1.4rem; color: rgba(124, 252, 0, 0.5); margin-bottom: 12px;">+ {text.yourShop}</h3>
+        <!-- Your Shop Here Card -->
+        <div style="background: rgba(10, 26, 15, 0.3); border: 2px dashed rgba(124, 252, 0, 0.2); border-radius: 12px; padding: 24px; text-align: center; display: flex; flex-direction: column; justify-content: center; min-height: 320px;">
+          <div style="font-size: 3rem; margin-bottom: 12px; opacity: 0.4;">🎨</div>
+          <h3 style="font-family: var(--font-head); font-size: 1.4rem; color: rgba(124, 252, 0, 0.5); margin-bottom: 8px;">+ {text.yourShop}</h3>
           <p style="font-size: 0.82rem; color: rgba(150, 170, 150, 0.55); line-height: 1.5; margin-bottom: 16px;">
             {text.yourShopText}
           </p>
@@ -67,6 +95,31 @@ const text = shopText[lang] || shopText.de;
           </a>
         </div>
 
+      </div>
+
+      <!-- How it works -->
+      <div style="background: rgba(10, 26, 15, 0.4); border: 1px solid rgba(124, 252, 0, 0.12); border-radius: 12px; padding: 32px; margin-bottom: 32px;">
+        <h2 style="font-family: var(--font-head); font-size: 1.8rem; color: rgba(190, 215, 190, 0.85); text-align: center; margin-bottom: 28px;">
+          {text.howTitle}
+        </h2>
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          {text.howSteps.map(step => (
+            <div style="display: flex; gap: 16px; align-items: flex-start;">
+              <div style="flex: none; width: 36px; height: 36px; border-radius: 50%; background: rgba(124, 252, 0, 0.15); border: 1px solid rgba(124, 252, 0, 0.3); display: flex; align-items: center; justify-content: center; color: rgba(124, 252, 0, 0.8); font-weight: bold; font-size: 1rem;">{step.num}</div>
+              <div>
+                <h3 style="font-size: 1.1rem; color: rgba(190, 215, 190, 0.85); margin-bottom: 4px;">{step.title}</h3>
+                <p style="font-size: 0.9rem; color: rgba(170, 190, 170, 0.65); line-height: 1.6;">{step.text}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Footer text -->
+      <div style="text-align: center; padding: 24px;">
+        <p style="font-size: 0.9rem; color: rgba(160, 180, 160, 0.5); line-height: 1.7; font-style: italic; max-width: 700px; margin: 0 auto;">
+          {text.footer}
+        </p>
       </div>
 
     </div>
