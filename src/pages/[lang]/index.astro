@@ -153,12 +153,18 @@ const t = getTranslations(lang);
   display: block;
 }
 
+/* Per-banner gradient overlays — adapt text readability to image darkness */
+#space-1::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(5, 15, 10, 0.3) 0%, rgba(5, 15, 10, 0.1) 40%, rgba(5, 15, 10, 0.4) 80%, rgba(5, 15, 10, 0.6) 100%); z-index: 1; pointer-events: none; }
+#space-2::before { content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(10, 15, 25, 0.4) 0%, rgba(10, 15, 25, 0.15) 50%, rgba(10, 15, 25, 0.5) 100%); z-index: 1; pointer-events: none; }
+#space-3::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(5, 15, 10, 0.1) 0%, rgba(5, 15, 10, 0.4) 70%, rgba(5, 15, 10, 0.6) 100%); z-index: 1; pointer-events: none; }
+#space-4::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(3, 5, 8, 0.5) 0%, rgba(3, 5, 8, 0.2) 50%, rgba(3, 5, 8, 0.6) 100%); z-index: 1; pointer-events: none; }
+
 .banner-image {
   position: relative;
   display: block;
   width: 100%;
   height: auto;
-  opacity: 0.5;
+  opacity: 0.55;
   pointer-events: none;
   z-index: 0;
 }
@@ -167,14 +173,14 @@ const t = getTranslations(lang);
   position: absolute;
   top: 10%;
   left: 50%;
-  z-index: 2;
+  z-index: 3;
   text-align: center;
   width: auto;
 }
 
 /* Position classes removed — all positioning is now inline styles per element */
 .content-left, .content-right, .content-left-text, .content-right-text {
-  z-index: 10;
+  z-index: 3;
   margin: 0;
   padding: 0;
 }
@@ -219,39 +225,44 @@ const t = getTranslations(lang);
   font-family: var(--font-head);
   font-size: 2rem;
   font-weight: 800;
-  color: rgba(180, 255, 180, 0.7);
+  color: rgba(60, 95, 85, 0.75);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.15em;
   margin: 0;
-  text-shadow:
-    0 0 12px rgba(0, 100, 0, 0.6),
-    -1px -1px 0 #004d00, 1px -1px 0 #006400,
-    -1px 1px 0 #006400, 1px 1px 0 #004d00;
+  -webkit-text-stroke: 0.4px rgba(124, 252, 0, 0.35);
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
 }
 
 .banner-title {
   font-family: var(--font-head);
   font-size: 2.1rem;
   font-weight: 800;
-  color: rgba(180, 255, 180, 0.7);
   margin-bottom: var(--space-md);
-  line-height: 1.2;
-  text-shadow:
-    0 0 12px rgba(0, 100, 0, 0.6),
-    -1px -1px 0 #004d00, 1px -1px 0 #006400,
-    -1px 1px 0 #006400, 1px 1px 0 #004d00;
+  line-height: 1.3;
+  padding: 2px 6px;
 }
+
+/* Per-banner text colors — each adapted to its image tone */
+#space-1 .banner-text { background: linear-gradient(180deg, rgba(60, 100, 90, 0.95) 0%, rgba(140, 180, 160, 0.9) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; -webkit-text-stroke: 0.4px rgba(124, 252, 0, 0.4); filter: drop-shadow(0 0 8px rgba(124, 252, 0, 0.12)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.7)); }
+#space-1 .banner-title { background: linear-gradient(180deg, rgba(70, 110, 100, 0.95) 0%, rgba(150, 190, 170, 0.9) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; -webkit-text-stroke: 0.5px rgba(124, 252, 0, 0.45); filter: drop-shadow(0 0 10px rgba(124, 252, 0, 0.15)) drop-shadow(0 1px 3px rgba(0, 0, 0, 0.7)); }
+
+#space-2 .banner-text { color: rgba(70, 75, 95, 0.85); -webkit-text-stroke: 0.4px rgba(124, 252, 0, 0.3); text-shadow: 0 0 1px rgba(5, 5, 15, 0.5); }
+#space-2 .banner-title { color: rgba(80, 85, 105, 0.85); -webkit-text-stroke: 0.4px rgba(124, 252, 0, 0.3); text-shadow: 0 0 1px rgba(5, 5, 15, 0.5); }
+
+#space-3 .banner-text { color: rgba(90, 80, 60, 0.85); -webkit-text-stroke: 0.4px rgba(180, 200, 0, 0.3); text-shadow: 0 0 1px rgba(10, 5, 0, 0.5); }
+#space-3 .banner-title { color: rgba(100, 90, 70, 0.85); -webkit-text-stroke: 0.4px rgba(180, 200, 0, 0.3); text-shadow: 0 0 1px rgba(10, 5, 0, 0.5); }
+
+#space-4 .banner-text { color: rgba(65, 75, 90, 0.85); -webkit-text-stroke: 0.4px rgba(100, 200, 50, 0.3); text-shadow: 0 0 1px rgba(0, 0, 5, 0.5); }
+#space-4 .banner-title { color: rgba(75, 85, 100, 0.85); -webkit-text-stroke: 0.4px rgba(100, 200, 50, 0.3); text-shadow: 0 0 1px rgba(0, 0, 5, 0.5); }
 
 .banner-text {
   font-size: 0.84rem;
-  color: rgba(180, 255, 180, 0.7);
-  opacity: 0.9;
-  line-height: 1.6;
-  text-shadow:
-    0 0 12px rgba(0, 100, 0, 0.6),
-    -1px -1px 0 #004d00, 1px -1px 0 #006400,
-    -1px 1px 0 #006400, 1px 1px 0 #004d00;
+  opacity: 1;
+  line-height: 1.7;
+  padding: 4px 8px;
 }
+
+@keyframes countdownPulse { 0%, 100% { text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9), 0 0 8px rgba(5, 15, 10, 0.4); } 50% { text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9), 0 0 15px rgba(124, 252, 0, 0.2), 0 0 25px rgba(5, 15, 10, 0.5); } }
 
 .fade-in-element {
   opacity: 1;
@@ -413,7 +424,7 @@ html {
     </div>
 
     <div class="banner-content fade-in-element" id="pos-warning" style="position: absolute; top: 26%; left: 50%; transform: translate(-50%, 0)">
-      <p class="banner-text" style="font-weight: bold; font-size: 0.9rem; color: rgba(180, 255, 180, 0.9); text-shadow: 0 0 15px rgba(0, 100, 0, 0.6); text-align: center; line-height: 1.2; width: 250px; margin: 0 auto;">
+      <p class="banner-text" style="font-weight: bold; font-size: 0.9rem; color: rgba(70, 100, 90, 0.8); -webkit-text-stroke: 0.4px rgba(124, 252, 0, 0.35); text-shadow: 0 0 2px rgba(0, 0, 0, 0.6); text-align: center; line-height: 1.4; width: 280px; margin: 0 auto; letter-spacing: 0.02em;">
         Dein Handy wird bald<br>nicht mehr dir gehören.
       </p>
     </div>
@@ -438,39 +449,97 @@ html {
 
     <div class="banner-content" id="pos-revolution" style="position: absolute; top: 75%; left: 50%; transform: translate(-50%, 0); z-index: 10">
       <style>
-        .revolution-text { font-family: var(--font-head); font-size: 3.5rem; font-weight: 900; text-transform: uppercase; letter-spacing: 0.08em; margin: 0; text-align: center; }
-        .rev-letter { display: inline-block; opacity: 0; animation: revLetterIn 1.2s ease-out forwards; color: rgba(180, 255, 180, 0.85); text-shadow: 0 0 20px rgba(124, 252, 0, 0.4), 0 0 40px rgba(0, 100, 0, 0.3), -1px -1px 0 #004d00, 1px -1px 0 #006400, -1px 1px 0 #006400, 1px 1px 0 #004d00; }
-        @keyframes revLetterIn { 0% { opacity: 0; transform: translateY(40px) rotateX(-90deg) scale(0.5); filter: blur(10px); } 60% { opacity: 0.8; transform: translateY(-5px) rotateX(10deg) scale(1.1); filter: blur(0px); } 100% { opacity: 1; transform: translateY(0) rotateX(0) scale(1); filter: blur(0px); } }
-        .rev-letter.glowing { animation: revGlow 3s ease-in-out infinite; opacity: 1 !important; }
-        @keyframes revGlow { 0%, 100% { opacity: 1; text-shadow: 0 0 20px rgba(124, 252, 0, 0.4), 0 0 40px rgba(0, 100, 0, 0.3), -1px -1px 0 #004d00, 1px -1px 0 #006400, -1px 1px 0 #006400, 1px 1px 0 #004d00; } 50% { opacity: 1; text-shadow: 0 0 30px rgba(124, 252, 0, 0.7), 0 0 60px rgba(0, 150, 0, 0.5), 0 0 80px rgba(0, 100, 0, 0.3), -1px -1px 0 #004d00, 1px -1px 0 #006400, -1px 1px 0 #006400, 1px 1px 0 #004d00; } }
+        .revolution-text { font-family: 'Impact', 'Arial Black', 'Helvetica Neue', sans-serif; font-size: 3.5rem; font-weight: 900; letter-spacing: 0.02em; margin: 0; text-align: center; }
+        .rev-letter { display: inline-block; opacity: 0; animation: revRise 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; color: rgba(70, 105, 90, 0.7); -webkit-text-stroke: 0.5px rgba(124, 252, 0, 0.4); text-shadow: 0 0 2px rgba(0, 0, 0, 0.6); }
+        .rev-e { display: inline-block; opacity: 0; animation: revRise 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, revWobble 2s ease-in-out 1.5s infinite; color: rgba(70, 105, 90, 0.7); -webkit-text-stroke: 0.5px rgba(124, 252, 0, 0.4); text-shadow: 0 0 2px rgba(0, 0, 0, 0.6); }
+        @keyframes revRise {
+          0% { opacity: 0; transform: translateY(60px) rotate(-15deg) scale(0.3); filter: blur(15px) brightness(0.2); }
+          40% { opacity: 0.6; transform: translateY(-8px) rotate(3deg) scale(1.15); filter: blur(2px) brightness(0.8); }
+          70% { opacity: 0.9; transform: translateY(2px) rotate(-1deg) scale(0.95); filter: blur(0px) brightness(1.2); }
+          100% { opacity: 1; transform: translateY(0) rotate(0) scale(1); filter: blur(0px) brightness(1); text-shadow: 0 0 15px rgba(124, 252, 0, 0.3), 0 0 30px rgba(0, 80, 0, 0.2); }
+        }
+        @keyframes revWobble {
+          0%, 100% { transform: rotate(0deg) translateY(0); }
+          20% { transform: rotate(-4deg) translateY(-2px); }
+          40% { transform: rotate(3deg) translateY(1px); }
+          60% { transform: rotate(-2deg) translateY(-1px); }
+          80% { transform: rotate(1deg) translateY(0); }
+        }
+        .rev-letter.glowing { animation: revPulse 2.5s ease-in-out infinite; opacity: 1 !important; }
+        .rev-e.glowing { animation: revPulse 2.5s ease-in-out infinite, revWobble 2s ease-in-out infinite; opacity: 1 !important; }
+        @keyframes revPulse {
+          0%, 100% { color: rgba(70, 105, 90, 0.7); -webkit-text-stroke: 0.5px rgba(124, 252, 0, 0.4); text-shadow: 0 0 2px rgba(0, 0, 0, 0.6); }
+          50% { color: rgba(85, 125, 105, 0.8); -webkit-text-stroke: 0.5px rgba(124, 252, 0, 0.4); text-shadow: 0 0 4px rgba(80, 120, 100, 0.3); }
+        }
       </style>
       <h1 class="revolution-text">
-        <span class="rev-letter" style="animation-delay: 0s">R</span><span class="rev-letter" style="animation-delay: 0.15s">(</span><span class="rev-letter" style="animation-delay: 0.3s">e</span><span class="rev-letter" style="animation-delay: 0.45s">)</span><span class="rev-letter" style="animation-delay: 0.6s">v</span><span class="rev-letter" style="animation-delay: 0.75s">o</span><span class="rev-letter" style="animation-delay: 0.9s">l</span><span class="rev-letter" style="animation-delay: 1.05s">u</span><span class="rev-letter" style="animation-delay: 1.2s">t</span><span class="rev-letter" style="animation-delay: 1.35s">i</span><span class="rev-letter" style="animation-delay: 1.5s">o</span><span class="rev-letter" style="animation-delay: 1.65s">n</span>
+        <span class="rev-letter" style="animation-delay: 0s">R</span><span class="rev-letter" style="animation-delay: 0.15s">(</span><span class="rev-e" style="animation-delay: 0.3s">e</span><span class="rev-letter" style="animation-delay: 0.45s">)</span><span class="rev-letter" style="animation-delay: 0.6s">v</span><span class="rev-letter" style="animation-delay: 0.75s">o</span><span class="rev-letter" style="animation-delay: 0.9s">l</span><span class="rev-letter" style="animation-delay: 1.05s">u</span><span class="rev-letter" style="animation-delay: 1.2s">t</span><span class="rev-letter" style="animation-delay: 1.35s">i</span><span class="rev-letter" style="animation-delay: 1.5s">o</span><span class="rev-letter" style="animation-delay: 1.65s">n</span>
       </h1>
     </div>
 
     <div class="banner-content fade-in-element" id="pos-countdown" style="position: absolute; top: 39%; left: 50%; transform: translate(-50%, 0)">
-      <div id="countdown-clock" style="display: flex; gap: 20px; justify-content: center; align-items: center; font-family: monospace; font-weight: bold; color: rgba(144, 238, 144, 1); font-size: 1.5rem; text-shadow: none;">
-        <div style="text-align: center;"><span id="days">00</span><div style="font-size: 0.7rem; text-transform: uppercase; opacity: 0.8;">Days</div></div>
+      <div id="countdown-clock" style="display: flex; gap: 20px; justify-content: center; align-items: center; font-family: monospace; font-weight: bold; color: rgba(180, 255, 180, 0.9); font-size: 1.8rem; -webkit-text-stroke: 0.5px rgba(124, 252, 0, 0.5); text-shadow: 0 0 4px rgba(0, 0, 0, 0.8), 0 0 12px rgba(124, 252, 0, 0.25); animation: countdownPulse 3s ease-in-out infinite;">
+        <div style="text-align: center;"><span id="days">--</span><div style="font-size: 0.7rem; text-transform: uppercase; opacity: 0.8;">Days</div></div>
         <div style="font-size: 1.5rem;">:</div>
-        <div style="text-align: center;"><span id="hours">00</span><div style="font-size: 0.7rem; text-transform: uppercase; opacity: 0.8;">Hours</div></div>
+        <div style="text-align: center;"><span id="hours">--</span><div style="font-size: 0.7rem; text-transform: uppercase; opacity: 0.8;">Hours</div></div>
         <div style="font-size: 1.5rem;">:</div>
-        <div style="text-align: center;"><span id="minutes">00</span><div style="font-size: 0.7rem; text-transform: uppercase; opacity: 0.8;">Mins</div></div>
+        <div style="text-align: center;"><span id="minutes">--</span><div style="font-size: 0.7rem; text-transform: uppercase; opacity: 0.8;">Mins</div></div>
         <div style="font-size: 1.5rem;">:</div>
-        <div style="text-align: center;"><span id="seconds">00</span><div style="font-size: 0.7rem; text-transform: uppercase; opacity: 0.8;">Secs</div></div>
+        <div style="text-align: center;"><span id="seconds">--</span><div style="font-size: 0.7rem; text-transform: uppercase; opacity: 0.8;">Secs</div></div>
       </div>
-      <p style="text-align: center; margin-top: 10px; color: rgba(144, 238, 144, 0.8); font-size: 1rem; font-weight: bold;">until lockdown</p>
+      <p style="text-align: center; margin-top: 10px; color: rgba(150, 200, 170, 0.8); font-size: 0.9rem; font-weight: normal; letter-spacing: 0.15em; text-transform: uppercase; -webkit-text-stroke: 0.4px rgba(124, 252, 0, 0.4); text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);">until lockdown</p>
+    </div>
+
+    <!-- Countdown script — direct, always runs -->
+    <script>
+      (function() {
+        var targetDate = new Date('2026-12-31T23:59:59').getTime();
+        function update() {
+          var now = new Date().getTime();
+          var distance = targetDate - now;
+          if (distance < 0) {
+            var clock = document.getElementById('countdown-clock');
+            if (clock) clock.innerHTML = 'LOCKDOWN REACHED';
+            return;
+          }
+          var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          var d = days.toString().padStart(2, '0');
+          var h = hours.toString().padStart(2, '0');
+          var m = minutes.toString().padStart(2, '0');
+          var s = seconds.toString().padStart(2, '0');
+          var dEl = document.getElementById('days');
+          var hEl = document.getElementById('hours');
+          var mEl = document.getElementById('minutes');
+          var sEl = document.getElementById('seconds');
+          if (dEl) dEl.textContent = d;
+          if (hEl) hEl.textContent = h;
+          if (mEl) mEl.textContent = m;
+          if (sEl) sEl.textContent = s;
+        }
+        update();
+        setInterval(update, 1000);
+      })();
+    </script>
+
+    <!-- Google Lockdown Info Text -->
+    <div class="banner-content fade-in-element" id="pos-google-info" style="position: absolute; top: 55%; left: 50%; transform: translate(-50%, 0); z-index: 3; max-width: 500px; text-align: center;">
+      <p class="banner-text" style="font-size: 0.8rem; line-height: 1.6; text-align: center; color: rgba(60, 90, 80, 0.75); -webkit-text-stroke: 0.4px rgba(124, 252, 0, 0.35); text-shadow: 0 0 2px rgba(0, 0, 0, 0.6);">
+        Starting in 2027, a silent update, nonconsensually pushed by Google, will block every Android app whose developer hasn't registered with Google, signed their contract, paid up, and handed over government ID. Every app and every device, worldwide, with no opt-out.
+      </p>
     </div>
 
     <div class="banner-content fade-in-element" id="pos-spread" style="position: absolute; top: 55%; left: 50%; transform: translate(-50%, 0); z-index: 10">
-      <a href="https://keepandroidopen.org" target="_blank" rel="noopener noreferrer" style="color: rgba(144, 238, 144, 0.9); font-size: 1rem; font-weight: bold; text-decoration: none; text-shadow: 0 0 10px rgba(0, 100, 0, 0.5); border-bottom: 1px solid rgba(144, 238, 144, 0.4); padding-bottom: 2px; transition: color 0.3s;">↓ Spread the word</a>
+      <a href="https://keepandroidopen.org" target="_blank" rel="noopener noreferrer" style="color: rgba(65, 95, 85, 0.75); font-size: 0.9rem; font-weight: normal; text-decoration: none; -webkit-text-stroke: 0.4px rgba(124, 252, 0, 0.35); text-shadow: 0 0 2px rgba(0, 0, 0, 0.6); border-bottom: 1px solid rgba(65, 95, 85, 0.3); letter-spacing: 0.05em; transition: all 0.3s; padding-bottom: 2px; transition: color 0.3s;">↓ Spread the word</a>
     </div>
 
     <div class="banner-content fade-in-element" id="pos-chatcontrol" style="position: absolute; top: 85%; left: 51%; max-width: 90%; transform: translate(-50%, 0); z-index: 10">
       <h2 class="banner-title" style="font-size: 1.3rem;">Chatkontrolle</h2>
       <p class="banner-text" style="font-size: 0.78rem; line-height: 1.5;">
         Die EU plant die automatische Scannung aller privaten Nachrichten — Chats, E-Mails, Fotos. Keine Ausnahme, keine Einwilligung. Was als Schutz für Kinder verkauft wird, ist die größte Überwachungsmaschine der Geschichte. Ende-zu-Ende-Verschlüsselung, das Fundament privater Kommunikation, wird ausgehebelt. Wenn deine Nachrichten gescannt werden, sind sie nicht mehr privat.
-        <a href="https://keepandroidopen.org" target="_blank" rel="noopener noreferrer" style="color: rgba(144, 238, 144, 0.9); text-decoration: underline;">Mehr erfahren →</a>
+        <a href="https://www.youtube.com/watch?v=Ax5CioDM7Ks" target="_blank" rel="noopener noreferrer" style="color: rgba(65, 95, 85, 0.75); text-decoration: none; border-bottom: 1px solid rgba(65, 95, 85, 0.3); padding-bottom: 1px; -webkit-text-stroke: 0.4px rgba(124, 252, 0, 0.35); text-shadow: 0 0 2px rgba(0, 0, 0, 0.6);">Mehr erfahren →</a>
       </p>
     </div>
   </section>
@@ -540,7 +609,7 @@ html {
       <p class="banner-text" style="font-size: 0.82rem; line-height: 1.6;">
         GrapheneOS ist ein Open-Source-Betriebssystem für Smartphones, das Privatsphäre und Sicherheit von Grund auf neu denkt. Keine Google-Dienste, keine Verfolgung, keine Werbung. Kompatibel mit Android-Apps, aber auf deine Freiheit gebaut. Sandbox-basiert, gehärtet, mit verbesserten Berechtigungen und exploit-resistent. Dein Handy gehört wieder dir.
       </p>
-      <a href="https://grapheneos.org/" target="_blank" rel="noopener noreferrer" style="color: rgba(144, 238, 144, 0.9); font-size: 0.85rem; text-decoration: underline; text-shadow: 0 0 8px rgba(0, 100, 0, 0.5);">Mehr erfahren →</a>
+      <a href="https://grapheneos.org/" target="_blank" rel="noopener noreferrer" style="color: rgba(55, 60, 80, 0.75); font-size: 0.85rem; text-decoration: none; border-bottom: 1px solid rgba(55, 60, 80, 0.3); -webkit-text-stroke: 0.4px rgba(124, 252, 0, 0.3); text-shadow: 0 0 1px rgba(5, 5, 15, 0.5); padding-bottom: 1px;">Mehr erfahren →</a>
     </div>
 
     <!-- Second GrapheneOS Image -->
@@ -580,9 +649,9 @@ html {
     <img src="/Website Banners/getting connected.jpg" alt="Banner 3 — Getting Connected" class="banner-image" />
 
     <!-- Title -->
-    <div class="banner-content fade-in-element" id="pos-3-title" style="position: absolute; top: 7%; left: 50%; max-width: 33%; transform: translate(-50%, 0); z-index: 10; text-align: center">
+    <div class="banner-content fade-in-element" id="pos-3-title" style="position: absolute; top: 7%; left: 50%; max-width: 33%; transform: translate(-50%, 0); z-index: 3; text-align: center">
       <h2 class="banner-title" style="font-size: 2.8rem; text-align: center;">Self-Sustainable Society</h2>
-      <p class="banner-text" style="font-size: 1.02rem; text-align: center; margin-top: 8px; max-width: 500px; margin-left: auto; margin-right: auto;">Ein Kreislauf der sich selbst trägt. Menschen verbinden sich, teilen Wissen, produzieren gemeinsam und bauen Lebensräume die neue Menschen aufnehmen.</p>
+      <p class="banner-text" style="font-size: 1.02rem; text-align: center; margin-top: 8px; max-width: 500px; margin-left: auto; margin-right: auto;">Ein Kreislauf der sich selbst trägt. Menschen mit Land, Freiwillige mit Energie, und Handwerker mit Künnen — zusammen schaffen wir autarke Lebensräume, unabhängig von Regierungen und Misswirtschaft.</p>
     </div>
 
     <!-- SVG Circle Diagram -->
@@ -597,33 +666,33 @@ html {
         <g style="filter: drop-shadow(0 0 4px rgba(124, 252, 0, 0.4));">
           <!-- Node 1: Menschen (top) -->
           <circle cx="200" cy="60" r="45" fill="rgba(10, 20, 15, 0.85)" stroke="rgba(144, 238, 144, 0.5)" stroke-width="2" />
-          <text x="200" y="56" text-anchor="middle" fill="rgba(144, 238, 144, 0.9)" font-size="11" font-weight="bold" font-family="sans-serif">Menschen</text>
-          <text x="200" y="70" text-anchor="middle" fill="rgba(180, 255, 180, 0.6)" font-size="8" font-family="sans-serif">Fähigkeiten & Energie</text>
+          <text x="200" y="56" text-anchor="middle" fill="rgba(144, 238, 144, 0.9)" font-size="11" font-weight="bold" font-family="sans-serif">Landbesitzer</text>
+          <text x="200" y="70" text-anchor="middle" fill="rgba(180, 255, 180, 0.6)" font-size="8" font-family="sans-serif">Land & Vertrag</text>
 
           <!-- Node 2: Wissen teilen (top-right) -->
           <circle cx="322" cy="130" r="45" fill="rgba(10, 20, 15, 0.85)" stroke="rgba(144, 238, 144, 0.5)" stroke-width="2" />
-          <text x="322" y="127" text-anchor="middle" fill="rgba(144, 238, 144, 0.9)" font-size="11" font-weight="bold" font-family="sans-serif">Wissen</text>
-          <text x="322" y="140" text-anchor="middle" fill="rgba(180, 255, 180, 0.6)" font-size="8" font-family="sans-serif">teilen & lernen</text>
+          <text x="322" y="127" text-anchor="middle" fill="rgba(144, 238, 144, 0.9)" font-size="11" font-weight="bold" font-family="sans-serif">Aufbau</text>
+          <text x="322" y="140" text-anchor="middle" fill="rgba(180, 255, 180, 0.6)" font-size="8" font-family="sans-serif">Hostel & Infrastruktur</text>
 
           <!-- Node 3: Produzieren (bottom-right) -->
           <circle cx="322" cy="270" r="45" fill="rgba(10, 20, 15, 0.85)" stroke="rgba(144, 238, 144, 0.5)" stroke-width="2" />
-          <text x="322" y="267" text-anchor="middle" fill="rgba(144, 238, 144, 0.9)" font-size="11" font-weight="bold" font-family="sans-serif">Produzieren</text>
-          <text x="322" y="280" text-anchor="middle" fill="rgba(180, 255, 180, 0.6)" font-size="8" font-family="sans-serif">Handwerk & Kunst</text>
+          <text x="322" y="267" text-anchor="middle" fill="rgba(144, 238, 144, 0.9)" font-size="11" font-weight="bold" font-family="sans-serif">Vermarkten</text>
+          <text x="322" y="280" text-anchor="middle" fill="rgba(180, 255, 180, 0.6)" font-size="8" font-family="sans-serif">Tourismus & Shop</text>
 
           <!-- Node 4: Verkaufen (bottom) -->
           <circle cx="200" cy="340" r="45" fill="rgba(10, 20, 15, 0.85)" stroke="rgba(144, 238, 144, 0.5)" stroke-width="2" />
-          <text x="200" y="337" text-anchor="middle" fill="rgba(144, 238, 144, 0.9)" font-size="11" font-weight="bold" font-family="sans-serif">Verkaufen</text>
-          <text x="200" y="350" text-anchor="middle" fill="rgba(180, 255, 180, 0.6)" font-size="8" font-family="sans-serif">Shop & Services</text>
+          <text x="200" y="337" text-anchor="middle" fill="rgba(144, 238, 144, 0.9)" font-size="11" font-weight="bold" font-family="sans-serif">Einnahmen</text>
+          <text x="200" y="350" text-anchor="middle" fill="rgba(180, 255, 180, 0.6)" font-size="8" font-family="sans-serif">50% Zimmer + 15% Kunst</text>
 
           <!-- Node 5: Lebensräume (bottom-left) -->
           <circle cx="78" cy="270" r="45" fill="rgba(10, 20, 15, 0.85)" stroke="rgba(144, 238, 144, 0.5)" stroke-width="2" />
-          <text x="78" y="267" text-anchor="middle" fill="rgba(144, 238, 144, 0.9)" font-size="11" font-weight="bold" font-family="sans-serif">Lebensräume</text>
-          <text x="78" y="280" text-anchor="middle" fill="rgba(180, 255, 180, 0.6)" font-size="8" font-family="sans-serif">bauen & erhalten</text>
+          <text x="78" y="267" text-anchor="middle" fill="rgba(144, 238, 144, 0.9)" font-size="11" font-weight="bold" font-family="sans-serif">Autarkie</text>
+          <text x="78" y="280" text-anchor="middle" fill="rgba(180, 255, 180, 0.6)" font-size="8" font-family="sans-serif">unabhängig leben</text>
 
           <!-- Node 6: Aufnehmen (top-left) -->
           <circle cx="78" cy="130" r="45" fill="rgba(10, 20, 15, 0.85)" stroke="rgba(144, 238, 144, 0.5)" stroke-width="2" />
-          <text x="78" y="127" text-anchor="middle" fill="rgba(144, 238, 144, 0.9)" font-size="11" font-weight="bold" font-family="sans-serif">Aufnehmen</text>
-          <text x="78" y="140" text-anchor="middle" fill="rgba(180, 255, 180, 0.6)" font-size="8" font-family="sans-serif">Wohnen & Essen</text>
+          <text x="78" y="127" text-anchor="middle" fill="rgba(144, 238, 144, 0.9)" font-size="11" font-weight="bold" font-family="sans-serif">Freiwillige</text>
+          <text x="78" y="140" text-anchor="middle" fill="rgba(180, 255, 180, 0.6)" font-size="8" font-family="sans-serif">Hilfe & Wohnen</text>
 
           <!-- Animated flow arrows between nodes -->
           <g fill="rgba(144, 238, 144, 0.7)">
@@ -644,17 +713,17 @@ html {
 
     <!-- Hostel & Tourismus text -->
     <div class="banner-content fade-in-element" id="pos-3-hostel" style="position: absolute; top: 51%; left: 8%; max-width: 18%; z-index: 10">
-      <h3 class="banner-title" style="font-size: 1.7rem; text-align: center;">Hostel & Tourismus</h3>
-      <p class="banner-text" style="font-size: 0.98rem; line-height: 1.5; text-align: center;">
-        Grundeigentümer unterzeichnen einen lebenslangen Vertrag. WWFP hilft beim Ausbau für nachhaltigen Tourismus. Sie verwalten, erhalten faire Lohn. Der Überschuss fließt an WWFP — um weitere Lebensräume zu schaffen.
+      <h3 class="banner-title" style="font-size: 1.5rem; text-align: center;">Land & Hostel</h3>
+      <p class="banner-text" style="font-size: 0.88rem; line-height: 1.5; text-align: center;">
+        Menschen mit Landbesitz in schwer zugänglichen Regionen gehen einen Vertrag mit WWFP ein — 10 Jahre bis lebenslang. Wir bauen ein autarkes Feriendomizil auf und vermarkten es. Das Land bleibt im Besitz der Familien. WWFP erhält 50% der Zimmervermietung. Zusätzliche Geschäfte vor Ort (Restaurant, Läden) gehören zu 100% den Menschen vor Ort.
       </p>
     </div>
 
     <!-- Community text -->
     <div class="banner-content fade-in-element" id="pos-3-community" style="position: absolute; top: 51%; left: 73%; max-width: 280px; right: 5%; z-index: 10">
-      <h3 class="banner-title" style="font-size: 1.7rem; text-align: center;">Gemeinschaft</h3>
-      <p class="banner-text" style="font-size: 0.98rem; line-height: 1.5; text-align: center;">
-        Aktive Mitglieder erhalten Stimmrecht, kostenloses Wohnen und Verpflegung. Deine Zeit ist das Wertvollste was du geben kannst. Direkt an Lösungen arbeiten — statt gegen Probleme zu protestieren.
+      <h3 class="banner-title" style="font-size: 1.5rem; text-align: center;">Freiwillige & Handwerk</h3>
+      <p class="banner-text" style="font-size: 0.88rem; line-height: 1.5; text-align: center;">
+        Freiwillige helfen beim Aufbau, erhalten Unterkunft und Verpflegung gratis. Wer sich bewährt wird Aktives Mitglied mit Stimmrecht — und ggf. Lohn. Handwerkskunst der Menschen vor Ort wird über unsere Shop-Plattform vermarktet: 15% des Verkaufs fließen an WWFP, der Rest an die Künstler.
       </p>
     </div>
   </section>
@@ -663,13 +732,13 @@ html {
     <img src="/Website Banners/Kontakt.jpg" alt="Banner 4 — Kontakt" class="banner-image" />
 
     <!-- Title -->
-    <div class="banner-content fade-in-element" id="pos-4-title" style="position: absolute; top: 8%; left: 50%; transform: translate(-50%, 0); z-index: 10; text-align: center">
+    <div class="banner-content fade-in-element" id="pos-4-title" style="position: absolute; top: 8%; left: 50%; transform: translate(-50%, 0); z-index: 3; text-align: center">
       <h2 class="banner-title" style="font-size: 2.8rem; text-align: center;">Werde Teil der Bewegung</h2>
       <p class="banner-text" style="font-size: 1.02rem; text-align: center; margin-top: 8px; max-width: 500px; margin-left: auto; margin-right: auto;">Wir suchen Menschen die bereit sind, die Welt mit uns neu zu denken. Schreib uns, komm vorbei, oder werde Mitglied.</p>
     </div>
 
     <!-- Social Media Links -->
-    <div class="banner-content fade-in-element" id="pos-4-social" style="position: absolute; top: 82%; left: 50%; transform: translate(-50%, 0); z-index: 10; text-align: center">
+    <div class="banner-content fade-in-element" id="pos-4-social" style="position: absolute; top: 82%; left: 50%; transform: translate(-50%, 0); z-index: 3; text-align: center">
       <div style="display: flex; gap: 25px; justify-content: center; align-items: center;">
         <a href="https://wa.me/436602755613" target="_blank" rel="noopener noreferrer" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; gap: 8px;">
           <div style="width: 55px; height: 55px; border-radius: 50%; background: rgba(37, 211, 102, 0.2); border: 2px solid rgba(37, 211, 102, 0.5); display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">💬</div>
@@ -687,7 +756,7 @@ html {
     </div>
 
     <!-- Passive Mitglieder -->
-    <div class="banner-content fade-in-element" id="pos-4-passive" style="position: absolute; top: 65%; left: 6%; max-width: 22%; z-index: 10; text-align: center">
+    <div class="banner-content fade-in-element" id="pos-4-passive" style="position: absolute; top: 65%; left: 6%; max-width: 22%; z-index: 3; text-align: center">
       <h3 class="banner-title" style="font-size: 1.5rem; text-align: center;">Passives Mitglied</h3>
       <p class="banner-text" style="font-size: 0.9rem; line-height: 1.6; text-align: center;">
         Unterstütze unsere Ansichten und Aktionen bei einzelnen Veranstaltungen. Keine Verpflichtungen, kein Stimmrecht. Komm einfach vorbei, wenn du kannst.
@@ -700,7 +769,7 @@ html {
     </div>
 
     <!-- Aktive Mitglieder -->
-    <div class="banner-content fade-in-element" id="pos-4-active" style="position: absolute; top: 65%; left: 68%; max-width: 85%; right: 8%; z-index: 10; text-align: center">
+    <div class="banner-content fade-in-element" id="pos-4-active" style="position: absolute; top: 65%; left: 68%; max-width: 85%; right: 8%; z-index: 3; text-align: center">
       <h3 class="banner-title" style="font-size: 1.5rem; text-align: center;">Aktives Mitglied</h3>
       <p class="banner-text" style="font-size: 0.9rem; line-height: 1.6; text-align: center;">
         Arbeite an Projekten, erhalte Stimmrecht und Zugang zu kostenlosem Wohnen und Verpflegung. Deine Zeit ist das Wertvollste was du geben kannst.
@@ -714,7 +783,7 @@ html {
     </div>
 
     <!-- Contact CTA -->
-    <div class="banner-content fade-in-element" id="pos-4-cta" style="position: absolute; top: 71%; left: 50%; bottom: 5%; transform: translate(-50%, 0); z-index: 10; text-align: center">
+    <div class="banner-content fade-in-element" id="pos-4-cta" style="position: absolute; top: 71%; left: 50%; bottom: 5%; transform: translate(-50%, 0); z-index: 3; text-align: center">
       <a href="/de/contact" style="display: inline-block; background: rgba(0, 0, 0, 0.6); border: 2px solid rgba(144, 238, 144, 0.4); border-radius: 50px; padding: 14px 36px; color: rgba(144, 238, 144, 1); font-weight: bold; font-size: 1.1rem; text-decoration: none; text-shadow: 0 0 10px rgba(0, 100, 0, 0.5); backdrop-filter: blur(10px); transition: all 0.3s;">→ Kontakt aufnehmen</a>
     </div>
   </section>
@@ -808,7 +877,7 @@ html {
 
       // R(e)volution — add glow after all letters appear
       (function() {
-        var revLetters = document.querySelectorAll('.rev-letter');
+        var revLetters = document.querySelectorAll('.rev-letter, .rev-e');
         if (revLetters.length === 0) return;
         // Total animation time: last letter delay (1.65s) + letter duration (1.2s) = 2.85s
         setTimeout(function() {
@@ -817,39 +886,32 @@ html {
       })();
 
       function startRealCountdown() {
-        const targetDate = new Date('2026-12-31T23:59:59').getTime();
-
+        var targetDate = new Date('2026-12-31T23:59:59').getTime();
         function update() {
-          const now = new Date().getTime();
-          const distance = targetDate - now;
-
+          var now = new Date().getTime();
+          var distance = targetDate - now;
           if (distance < 0) {
-            const clock = document.getElementById('countdown-clock');
+            var clock = document.getElementById('countdown-clock');
             if (clock) clock.innerHTML = "LOCKDOWN REACHED";
             return;
           }
-
-          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-          const d = days.toString().padStart(2, '0');
-          const h = hours.toString().padStart(2, '0');
-          const m = minutes.toString().padStart(2, '0');
-          const s = seconds.toString().padStart(2, '0');
-
-          const dEl = document.getElementById('days');
-          const hEl = document.getElementById('hours');
-          const mEl = document.getElementById('minutes');
-          const sEl = document.getElementById('seconds');
-
-          if (dEl) dEl.innerText = d;
-          if (hEl) hEl.innerText = h;
-          if (mEl) mEl.innerText = m;
-          if (sEl) sEl.innerText = s;
+          var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          var d = days.toString().padStart(2, '0');
+          var h = hours.toString().padStart(2, '0');
+          var m = minutes.toString().padStart(2, '0');
+          var s = seconds.toString().padStart(2, '0');
+          var dEl = document.getElementById('days');
+          var hEl = document.getElementById('hours');
+          var mEl = document.getElementById('minutes');
+          var sEl = document.getElementById('seconds');
+          if (dEl) dEl.textContent = d;
+          if (hEl) hEl.textContent = h;
+          if (mEl) mEl.textContent = m;
+          if (sEl) sEl.textContent = s;
         }
-
         update();
         setInterval(update, 1000);
       }
@@ -867,8 +929,8 @@ html {
 
       document.querySelectorAll('.fade-in-element').forEach(el => observer.observe(el));
 
-      // Show Director's Panel only in dev mode
-      if (import.meta.env.DEV) {
+      // Show Director's Panel only in dev mode (localhost)
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
         var panel = document.getElementById('layout-editor');
         if (panel) panel.style.display = 'block';
       }
