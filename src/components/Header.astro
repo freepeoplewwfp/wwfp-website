@@ -5,10 +5,8 @@ const { lang, t } = Astro.props;
 
 const navItems = [
   { key: 'home', href: `${lang}` },
-  { key: 'hostel', href: `${lang}/hostel` },
-  { key: 'shop', href: `${lang}/shop` },
+  { key: 'souk', href: `${lang}/shop` },
   { key: 'services', href: `${lang}/services` },
-  { key: 'support', href: `${lang}/support` },
   { key: 'events', href: `${lang}/events` },
   { key: 'freedom', href: `${lang}#space-1` },
   { key: 'codeOfConduct', href: `${lang}/code-of-conduct` },
@@ -16,12 +14,21 @@ const navItems = [
   { key: 'contact', href: `${lang}/contact` },
 ];
 
-const navLabels = {
-  whatWeDo: t.home.whatWeDoTitle || 'What We Do',
-  values: t.home.valuesTitle || 'Our Values',
-  getInvolved: t.home.getInvolvedTitle || 'Get Involved',
-  hostel: t.nav.hostel,
-  shop: t.nav.shop,
+// Donate dropdown options
+const donateOptions = {
+  popular: [
+    { key: 'donateOnce', label: t.nav.donateOnce || 'Spende machen' },
+    { key: 'donateInName', label: t.nav.donateInName || 'In jemandes Namen spenden' },
+    { key: 'donateMonthly', label: t.nav.donateMonthly || 'Monatlicher Beitrag' },
+    { key: 'becomeMember', label: t.nav.becomeMember || 'Mitglied werden' },
+    { key: 'becomePartner', label: t.nav.becomePartner || 'Partner werden' },
+  ],
+  more: [
+    { key: 'donateGift', label: t.nav.donateGift || 'Spenden statt Geschenke' },
+    { key: 'legacy', label: t.nav.legacy || 'Vermächtnis / Testament' },
+    { key: 'goodsDonation', label: t.nav.goodsDonation || 'Sachspenden' },
+    { key: 'corporatePartner', label: t.nav.corporatePartner || 'Unternehmens-Partnerschaft' },
+  ],
 };
 ---
 
@@ -40,10 +47,34 @@ const navLabels = {
 
     <nav class="site-nav" id="siteNav">
       {navItems.map(item => (
-        item.toggle
-          ? <a href={`/${item.href}`} class="nav-link" data-toggle={item.key}>{t.nav[item.key] || navLabels[item.key]}</a>
-          : <a href={`/${item.href}`} class="nav-link">{t.nav[item.key] || navLabels[item.key]}</a>
+        <a href={`/${item.href}`} class="nav-link">{t.nav[item.key] || item.key}</a>
       ))}
+
+      <div class="nav-actions">
+        <a href={`/${lang}/gifts`} class="nav-btn nav-btn-gifts">
+          🎁 <span>{t.nav.gifts || 'Gifts'}</span>
+        </a>
+
+        <div class="donate-dropdown">
+          <button class="nav-btn nav-btn-donate" id="donateBtn">
+            💙 <span>{t.nav.donate || 'Donate'}</span> ▾
+          </button>
+          <div class="donate-menu" id="donateMenu">
+            <div class="donate-section">
+              <div class="donate-section-title">{t.nav.donatePopular || 'Beliebte Wege zu helfen'}</div>
+              {donateOptions.popular.map(opt => (
+                <a href={`/${lang}/support#${opt.key}`} class="donate-link">{opt.label}</a>
+              ))}
+            </div>
+            <div class="donate-section">
+              <div class="donate-section-title">{t.nav.donateMore || 'Weitere Möglichkeiten'}</div>
+              {donateOptions.more.map(opt => (
+                <a href={`/${lang}/support#${opt.key}`} class="donate-link">{opt.label}</a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="lang-switcher">
         <button class="lang-btn" id="langBtn">
@@ -138,6 +169,103 @@ const navLabels = {
 .lang-switcher {
   position: relative;
   position: relative;
+}
+
+/* Nav action buttons — Gifts & Donate */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-left: 0.5rem;
+}
+
+.nav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.nav-btn-gifts {
+  background: #1a3a2a;
+  color: #c8d8c0;
+}
+
+.nav-btn-gifts:hover {
+  background: #2a5a3a;
+  color: #fff;
+}
+
+.nav-btn-donate {
+  background: #2d6a4f;
+  color: #fff;
+}
+
+.nav-btn-donate:hover {
+  background: #408060;
+}
+
+/* Donate dropdown */
+.donate-dropdown {
+  position: relative;
+}
+
+.donate-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: var(--color-paper);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  min-width: 280px;
+  padding: 0.6rem 0;
+  margin-top: 0.4rem;
+  z-index: 102;
+}
+
+.donate-menu.open {
+  display: block;
+}
+
+.donate-section {
+  padding: 0.4rem 0;
+}
+
+.donate-section:not(:last-child) {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.donate-section-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-muted, #888);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.4rem 1.2rem;
+}
+
+.donate-link {
+  display: block;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.85rem;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: background var(--transition);
+}
+
+.donate-link:hover {
+  background: var(--color-bg-alt, #f5f5f0);
+  color: var(--color-forest);
 }
 
 .lang-switcher-mobile {
@@ -264,6 +392,32 @@ const navLabels = {
     padding: 0.5rem 0;
     font-size: 1rem;
   }
+
+  .nav-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    width: 100%;
+  }
+
+  .nav-btn {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .donate-menu {
+    position: static;
+    display: block;
+    box-shadow: none;
+    border: none;
+    min-width: 100%;
+    padding: 0.3rem 0 0.3rem 1rem;
+  }
+
+  .donate-dropdown {
+    width: 100%;
+  }
 }
 </style>
 
@@ -287,9 +441,16 @@ const navLabels = {
   document.addEventListener('click', () => {
     document.getElementById('langDropdown')?.classList.remove('open');
     document.getElementById('langDropdownMobile')?.classList.remove('open');
+    document.getElementById('donateMenu')?.classList.remove('open');
   });
 
-  // Toggle hidden sections (Hostel & Shop)
+  // Donate dropdown
+  document.getElementById('donateBtn')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.getElementById('donateMenu')?.classList.toggle('open');
+  });
+
+  // Toggle hidden sections (Souk sections if needed)
   document.querySelectorAll('[data-toggle]').forEach(el => {
     el.addEventListener('click', (e) => {
       e.preventDefault();

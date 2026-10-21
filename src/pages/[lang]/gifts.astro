@@ -1,0 +1,241 @@
+---
+import Base from '../../layouts/Base.astro';
+import { languages } from '../../i18n/config.js';
+import { getTranslations } from '../../i18n/utils.js';
+
+export async function getStaticPaths() {
+  return Object.keys(languages).map(code => ({
+    params: { lang: code },
+    props: { lang: code },
+  }));
+}
+
+const { lang } = Astro.props;
+const t = getTranslations(lang);
+---
+
+<section class="gifts-page">
+  <div class="container">
+    <h1>🎁 Gifts that Give Back</h1>
+    <p class="gifts-intro">
+      Every gift you buy supports WWFP's mission. 100% of proceeds go directly to our projects —
+      protecting nature, empowering communities, and building a sustainable future.
+    </p>
+
+    <div class="gifts-grid">
+      <!-- Woascht Wohl Schnaps Gift Box -->
+      <div class="gift-card gift-card-featured">
+        <div class="gift-badge">Limited Edition</div>
+        <div class="gift-image-placeholder">
+          <span>🥃</span>
+        </div>
+        <h2>Woascht Wohl Gift Box</h2>
+        <p class="gift-desc">
+          Premium handcrafted spirits from Dornbirn, Austria — presented in a beautiful gift case.
+          Choose from our selection of fruit brandies and spirits.
+        </p>
+        <div class="gift-price">€150</div>
+        <a href="#" class="gift-btn">Gift This →</a>
+      </div>
+
+      <!-- T-Shirt -->
+      <div class="gift-card">
+        <div class="gift-image-placeholder">
+          <span>👕</span>
+        </div>
+        <h2>WWFP T-Shirt</h2>
+        <p class="gift-desc">
+          Organic cotton T-shirt with WWFP logo. Available in multiple colors and sizes.
+        </p>
+        <div class="gift-price">€25</div>
+        <a href="#" class="gift-btn">Gift This →</a>
+      </div>
+
+      <!-- Hoodie -->
+      <div class="gift-card">
+        <div class="gift-image-placeholder">
+          <span>🧥</span>
+        </div>
+        <h2>WWFP Hoodie</h2>
+        <p class="gift-desc">
+          Warm, comfortable hoodie with embroidered WWFP logo. Perfect for cool mountain evenings.
+        </p>
+        <div class="gift-price">€45</div>
+        <a href="#" class="gift-btn">Gift This →</a>
+      </div>
+
+      <!-- Rucksack -->
+      <div class="gift-card">
+        <div class="gift-image-placeholder">
+          <span>🎒</span>
+        </div>
+        <h2>WWFP Rucksack</h2>
+        <p class="gift-desc">
+          Durable rucksack with WWFP patch. Perfect for hiking, travel, or everyday use.
+        </p>
+        <div class="gift-price">€35</div>
+        <a href="#" class="gift-btn">Gift This →</a>
+      </div>
+
+      <!-- Sweatshirt -->
+      <div class="gift-card">
+        <div class="gift-image-placeholder">
+          <span>👚</span>
+        </div>
+        <h2>WWFP Sweatshirt</h2>
+        <p class="gift-desc">
+          Cozy sweatshirt with printed WWFP design. Casual, comfortable, meaningful.
+        </p>
+        <div class="gift-price">€35</div>
+        <a href="#" class="gift-btn">Gift This →</a>
+      </div>
+
+      <!-- Coming Soon -->
+      <div class="gift-card gift-card-soon">
+        <div class="gift-image-placeholder">
+          <span>✨</span>
+        </div>
+        <h2>More Coming Soon</h2>
+        <p class="gift-desc">
+          Moroccan artisan crafts, natural goods from the Atlas Mountains, and more.
+          Stay tuned!
+        </p>
+      </div>
+    </div>
+
+    <div class="gifts-notice">
+      <p>
+        💚 Every purchase is a donation. 100% of proceeds flow into WWFP's charitable projects —
+        no profit distribution to members.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+.gifts-page {
+  padding: 3rem var(--space-md);
+  min-height: 60vh;
+  background: var(--color-paper);
+}
+
+.gifts-page h1 {
+  font-size: 2.2rem;
+  color: var(--color-forest);
+  margin-bottom: 0.5rem;
+}
+
+.gifts-intro {
+  font-size: 1.1rem;
+  color: var(--color-text);
+  max-width: 600px;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
+
+.gifts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.gift-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  text-align: center;
+  transition: box-shadow var(--transition);
+}
+
+.gift-card:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+.gift-card-featured {
+  border: 2px solid var(--color-forest);
+  position: relative;
+}
+
+.gift-badge {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-forest);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.8rem;
+  border-radius: 20px;
+}
+
+.gift-card-soon {
+  background: var(--color-bg-alt);
+  border-style: dashed;
+}
+
+.gift-image-placeholder {
+  width: 100%;
+  height: 160px;
+  background: var(--color-bg-alt);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.gift-card h2 {
+  font-size: 1.2rem;
+  color: var(--color-forest);
+  margin-bottom: 0.5rem;
+}
+
+.gift-desc {
+  font-size: 0.9rem;
+  color: var(--color-text);
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.gift-price {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-forest);
+  margin-bottom: 1rem;
+}
+
+.gift-btn {
+  display: inline-block;
+  background: var(--color-forest);
+  color: #fff;
+  padding: 0.6rem 1.5rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background var(--transition);
+}
+
+.gift-btn:hover {
+  background: #2a5a3a;
+}
+
+.gifts-notice {
+  text-align: center;
+  padding: 1.5rem;
+  background: #e8f5e9;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+  color: var(--color-forest);
+}
+
+@media (max-width: 600px) {
+  .gifts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
