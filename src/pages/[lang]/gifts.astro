@@ -23,7 +23,7 @@ const t = getTranslations(lang);
     </p>
 
     <div class="gifts-grid">
-      <!-- Woascht Wohl Schnaps Gift Box -->
+      <!-- Woascht Wohl Schnaps Gift Box — Featured -->
       <div class="gift-card gift-card-featured">
         <div class="gift-badge">Limited Edition</div>
         <div class="gift-image-placeholder">
@@ -38,55 +38,101 @@ const t = getTranslations(lang);
         <a href="#" class="gift-btn">Gift This →</a>
       </div>
 
-      <!-- T-Shirt -->
+      <!-- B&C Unisex Hoodie -->
       <div class="gift-card">
         <div class="gift-image-placeholder">
-          <span>👕</span>
-        </div>
-        <h2>WWFP T-Shirt</h2>
-        <p class="gift-desc">
-          Organic cotton T-shirt with WWFP logo. Available in multiple colors and sizes.
-        </p>
-        <div class="gift-price">€25</div>
-        <a href="#" class="gift-btn">Gift This →</a>
-      </div>
-
-      <!-- Hoodie -->
-      <div class="gift-card">
-        <div class="gift-image-placeholder">
-          <span>🧥</span>
+          <img src="/images/gifts/hoodie.png" alt="WWFP Hoodie" />
         </div>
         <h2>WWFP Hoodie</h2>
         <p class="gift-desc">
-          Warm, comfortable hoodie with embroidered WWFP logo. Perfect for cool mountain evenings.
+          B&C Unisex Hoodie — best quality, khaki with WWFP logo.
+          Available in multiple sizes. Warm, comfortable, meaningful.
+        </p>
+        <div class="gift-price">€90</div>
+        <a href="#" class="gift-btn">Gift This →</a>
+      </div>
+
+      <!-- Fruit of the Loom T-Shirt -->
+      <div class="gift-card">
+        <div class="gift-image-placeholder">
+          <img src="/images/gifts/tshirt.png" alt="WWFP T-Shirt" />
+        </div>
+        <h2>WWFP T-Shirt</h2>
+        <p class="gift-desc">
+          Fruit of the Loom® Basic T-Shirt in Unisex — royal blue with WWFP design.
+          Available in multiple sizes.
         </p>
         <div class="gift-price">€45</div>
+        <a href="#" class="gift-btn">Gift This →</a>
+      </div>
+
+      <!-- Kids T-Shirt -->
+      <div class="gift-card">
+        <div class="gift-image-placeholder">
+          <img src="/images/gifts/kids-tshirt.png" alt="WWFP Kids T-Shirt" />
+        </div>
+        <h2>WWFP Kids T-Shirt</h2>
+        <p class="gift-desc">
+          Roly® Beagle T-Shirt for kids — comfortable and fun with WWFP design.
+          For the youngest members of the movement.
+        </p>
+        <div class="gift-price">€35</div>
         <a href="#" class="gift-btn">Gift This →</a>
       </div>
 
       <!-- Rucksack -->
       <div class="gift-card">
         <div class="gift-image-placeholder">
-          <span>🎒</span>
+          <img src="/images/gifts/rucksack.png" alt="WWFP Rucksack" />
         </div>
         <h2>WWFP Rucksack</h2>
         <p class="gift-desc">
-          Durable rucksack with WWFP patch. Perfect for hiking, travel, or everyday use.
+          Rucksack Daily by Tranzip — 15.6" laptop compartment, navy blue with WWFP patch.
+          Perfect for hiking, travel, or everyday use.
+        </p>
+        <div class="gift-price">€60</div>
+        <a href="#" class="gift-btn">Gift This →</a>
+      </div>
+
+      <!-- Urban Thermobecher -->
+      <div class="gift-card">
+        <div class="gift-image-placeholder">
+          <img src="/images/gifts/thermobecher.png" alt="WWFP Thermobecher" />
+        </div>
+        <h2>WWFP Thermobecher</h2>
+        <p class="gift-desc">
+          Urban Thermobecher 350ml — black with WWFP logo.
+          Keeps your drink hot for hours. Perfect for mountain trips.
+        </p>
+        <div class="gift-price">€30</div>
+        <a href="#" class="gift-btn">Gift This →</a>
+      </div>
+
+      <!-- Oregon Wasserflasche -->
+      <div class="gift-card">
+        <div class="gift-image-placeholder">
+          <img src="/images/gifts/wasserflasche.png" alt="WWFP Wasserflasche" />
+        </div>
+        <h2>WWFP Water Bottle</h2>
+        <p class="gift-desc">
+          Oregon stainless steel water bottle with carabiner — 400ml, black with WWFP logo.
+          Durable, eco-friendly, perfect for outdoor adventures.
         </p>
         <div class="gift-price">€35</div>
         <a href="#" class="gift-btn">Gift This →</a>
       </div>
 
-      <!-- Sweatshirt -->
+      <!-- Baumwoll-Tragetasche -->
       <div class="gift-card">
         <div class="gift-image-placeholder">
-          <span>👚</span>
+          <img src="/images/gifts/tragetasche.png" alt="WWFP Tragetasche" />
         </div>
-        <h2>WWFP Sweatshirt</h2>
+        <h2>WWFP Cotton Bag</h2>
         <p class="gift-desc">
-          Cozy sweatshirt with printed WWFP design. Casual, comfortable, meaningful.
+          Large VistaPrint® cotton tote bag — 38 x 47 cm, two-tone black with WWFP design.
+          Sustainable alternative to plastic bags.
         </p>
-        <div class="gift-price">€35</div>
+        <div class="gift-price">€25</div>
         <a href="#" class="gift-btn">Gift This →</a>
       </div>
 
@@ -114,7 +160,7 @@ const t = getTranslations(lang);
 
 <style>
 .gifts-page {
-  padding: 3rem var(--space-md);
+  padding: 3rem 2rem;
   min-height: 60vh;
   background: var(--color-paper);
 }
@@ -178,7 +224,7 @@ const t = getTranslations(lang);
 
 .gift-image-placeholder {
   width: 100%;
-  height: 160px;
+  height: 200px;
   background: var(--color-bg-alt);
   border-radius: var(--radius);
   display: flex;
@@ -186,6 +232,13 @@ const t = getTranslations(lang);
   justify-content: center;
   font-size: 3rem;
   margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.gift-image-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .gift-card h2 {
