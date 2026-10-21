@@ -38,7 +38,7 @@
   --space-xl: 6rem;
   
   /* Layout */
-  --max-width: 1200px;
+  --max-width: 100%;
   --radius: 8px;
   --radius-lg: 16px;
   --shadow: 0 2px 8px rgba(45, 32, 19, 0.08);

@@ -119,18 +119,21 @@ const donateOptions = {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.8rem var(--space-md);
+  padding: 0.8rem 2rem;
   position: relative;
   min-height: 64px;
+  width: 100%;
+  max-width: 100%;
 }
 
-/* Logo — centered on desktop */
+/* Logo — far left */
 .logo {
   display: flex;
   align-items: center;
   gap: 0.6rem;
   text-decoration: none;
   position: relative;
+  margin-right: auto;
 }
 
 .logo-img {
@@ -145,12 +148,13 @@ const donateOptions = {
   color: #8ba888;
 }
 
-/* Desktop nav — centered */
+/* Desktop nav — right side, next to actions */
 .site-nav {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 1.2rem;
+  margin-left: auto;
 }
 
 .nav-link {
